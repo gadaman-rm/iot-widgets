@@ -1,13 +1,14 @@
 import { useEffect, useRef } from "preact/hooks"
-import { Gauge, Slider } from "./widgets"
+import "./widgets"
 
 export function App() {
   const ref = useRef<HTMLDivElement>(null)
-
   useEffect(() => {
     if (ref.current) {
-      ref.current.appendChild(new Gauge())
-      ref.current.appendChild(new Slider())
+      const div = document.createElement('div')
+      div.innerHTML = '<my-slider zero="zero"></my-slider>'
+      ref.current.appendChild(div)
+      // ref.current.appendChild(new MyComponent())
     }
   }, [ref])
 
