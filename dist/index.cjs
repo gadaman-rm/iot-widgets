@@ -1,11 +1,8 @@
-"use strict";var j=Object.defineProperty;var l=(t,A,n)=>A in t?j(t,A,{enumerable:!0,configurable:!0,writable:!0,value:n}):t[A]=n;var i=(t,A,n)=>(l(t,typeof A!="symbol"?A+"":A,n),n);Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const h=`<div>
+"use strict";var W=Object.defineProperty;var g=(n,t,A)=>t in n?W(n,t,{enumerable:!0,configurable:!0,writable:!0,value:A}):n[t]=A;var h=(n,t,A)=>(g(n,typeof t!="symbol"?t+"":t,A),A),F=(n,t,A)=>{if(!t.has(n))throw TypeError("Cannot "+A)};var G=(n,t,A)=>{if(t.has(n))throw TypeError("Cannot add the same private member more than once");t instanceof WeakSet?t.add(n):t.set(n,A)};var j=(n,t,A)=>(F(n,t,"access private method"),A);Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const E=`<div>
     <slot class="class-one" name="title1"></slot>
     <span><slot class="class-two" name="title2"></slot></span>
-</div>`,M=".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}",o=document.createElement("template");o.innerHTML=`<style>${M}</style>${h}`;class s extends HTMLDivElement{constructor(){super(),this.attachShadow({mode:"open"}),this.shadowRoot.appendChild(o.content.cloneNode(!0))}}customElements.define("my-component",s,{extends:"div"});const G=`<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
-    preserveAspectRatio="none" style="cursor: pointer; user-select: none; position: absolute;"
-    transform="translate(0, 0) rotate(0) scale(1, 1)"
-    transform-origin="0 0"
-    >
+</div>`,H=".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}",d=document.createElement("template");d.innerHTML=`<style>${H}</style>${E}`;class I extends HTMLDivElement{constructor(){super(),this.attachShadow({mode:"open"}),this.shadowRoot.appendChild(d.content.cloneNode(!0))}}customElements.define("my-component",I,{extends:"div"});const p=["x","y","width","height","rotate","scalex","scaley","origin"];var s,l;class Y extends HTMLDivElement{constructor(A,e,i,o=0,r=0,c=0,a=1,x=1,u=`${e/2} ${i/2}`){super();G(this,s);h(this,"root");this.attachShadow({mode:"open"}),this.shadowRoot.appendChild(A.content.cloneNode(!0)),this.root=this.shadowRoot.querySelector("svg"),this.width=e,this.height=i,this.x=o,this.y=r,this.rotate=c,this.scaleX=a,this.scaleY=x,this.origin=u}get transform(){return j(this,s,l).call(this,this.root.getAttribute("transform"))}set transform(A){const e={...j(this,s,l).call(this,this.root.getAttribute("transform")),...A};this.root.setAttribute("transform",`translate(${e.x},${e.y}) rotate(${e.rotate}) scale(${e.scaleX},${e.scaleY})`)}set x(A){this.transform={x:A}}set y(A){this.transform={y:A}}set scaleX(A){this.transform={scaleX:A}}set scaleY(A){this.transform={scaleY:A}}set rotate(A){this.transform={rotate:-A}}get width(){return this.width}set width(A){this.root.setAttribute("width",A.toString())}get height(){return this.height}set height(A){this.root.setAttribute("height",A.toString())}get origin(){const A=this.root.getAttribute("transform-origin").trim().split(" "),e=+A[0],i=+A[1];return{x:e,y:i}}set origin(A){this.root.setAttribute("transform-origin",A)}attributeUpdate(A,e,i){}attributeChangedCallback(A,e,i){switch(A){case"x":this.x=+i;break;case"y":this.y=+i;break;case"width":this.width=i;break;case"height":this.height=i;break;case"rotate":this.rotate=+i;break;case"scalex":this.scaleX=+i;break;case"scaley":this.scaleY=+i;break;case"origin":this.origin=i;break;default:this.attributeUpdate(A,e,i)}}mount(){}connectedCallback(){this.mount()}unmount(){}disconnectedCallback(){this.unmount()}}s=new WeakSet,l=function(A){let e=0,i=0,o=1,r=1,c=0;if(A){const a=/translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(A),x=/scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(A);c=+/rotate\(\s*([^\s,)]+)/.exec(A)[1],e=+a[1],i=+a[2],o=+x[1],r=+x[2]}return{x:e,y:i,scaleX:o,scaleY:r,rotate:c}};const L=`<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
+    preserveAspectRatio="none" style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="a" x1="27.44" x2="167.21" y1="48.56" y2="48.56" gradientUnits="userSpaceOnUse">
             <stop offset="0" stop-color="#f5f6f6"></stop>
@@ -81,11 +78,8 @@
             </text>
         </g>
     </g>
-</svg>`,r=document.createElement("template");r.innerHTML=`${G}`;class c extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"}),this.shadowRoot.appendChild(r.content.cloneNode(!0))}}customElements.define("my-gauge",c);const f=`<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
-    style="cursor: pointer; user-select: none; position: absolute;"
-    transform="translate(0, 0) rotate(0) scale(1, 1)"
-    transform-origin="0 0"
-    >
+</svg>`,O=document.createElement("template");O.innerHTML=`${L}`;const v=["zero"];class M extends Y{constructor(){super(O,212.42054748535156,158.1199951171875)}attributeUpdate(t,A,e){}}h(M,"observedAttributes",[...p,...v]);customElements.define("my-gauge",M,{extends:"div"});const b=`<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
+    style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="linear-gradient" x1="2" x2="412.89" y1="21.18" y2="21.18" gradientUnits="userSpaceOnUse">
             <stop offset="0" stop-color="#f4f5f5"></stop>
@@ -154,5 +148,5 @@
                 class="cls-2"></path>
         </g>
     </g>
-</svg>`,x=document.createElement("template");x.innerHTML=`${f}`;class e extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"}),this.shadowRoot.appendChild(x.content.cloneNode(!0))}connectedCallback(){console.log("mount")}disconnectedCallback(){console.log("unmount")}attributeChangedCallback(A,n,a){console.log(A,n,a)}}i(e,"observedAttributes",["zero"]);customElements.define("my-slider",e);exports.Gauge=c;exports.MyComponent=s;exports.Slider=e;
+</svg>`,z=document.createElement("template");z.innerHTML=`${b}`;const R=["zero"];class f extends Y{constructor(){super(z,653,66.68661572947046)}attributeUpdate(t,A,e){}}h(f,"observedAttributes",[...p,...R]);customElements.define("my-slider",f,{extends:"div"});exports.Gauge=M;exports.MyComponent=I;exports.Slider=f;
 //# sourceMappingURL=index.cjs.map

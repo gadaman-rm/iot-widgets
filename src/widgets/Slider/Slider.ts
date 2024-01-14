@@ -1,24 +1,21 @@
+import { BASE_SVG_ATTRIBUTES, BaseSvg } from '../BaseSvg/BaseSvg'
 import html from './Slider.html?raw'
 
 const template = document.createElement('template')
 template.innerHTML = `${html}`
 
-export class Slider extends HTMLElement {
-    static observedAttributes = ["zero"]
+const ATTRIBUTES = ['zero'] as const
+export class Slider extends BaseSvg {
+    static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
     constructor() {
-        super()
-        this.attachShadow({ mode: 'open' })
-        this.shadowRoot!.appendChild(template.content.cloneNode(true))
+        super(template, 653, 66.68661572947046)
     }
-    connectedCallback() {
-        console.log('mount')
-    }
-    disconnectedCallback() {
-        console.log('unmount')
-    }
-    attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
-        console.log(attributeName, oldValue, newValue)
+    attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string) {
+        switch (attributeName) {
+            case 'zero':
+                break
+        }
     }
 }
 
-customElements.define('my-slider', Slider)
+customElements.define('my-slider', Slider, { extends: 'div' })

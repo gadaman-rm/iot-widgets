@@ -1,26 +1,157 @@
-var x = Object.defineProperty;
-var a = (t, A, n) => A in t ? x(t, A, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[A] = n;
-var e = (t, A, n) => (a(t, typeof A != "symbol" ? A + "" : A, n), n);
-const j = `<div>
+var W = Object.defineProperty;
+var u = (n, t, A) => t in n ? W(n, t, { enumerable: !0, configurable: !0, writable: !0, value: A }) : n[t] = A;
+var h = (n, t, A) => (u(n, typeof t != "symbol" ? t + "" : t, A), A), g = (n, t, A) => {
+  if (!t.has(n))
+    throw TypeError("Cannot " + A);
+};
+var M = (n, t, A) => {
+  if (t.has(n))
+    throw TypeError("Cannot add the same private member more than once");
+  t instanceof WeakSet ? t.add(n) : t.set(n, A);
+};
+var j = (n, t, A) => (g(n, t, "access private method"), A);
+const F = `<div>
     <slot class="class-one" name="title1"></slot>
     <span><slot class="class-two" name="title2"></slot></span>
-</div>`, l = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", i = document.createElement("template");
-i.innerHTML = `<style>${l}</style>${j}`;
-class h extends HTMLDivElement {
+</div>`, E = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", f = document.createElement("template");
+f.innerHTML = `<style>${E}</style>${F}`;
+class H extends HTMLDivElement {
   constructor() {
     super(), this.attachShadow({
       mode: "open"
-    }), this.shadowRoot.appendChild(i.content.cloneNode(!0));
+    }), this.shadowRoot.appendChild(f.content.cloneNode(!0));
   }
 }
-customElements.define("my-component", h, {
+customElements.define("my-component", H, {
   extends: "div"
 });
-const M = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
-    preserveAspectRatio="none" style="cursor: pointer; user-select: none; position: absolute;"
-    transform="translate(0, 0) rotate(0) scale(1, 1)"
-    transform-origin="0 0"
-    >
+const G = ["x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
+var s, l;
+class d extends HTMLDivElement {
+  constructor(A, e, i, o = 0, r = 0, c = 0, x = 1, a = 1, z = `${e / 2} ${i / 2}`) {
+    super();
+    M(this, s);
+    h(this, "root");
+    this.attachShadow({
+      mode: "open"
+    }), this.shadowRoot.appendChild(A.content.cloneNode(!0)), this.root = this.shadowRoot.querySelector("svg"), this.width = e, this.height = i, this.x = o, this.y = r, this.rotate = c, this.scaleX = x, this.scaleY = a, this.origin = z;
+  }
+  get transform() {
+    return j(this, s, l).call(this, this.root.getAttribute("transform"));
+  }
+  set transform(A) {
+    const e = {
+      ...j(this, s, l).call(this, this.root.getAttribute("transform")),
+      ...A
+    };
+    this.root.setAttribute("transform", `translate(${e.x},${e.y}) rotate(${e.rotate}) scale(${e.scaleX},${e.scaleY})`);
+  }
+  set x(A) {
+    this.transform = {
+      x: A
+    };
+  }
+  set y(A) {
+    this.transform = {
+      y: A
+    };
+  }
+  set scaleX(A) {
+    this.transform = {
+      scaleX: A
+    };
+  }
+  set scaleY(A) {
+    this.transform = {
+      scaleY: A
+    };
+  }
+  set rotate(A) {
+    this.transform = {
+      rotate: -A
+    };
+  }
+  get width() {
+    return this.width;
+  }
+  set width(A) {
+    this.root.setAttribute("width", A.toString());
+  }
+  get height() {
+    return this.height;
+  }
+  set height(A) {
+    this.root.setAttribute("height", A.toString());
+  }
+  get origin() {
+    const A = this.root.getAttribute("transform-origin").trim().split(" "), e = +A[0], i = +A[1];
+    return {
+      x: e,
+      y: i
+    };
+  }
+  set origin(A) {
+    this.root.setAttribute("transform-origin", A);
+  }
+  attributeUpdate(A, e, i) {
+  }
+  attributeChangedCallback(A, e, i) {
+    switch (A) {
+      case "x":
+        this.x = +i;
+        break;
+      case "y":
+        this.y = +i;
+        break;
+      case "width":
+        this.width = i;
+        break;
+      case "height":
+        this.height = i;
+        break;
+      case "rotate":
+        this.rotate = +i;
+        break;
+      case "scalex":
+        this.scaleX = +i;
+        break;
+      case "scaley":
+        this.scaleY = +i;
+        break;
+      case "origin":
+        this.origin = i;
+        break;
+      default:
+        this.attributeUpdate(A, e, i);
+    }
+  }
+  mount() {
+  }
+  connectedCallback() {
+    this.mount();
+  }
+  unmount() {
+  }
+  disconnectedCallback() {
+    this.unmount();
+  }
+}
+s = new WeakSet(), l = function(A) {
+  let e = 0, i = 0, o = 1, r = 1, c = 0;
+  if (A) {
+    const x = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(A), a = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(A);
+    c = +/rotate\(\s*([^\s,)]+)/.exec(A)[1], e = +x[1], i = +x[2], o = +a[1], r = +a[2];
+  }
+  return {
+    x: e,
+    y: i,
+    scaleX: o,
+    scaleY: r,
+    rotate: c
+  };
+};
+const L = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
+    preserveAspectRatio="none" style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="a" x1="27.44" x2="167.21" y1="48.56" y2="48.56" gradientUnits="userSpaceOnUse">
             <stop offset="0" stop-color="#f5f6f6"></stop>
@@ -96,21 +227,22 @@ const M = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" h
             </text>
         </g>
     </g>
-</svg>`, o = document.createElement("template");
-o.innerHTML = `${M}`;
-class G extends HTMLElement {
+</svg>`, I = document.createElement("template");
+I.innerHTML = `${L}`;
+const v = ["zero"];
+class p extends d {
   constructor() {
-    super(), this.attachShadow({
-      mode: "open"
-    }), this.shadowRoot.appendChild(o.content.cloneNode(!0));
+    super(I, 212.42054748535156, 158.1199951171875);
+  }
+  attributeUpdate(t, A, e) {
   }
 }
-customElements.define("my-gauge", G);
-const f = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
-    style="cursor: pointer; user-select: none; position: absolute;"
-    transform="translate(0, 0) rotate(0) scale(1, 1)"
-    transform-origin="0 0"
-    >
+h(p, "observedAttributes", [...G, ...v]);
+customElements.define("my-gauge", p, {
+  extends: "div"
+});
+const b = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
+    style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="linear-gradient" x1="2" x2="412.89" y1="21.18" y2="21.18" gradientUnits="userSpaceOnUse">
             <stop offset="0" stop-color="#f4f5f5"></stop>
@@ -179,29 +311,23 @@ const f = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046
                 class="cls-2"></path>
         </g>
     </g>
-</svg>`, s = document.createElement("template");
-s.innerHTML = `${f}`;
-class r extends HTMLElement {
+</svg>`, Y = document.createElement("template");
+Y.innerHTML = `${b}`;
+const R = ["zero"];
+class O extends d {
   constructor() {
-    super(), this.attachShadow({
-      mode: "open"
-    }), this.shadowRoot.appendChild(s.content.cloneNode(!0));
+    super(Y, 653, 66.68661572947046);
   }
-  connectedCallback() {
-    console.log("mount");
-  }
-  disconnectedCallback() {
-    console.log("unmount");
-  }
-  attributeChangedCallback(A, n, c) {
-    console.log(A, n, c);
+  attributeUpdate(t, A, e) {
   }
 }
-e(r, "observedAttributes", ["zero"]);
-customElements.define("my-slider", r);
+h(O, "observedAttributes", [...G, ...R]);
+customElements.define("my-slider", O, {
+  extends: "div"
+});
 export {
-  G as Gauge,
-  h as MyComponent,
-  r as Slider
+  p as Gauge,
+  H as MyComponent,
+  O as Slider
 };
 //# sourceMappingURL=index.js.map
