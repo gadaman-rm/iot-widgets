@@ -4,7 +4,7 @@ import style from './MyComponent.scss?inline'
 const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
-export class MyComponent extends HTMLElement {
+export class MyComponent extends HTMLDivElement {
     constructor() {
         super()
         this.attachShadow({ mode: 'open' })
@@ -12,4 +12,4 @@ export class MyComponent extends HTMLElement {
     }
 }
 
-customElements.define('my-component', MyComponent)
+customElements.define('my-component', MyComponent, {extends: 'div'})

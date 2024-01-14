@@ -1,18 +1,20 @@
 var x = Object.defineProperty;
 var a = (t, A, n) => A in t ? x(t, A, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[A] = n;
 var e = (t, A, n) => (a(t, typeof A != "symbol" ? A + "" : A, n), n);
-const j = `<div class="class-one">
+const j = `<p class="class-one">
     Hello <span class="class-two">World</span>
-</div>`, l = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", i = document.createElement("template");
+</p>`, l = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", i = document.createElement("template");
 i.innerHTML = `<style>${l}</style>${j}`;
-class h extends HTMLElement {
+class h extends HTMLDivElement {
   constructor() {
     super(), this.attachShadow({
       mode: "open"
     }), this.shadowRoot.appendChild(i.content.cloneNode(!0));
   }
 }
-customElements.define("my-component", h);
+customElements.define("my-component", h, {
+  extends: "div"
+});
 const M = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
     preserveAspectRatio="none" style="cursor: pointer; user-select: none; position: absolute;"
     transform="translate(0, 0) rotate(0) scale(1, 1)"

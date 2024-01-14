@@ -2,7 +2,7 @@ export declare class Gauge extends HTMLElement {
     constructor();
 }
 
-export declare class MyComponent extends HTMLElement {
+export declare class MyComponent extends HTMLDivElement {
     constructor();
 }
 
