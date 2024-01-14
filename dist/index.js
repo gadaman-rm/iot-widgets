@@ -1,9 +1,10 @@
 var x = Object.defineProperty;
 var a = (t, A, n) => A in t ? x(t, A, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[A] = n;
 var e = (t, A, n) => (a(t, typeof A != "symbol" ? A + "" : A, n), n);
-const j = `<p class="class-one">
-    Hello <span class="class-two">World</span>
-</p>`, l = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", i = document.createElement("template");
+const j = `<div>
+    <slot class="class-one" name="title1"></slot>
+    <span><slot class="class-two" name="title2"></slot></span>
+</div>`, l = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", i = document.createElement("template");
 i.innerHTML = `<style>${l}</style>${j}`;
 class h extends HTMLDivElement {
   constructor() {
