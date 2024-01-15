@@ -1,4 +1,4 @@
-import { BASE_SVG_ATTRIBUTES, BaseSvg } from '../BaseSvg/BaseSvg'
+import { BASE_SVG_ATTRIBUTES, BaseSvg } from '../../_helper'
 import html from './Gauge.html?raw'
 
 const template = document.createElement('template')

@@ -6,36 +6,33 @@ export function App() {
 
   useEffect(() => {
     if (ref.current) {
-//       const div = document.createElement('div')
-//       div.innerHTML = `
-// <div is="my-component">
-//   <span slot="title1" style='color: green'>hello</span>
-//   <span slot="title2">zero</span>
-// </div>
-// `
-//       ref.current.appendChild(div)
+      //       const div = document.createElement('div')
+      //       div.innerHTML = `
+      // <div is="my-component">
+      //   <span slot="title1" style='color: green'>hello</span>
+      //   <span slot="title2">zero</span>
+      // </div>
+      // `
+      //       ref.current.appendChild(div)
 
-         let slider = document.createElement('div')
-         slider.innerHTML = `
-         <div 
-         is="my-slider"
-         x="200" 
-         y="200" 
-         width="653" 
-         height="66.68661572947046"
-         scaleX="1"
-         scaleY="1"
-         rotate="45"
-         ></div>
-
-         <div 
-         is="my-gauge"
-         x="200" 
-         y="200" 
-         scaleX="1"
-         scaleY="1"
-         rotate="45"
-         ></div>
+      let slider = document.createElement('div')
+      slider.innerHTML = `
+        <div is="my-slider"
+        x="400" 
+        y="400" 
+        rotate="0"
+        width="653"
+        height="66.68661572947046"
+        >
+        </div>
+        <div is="my-editbox"
+        x="400" 
+        y="400" 
+        rotate="0"
+        width="653"
+        height="66.68661572947046"
+        >
+        </div>
          `
          ref.current.appendChild(slider)
     }

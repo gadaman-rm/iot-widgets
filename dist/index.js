@@ -1,50 +1,63 @@
-var W = Object.defineProperty;
-var u = (n, t, A) => t in n ? W(n, t, { enumerable: !0, configurable: !0, writable: !0, value: A }) : n[t] = A;
-var h = (n, t, A) => (u(n, typeof t != "symbol" ? t + "" : t, A), A), g = (n, t, A) => {
-  if (!t.has(n))
+var F = Object.defineProperty;
+var L = (i, e, A) => e in i ? F(i, e, { enumerable: !0, configurable: !0, writable: !0, value: A }) : i[e] = A;
+var c = (i, e, A) => (L(i, typeof e != "symbol" ? e + "" : e, A), A), H = (i, e, A) => {
+  if (!e.has(i))
     throw TypeError("Cannot " + A);
 };
-var M = (n, t, A) => {
-  if (t.has(n))
+var R = (i, e, A) => {
+  if (e.has(i))
     throw TypeError("Cannot add the same private member more than once");
-  t instanceof WeakSet ? t.add(n) : t.set(n, A);
+  e instanceof WeakSet ? e.add(i) : e.set(i, A);
 };
-var j = (n, t, A) => (g(n, t, "access private method"), A);
-const F = `<div>
+var f = (i, e, A) => (H(i, e, "access private method"), A);
+import "./preact.module-PZ3PIv-r.js";
+const w = `<div>
     <slot class="class-one" name="title1"></slot>
     <span><slot class="class-two" name="title2"></slot></span>
-</div>`, E = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", f = document.createElement("template");
-f.innerHTML = `<style>${E}</style>${F}`;
-class H extends HTMLDivElement {
+</div>`, U = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", G = document.createElement("template");
+G.innerHTML = `<style>${U}</style>${w}`;
+class C extends HTMLDivElement {
   constructor() {
     super(), this.attachShadow({
       mode: "open"
-    }), this.shadowRoot.appendChild(f.content.cloneNode(!0));
+    }), this.shadowRoot.appendChild(G.content.cloneNode(!0));
   }
 }
-customElements.define("my-component", H, {
+customElements.define("my-component", C, {
   extends: "div"
 });
-const G = ["x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
-var s, l;
-class d extends HTMLDivElement {
-  constructor(A, e, i, o = 0, r = 0, c = 0, x = 1, a = 1, z = `${e / 2} ${i / 2}`) {
+const z = ["x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
+var j, M;
+class p extends HTMLDivElement {
+  constructor(A, t, s, o = 0, r = 0, a = 0, n, h = 1, l = 1) {
     super();
-    M(this, s);
-    h(this, "root");
+    R(this, j);
+    c(this, "root");
     this.attachShadow({
       mode: "open"
-    }), this.shadowRoot.appendChild(A.content.cloneNode(!0)), this.root = this.shadowRoot.querySelector("svg"), this.width = e, this.height = i, this.x = o, this.y = r, this.rotate = c, this.scaleX = x, this.scaleY = a, this.origin = z;
+    }), this.shadowRoot.appendChild(A.content.cloneNode(!0)), this.root = this.shadowRoot.querySelector("svg"), this.width = t, this.height = s, this.x = o, this.y = r, this.rotate = a, this.scaleX = h, this.scaleY = l, this.origin = n || (this.width && this.height ? `${this.width / 2} ${this.height / 2}` : "0 0"), this.transform = {
+      x: o,
+      y: r,
+      scaleX: h,
+      scaleY: l,
+      rotate: a
+    };
   }
   get transform() {
-    return j(this, s, l).call(this, this.root.getAttribute("transform"));
+    return f(this, j, M).call(this, this.root.getAttribute("transform"));
   }
   set transform(A) {
-    const e = {
-      ...j(this, s, l).call(this, this.root.getAttribute("transform")),
+    const t = {
+      ...f(this, j, M).call(this, this.root.getAttribute("transform")),
       ...A
     };
-    this.root.setAttribute("transform", `translate(${e.x},${e.y}) rotate(${e.rotate}) scale(${e.scaleX},${e.scaleY})`);
+    this.root.setAttribute("transform", `translate(${t.x},${t.y}) rotate(${t.rotate}) scale(${t.scaleX},${t.scaleY})`);
+  }
+  get x() {
+    return this.transform.x;
+  }
+  get y() {
+    return this.transform.y;
   }
   set x(A) {
     this.transform = {
@@ -72,85 +85,116 @@ class d extends HTMLDivElement {
     };
   }
   get width() {
-    return this.width;
+    return +this.root.getAttribute("width");
   }
   set width(A) {
-    this.root.setAttribute("width", A.toString());
+    A !== void 0 && this.root.setAttribute("width", A.toString());
   }
   get height() {
-    return this.height;
+    return +this.root.getAttribute("height");
   }
   set height(A) {
-    this.root.setAttribute("height", A.toString());
+    A !== void 0 && this.root.setAttribute("height", A.toString());
   }
   get origin() {
-    const A = this.root.getAttribute("transform-origin").trim().split(" "), e = +A[0], i = +A[1];
+    var o, r;
+    const A = (r = (o = this.root.getAttribute("transform-origin")) == null ? void 0 : o.trim()) == null ? void 0 : r.split(" "), t = +A[0], s = +A[1];
     return {
-      x: e,
-      y: i
+      x: t,
+      y: s
     };
   }
   set origin(A) {
     this.root.setAttribute("transform-origin", A);
   }
-  attributeUpdate(A, e, i) {
-  }
-  attributeChangedCallback(A, e, i) {
-    switch (A) {
-      case "x":
-        this.x = +i;
-        break;
-      case "y":
-        this.y = +i;
-        break;
-      case "width":
-        this.width = i;
-        break;
-      case "height":
-        this.height = i;
-        break;
-      case "rotate":
-        this.rotate = +i;
-        break;
-      case "scalex":
-        this.scaleX = +i;
-        break;
-      case "scaley":
-        this.scaleY = +i;
-        break;
-      case "origin":
-        this.origin = i;
-        break;
-      default:
-        this.attributeUpdate(A, e, i);
+  setOriginCenter() {
+    if (this.width !== void 0 && this.height !== void 0) {
+      const A = `${this.width / 2} ${this.height / 2}`, t = this.root.getAttribute("transform-origin");
+      this.originUpdate(t, A);
     }
   }
-  mount() {
+  attributeChangedCallback(A, t, s) {
+    switch (A) {
+      case "x":
+        this.xUpdate(+t, +s);
+        break;
+      case "y":
+        this.yUpdate(+t, +s);
+        break;
+      case "width":
+        this.widthUpdate(+t, +s);
+        break;
+      case "height":
+        this.heightUpdate(+t, +s);
+        break;
+      case "rotate":
+        this.rotateUpdate(+t, +s);
+        break;
+      case "scalex":
+        this.scaleXUpdate(+t, +s);
+        break;
+      case "scaley":
+        this.scaleYUpdate(+t, +s);
+        break;
+      case "origin":
+        this.originUpdate(t, s);
+        break;
+      default:
+        this.attributeUpdate(A, t, s);
+    }
   }
   connectedCallback() {
     this.mount();
   }
-  unmount() {
-  }
   disconnectedCallback() {
     this.unmount();
   }
+  xUpdate(A, t) {
+    this.x = t;
+  }
+  yUpdate(A, t) {
+    this.y = t;
+  }
+  widthUpdate(A, t) {
+    this.width = t, this.setOriginCenter();
+  }
+  heightUpdate(A, t) {
+    this.height = t, this.setOriginCenter();
+  }
+  rotateUpdate(A, t) {
+    this.rotate = t;
+  }
+  scaleXUpdate(A, t) {
+    this.scaleX = t;
+  }
+  scaleYUpdate(A, t) {
+    this.scaleY = t;
+  }
+  originUpdate(A, t) {
+    this.origin = t;
+  }
+  attributeUpdate(A, t, s) {
+  }
+  mount() {
+  }
+  unmount() {
+  }
 }
-s = new WeakSet(), l = function(A) {
-  let e = 0, i = 0, o = 1, r = 1, c = 0;
+j = new WeakSet(), M = function(A) {
+  let t = 0, s = 0, o = 1, r = 1, a = 0;
   if (A) {
-    const x = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(A), a = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(A);
-    c = +/rotate\(\s*([^\s,)]+)/.exec(A)[1], e = +x[1], i = +x[2], o = +a[1], r = +a[2];
+    const n = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(A), h = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(A);
+    a = +/rotate\(\s*([^\s,)]+)/.exec(A)[1], t = +n[1], s = +n[2], o = +h[1], r = +h[2];
   }
   return {
-    x: e,
-    y: i,
+    x: t,
+    y: s,
     scaleX: o,
     scaleY: r,
-    rotate: c
+    rotate: a
   };
 };
-const L = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
+const D = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
     preserveAspectRatio="none" style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="a" x1="27.44" x2="167.21" y1="48.56" y2="48.56" gradientUnits="userSpaceOnUse">
@@ -228,20 +272,20 @@ const L = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" h
         </g>
     </g>
 </svg>`, I = document.createElement("template");
-I.innerHTML = `${L}`;
-const v = ["zero"];
-class p extends d {
+I.innerHTML = `${D}`;
+const B = ["zero"];
+class b extends p {
   constructor() {
     super(I, 212.42054748535156, 158.1199951171875);
   }
-  attributeUpdate(t, A, e) {
+  attributeUpdate(e, A, t) {
   }
 }
-h(p, "observedAttributes", [...G, ...v]);
-customElements.define("my-gauge", p, {
+c(b, "observedAttributes", [...z, ...B]);
+customElements.define("my-gauge", b, {
   extends: "div"
 });
-const b = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
+const N = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
     style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="linear-gradient" x1="2" x2="412.89" y1="21.18" y2="21.18" gradientUnits="userSpaceOnUse">
@@ -311,23 +355,167 @@ const b = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046
                 class="cls-2"></path>
         </g>
     </g>
-</svg>`, Y = document.createElement("template");
-Y.innerHTML = `${b}`;
-const R = ["zero"];
-class O extends d {
+</svg>`, O = document.createElement("template");
+O.innerHTML = `${N}`;
+const S = ["zero"];
+class Y extends p {
   constructor() {
-    super(Y, 653, 66.68661572947046);
+    super(O, 653, 66.68661572947046);
   }
-  attributeUpdate(t, A, e) {
+  attributeUpdate(e, A, t) {
   }
 }
-h(O, "observedAttributes", [...G, ...R]);
-customElements.define("my-slider", O, {
+c(Y, "observedAttributes", [...z, ...S]);
+customElements.define("my-slider", Y, {
+  extends: "div"
+});
+function x() {
+  return arguments.length === 1 ? Array.isArray(arguments[0]) ? Object.freeze({
+    x: arguments[0][0],
+    y: arguments[0][1]
+  }) : Object.freeze({
+    x: arguments[0].x,
+    y: arguments[0].y
+  }) : Object.freeze({
+    x: arguments[0],
+    y: arguments[1]
+  });
+}
+const X = (i, e, A) => {
+  const t = Math.PI / 180 * e, s = Math.cos(t), o = Math.sin(t);
+  return Object.freeze({
+    x: s * (i.x - A.x) + o * (i.y - A.y) + A.x,
+    y: s * (i.y - A.y) - o * (i.x - A.x) + A.y
+  });
+}, P = (i, e, A) => i.map((t) => X(t, e, A)), K = (i, e, A, t, s = 0, o) => {
+  const r = o || x(i + A / 2, e + t / 2), [a, n, h, l] = P([x(i, e), x(i + A, e), x(i + A, e + t), x(i, e + t)], s, r), u = Math.min(a.x, n.x, l.x, h.x), y = Math.max(a.x, n.x, l.x, h.x), g = Math.min(a.y, n.y, l.y, h.y), v = Math.max(a.y, n.y, l.y, h.y);
+  return {
+    tl: a,
+    tr: n,
+    br: h,
+    bl: l,
+    aabox: {
+      x: u,
+      y: g,
+      width: y - u,
+      height: v - g
+    }
+  };
+}, d = (i, e, A, t = !0) => {
+  let o = document.getElementById(e.toLowerCase());
+  const r = o || document.createElement("div");
+  if (r.setAttribute("id", e.toLowerCase()), r.style.position = "absolute", r.style.width = "15px", r.style.height = "15px", r.style.insetInlineStart = "0px", r.style.insetBlockStart = "0px", r.style.borderRadius = "15px", r.style.transform = `translate(${i.x - 15 / 2}px, ${i.y - 15 / 2}px)`, r.style.backgroundColor = "green", t === !0) {
+    let a = document.getElementById("t-" + e.toLowerCase());
+    const n = a || document.createElement("div");
+    n.setAttribute("id", "t-" + e.toLowerCase()), n.style.position = "absolute", n.style.insetInlineStart = "0px", n.style.insetBlockStart = "0px", n.style.transform = `translate(${i.x + 15 + ((A == null ? void 0 : A.labelOffsetX) || 0)}px, ${i.y + 15 + ((A == null ? void 0 : A.labelOffsetY) || 0)}px)`, n.style.color = "green", n.innerHTML = `${e}{${i.x}, ${i.y}}`, document.body.appendChild(n);
+  }
+  document.body.appendChild(r);
+}, T = (i) => {
+  i.points && i.points.forEach((e) => {
+    d(e.point, e.label, {
+      labelOffsetX: -8,
+      labelOffsetY: -8
+    }, e.showLabel);
+  }), i.TransformedBox && i.TransformedBox.forEach((e) => {
+    const A = {
+      labelOffsetX: -8,
+      labelOffsetY: -8
+    };
+    d(e.points.tl, `${e.prefix || ""}tl`, A, e.showLabel), d(e.points.tr, `${e.prefix || ""}tr`, A), d(e.points.bl, `${e.prefix || ""}bl`, A, e.showLabel), d(e.points.br, `${e.prefix || ""}br`, A, e.showLabel);
+  });
+}, m = `<svg overflow="visible" preserveAspectRatio="xMidYMid"
+    style="user-select: none; position: absolute;">
+    <rect id="body" stroke-width="5" stroke="red" stroke-dashoffset="0" fill="#fff"
+        fill-opacity="0" stroke-dasharray="12, 8" />
+    <g>
+        <circle id="rotate" style="cursor: crosshair;" />
+        <rect id="tl-resize" />
+        <rect id="lmid-resize" />
+        <rect id="bl-resize" />
+        <rect id="bmid-resize" style="cursor: s-resize;" />
+        <rect id="br-resize" style="cursor: se-resize;" />
+        <rect id="rmid-resize" style="cursor: e-resize;" />
+        <rect id="tmid-resize" />
+    </g>
+</svg>`, W = document.createElement("template");
+W.innerHTML = `${m}`;
+class Q extends p {
+  constructor() {
+    super(W);
+    c(this, "controllerSize");
+    c(this, "bodyRef");
+    c(this, "rotateRef");
+    c(this, "tlResizeRef");
+    c(this, "lmidResizeRef");
+    c(this, "blResizeRef");
+    c(this, "bmidResizeRef");
+    c(this, "brResizeRef");
+    c(this, "rmidResizeRef");
+    c(this, "tmidResizeRef");
+    this.controllerSize = 12, this.bodyRef = this.root.querySelector("#body"), this.rotateRef = this.root.querySelector("#rotate"), this.tlResizeRef = this.root.querySelector("#tl-resize"), this.lmidResizeRef = this.root.querySelector("#lmid-resize"), this.blResizeRef = this.root.querySelector("#bl-resize"), this.bmidResizeRef = this.root.querySelector("#bmid-resize"), this.brResizeRef = this.root.querySelector("#br-resize"), this.rmidResizeRef = this.root.querySelector("#rmid-resize"), this.tmidResizeRef = this.root.querySelector("#tmid-resize");
+  }
+  render() {
+    this.bodyRef.setAttribute("width", this.width.toString()), this.bodyRef.setAttribute("height", this.height.toString()), this.rotateRef = this.root.querySelector("#rotate"), this.rotateRef.setAttribute("cx", this.width.toString()), this.rotateRef.setAttribute("r", (this.controllerSize / 2).toString()), this.bmidResizeRef.setAttribute("width", this.controllerSize.toString()), this.bmidResizeRef.setAttribute("height", this.controllerSize.toString()), this.bmidResizeRef.setAttribute("x", (this.width * 0.5 - this.controllerSize / 2).toString()), this.bmidResizeRef.setAttribute("y", (this.height - this.controllerSize / 2).toString()), this.brResizeRef.setAttribute("width", this.controllerSize.toString()), this.brResizeRef.setAttribute("height", this.controllerSize.toString()), this.brResizeRef.setAttribute("x", (this.width - this.controllerSize / 2).toString()), this.brResizeRef.setAttribute("y", (this.height - this.controllerSize / 2).toString()), this.rmidResizeRef.setAttribute("width", this.controllerSize.toString()), this.rmidResizeRef.setAttribute("height", this.controllerSize.toString()), this.rmidResizeRef.setAttribute("x", (this.width - this.controllerSize / 2).toString()), this.rmidResizeRef.setAttribute("y", (this.height * 0.5 - this.controllerSize / 2).toString());
+  }
+  widthUpdate(A, t) {
+    this.width = t, this.setOriginCenter(), this.render();
+  }
+  heightUpdate(A, t) {
+    this.height = t, this.setOriginCenter(), this.render();
+  }
+}
+const Z = document.createElement("template");
+Z.innerHTML = `${m}`;
+class V extends Q {
+  constructor() {
+    super();
+    c(this, "isRmidResize");
+    c(this, "handleRmidResizeStart", (A) => {
+      this.isRmidResize = !0;
+    });
+    c(this, "handleRmidResizeEnd", (A) => {
+      this.isRmidResize = !1;
+    });
+    c(this, "handleRmidResize", (A) => {
+      if (this.isRmidResize) {
+        const {
+          x: t,
+          y: s
+        } = this.transform, o = K(t, s, this.width, this.height);
+        T({
+          TransformedBox: [{
+            points: o
+          }]
+        }), console.log(o);
+      }
+    });
+    this.isRmidResize = !1;
+  }
+  mount() {
+    var A;
+    (A = this.rmidResizeRef) == null || A.addEventListener("mousedown", this.handleRmidResizeStart), document.addEventListener("mousemove", this.handleRmidResize), document.addEventListener("mouseup", this.handleRmidResizeEnd);
+  }
+  unmount() {
+    var A;
+    (A = this.rmidResizeRef) == null || A.removeEventListener("mousedown", this.handleRmidResizeStart), document.removeEventListener("mousemove", this.handleRmidResizeStart), document.removeEventListener("mouseup", this.handleRmidResizeStart);
+  }
+}
+const k = ["zero"];
+class E extends V {
+  constructor() {
+    super();
+  }
+  attributeUpdate(e, A, t) {
+  }
+}
+c(E, "observedAttributes", [...z, ...k]);
+customElements.define("my-editbox", E, {
   extends: "div"
 });
 export {
-  p as Gauge,
-  H as MyComponent,
-  O as Slider
+  E as EditBox,
+  b as Gauge,
+  C as MyComponent,
+  Y as Slider
 };
 //# sourceMappingURL=index.js.map
