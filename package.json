@@ -13,6 +13,16 @@
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
+    "./math": {
+      "import": "./dist/math.js",
+      "require": "./dist/math.cjs",
+      "types": "./dist/math.d.ts"
+    },
+    "./event": {
+      "import": "./dist/event.js",
+      "require": "./dist/event.cjs",
+      "types": "./dist/event.d.ts"
+    },
     "./mui": {
       "import": "./dist/mui.js",
       "require": "./dist/mui.cjs",

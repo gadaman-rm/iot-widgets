@@ -14,6 +14,8 @@ export default defineConfig({
       name: 'iot-widgets',
       entry: [
         path.resolve(__dirname, "./src/widgets/index.ts"),
+        path.resolve(__dirname, "./src/math/math.ts"),
+        path.resolve(__dirname, "./src/event/event.ts"),
         path.resolve(__dirname, "./src/mui/mui.ts"),
       ],
       fileName: (format, name) => {

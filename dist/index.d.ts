@@ -57,13 +57,36 @@ declare class BaseSvg extends HTMLDivElement {
     unmount(): void;
 }
 
-export declare class EditBox extends EditBoxRenderListener {
-    static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
-    constructor();
-    attributeUpdate(attributeName: typeof ATTRIBUTES_3[number], _oldValue: string, _newValue: string): void;
+declare class BmidResizeListener {
+    dragListener: DragListener<TransformedBox>;
+    edListener: EditBox;
+    constructor(svgElement: SVGRectElement, editBoxListener: EditBox);
+    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): void;
+    removeListener(): void;
 }
 
-declare class EditBoxRender extends BaseSvg {
+declare class BrResizeListener {
+    dragListener: DragListener<TransformedBox>;
+    edListener: EditBox;
+    constructor(svgElement: SVGRectElement, editBoxListener: EditBox);
+    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): void;
+    removeListener(): void;
+}
+
+declare class DragListener<Init = undefined> {
+    #private;
+    element: HTMLElement;
+    active: boolean;
+    init?: Init;
+    constructor(element: HTMLElement);
+    set onDragStart(onDragStart: (e: MouseEvent, initFn: (init: Init) => Init) => void);
+    set onDragMove(onDragMove: (e: MouseEvent, init?: Init) => void);
+    set onDragEnd(onDragEnd: (e: MouseEvent, init?: Init) => void);
+    removeEvent: () => void;
+}
+
+export declare class EditBox extends BaseSvg {
+    static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
     controllerSize: number;
     bodyRef: SVGRectElement;
     rotateRef: SVGCircleElement;
@@ -74,19 +97,16 @@ declare class EditBoxRender extends BaseSvg {
     brResizeRef: SVGRectElement;
     rmidResizeRef: SVGRectElement;
     tmidResizeRef: SVGRectElement;
+    rmidResizeListener: RmidResizeListener;
+    bmidResizeListener: BmidResizeListener;
+    brResizeListener: BrResizeListener;
+    rotateListener: RotateListener;
+    moveListener: MoveListener;
     constructor();
+    attributeUpdate(attributeName: typeof ATTRIBUTES_3[number], _oldValue: string, _newValue: string): void;
     render(): void;
     widthUpdate(oldWidth: number, newWidth: number): void;
     heightUpdate(oldHeight: number, newHeight: number): void;
-}
-
-declare class EditBoxRenderListener extends EditBoxRender {
-    isRmidResize: boolean;
-    constructor();
-    handleRmidResizeStart: (e: MouseEvent) => void;
-    handleRmidResizeEnd: (e: MouseEvent) => void;
-    handleRmidResize: (e: MouseEvent) => void;
-    mount(): void;
     unmount(): void;
 }
 
@@ -96,14 +116,73 @@ export declare class Gauge extends BaseSvg {
     attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string): void;
 }
 
+declare interface MouseInit {
+    x: number;
+    y: number;
+    clientX: number;
+    clientY: number;
+}
+
+declare class MoveListener {
+    dragListener: DragListener<MouseInit>;
+    edListener: EditBox;
+    constructor(svgElement: SVGRectElement, editBoxListener: EditBox);
+    removeListener(): void;
+}
+
 export declare class MyComponent extends HTMLDivElement {
     constructor();
+}
+
+declare interface Point {
+    x: number;
+    y: number;
+}
+
+declare class RmidResizeListener {
+    dragListener: DragListener<TransformedBox>;
+    edListener: EditBox;
+    constructor(svgElement: SVGRectElement, editBoxListener: EditBox);
+    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): void;
+    removeListener(): void;
+}
+
+declare class RotateListener {
+    dragListener: DragListener;
+    edListener: EditBox;
+    constructor(svgElement: SVGCircleElement, editBoxListener: EditBox);
+    removeListener(): void;
 }
 
 export declare class Slider extends BaseSvg {
     static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
     constructor();
     attributeUpdate(attributeName: typeof ATTRIBUTES_2[number], _oldValue: string, _newValue: string): void;
+}
+
+/**
+ * @typedef {PlainObject} module:math.TransformedBox An object with the following values
+ * @property {module:math.XYObject} tl - The top left coordinate
+ * @property {module:math.XYObject} tr - The top right coordinate
+ * @property {module:math.XYObject} bl - The bottom left coordinate
+ * @property {module:math.XYObject} br - The bottom right coordinate
+ * @property {PlainObject} aabox - Object with the following values:
+ * @property {Float} aabox.x - Float with the axis-aligned x coordinate
+ * @property {Float} aabox.y - Float with the axis-aligned y coordinate
+ * @property {Float} aabox.width - Float with the axis-aligned width coordinate
+ * @property {Float} aabox.height - Float with the axis-aligned height coordinate
+ */
+declare interface TransformedBox {
+    tl: Point;
+    tr: Point;
+    br: Point;
+    bl: Point;
+    aabox: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    };
 }
 
 export { }

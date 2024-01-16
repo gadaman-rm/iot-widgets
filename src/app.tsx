@@ -20,7 +20,7 @@ export function App() {
         <div is="my-slider"
         x="400" 
         y="400" 
-        rotate="0"
+        rotate="45"
         width="653"
         height="66.68661572947046"
         >
@@ -28,7 +28,7 @@ export function App() {
         <div is="my-editbox"
         x="400" 
         y="400" 
-        rotate="0"
+        rotate="45"
         width="653"
         height="66.68661572947046"
         >

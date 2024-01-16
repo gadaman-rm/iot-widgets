@@ -41,8 +41,8 @@ export class BaseSvg extends HTMLDivElement {
         return { x, y, scaleX, scaleY, rotate }
     }
 
-    public get transform(): { x: number, y: number, scaleX: number, scaleY: number, rotate: number } { 
-        return this.#parse_transform(this.root.getAttribute('transform')!) 
+    public get transform(): { x: number, y: number, scaleX: number, scaleY: number, rotate: number } {
+        return this.#parse_transform(this.root.getAttribute('transform')!)
     }
     public set transform(v: { x?: number, y?: number, scaleX?: number, scaleY?: number, rotate?: number }) {
         const t = { ...this.#parse_transform(this.root.getAttribute('transform')!), ...v }
@@ -72,7 +72,7 @@ export class BaseSvg extends HTMLDivElement {
         return { x, y }
     }
     public set origin(origin: string) { this.root.setAttribute('transform-origin', origin) }
-    
+
     setOriginCenter() {
         if (this.width !== undefined && this.height !== undefined) {
             const newOrigin = `${this.width / 2} ${this.height / 2}`

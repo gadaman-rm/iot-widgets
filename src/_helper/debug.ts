@@ -1,81 +1,10 @@
-export interface Point { x: number, y: number }
-export interface TransformedBox {
-    tl: Point,
-    tr: Point,
-    br: Point,
-    bl: Point,
-    aabox: {
-        x: number,
-        y: number,
-        width: number,
-        height: number
-    }
-}
-export function point(value: [number, number]): Point
-export function point(value: Point): Point
-export function point(x: number, y: number): Point
-export function point() {
-    return arguments.length === 1 ?
-        Array.isArray(arguments[0]) ? Object.freeze({ x: arguments[0][0], y: arguments[0][1] })
-            : Object.freeze({ x: arguments[0].x, y: arguments[0].y })
-        :
-        Object.freeze({ x: arguments[0], y: arguments[1] })
-}
-
-export const rotatePoint = (point: Point, angle: number, origin: Point) => {
-    const radians = (Math.PI / 180) * angle
-    const cos = Math.cos(radians)
-    const sin = Math.sin(radians)
-
-    return Object.freeze({
-        x: cos * (point.x - origin.x) + sin * (point.y - origin.y) + origin.x,
-        y: cos * (point.y - origin.y) - sin * (point.x - origin.x) + origin.y
-    })
-}
-
-export const rotatePoints = (points: Point[], angle: number, origin: Point) => {
-    return points.map(point => rotatePoint(point, angle, origin))
-}
-
-export const toTransformBox = (
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    angle: number = 0,
-    origin?: Point,
-) => {
-    const org = origin ? origin : point(x + (width / 2), y + (height / 2))
-    const [tl, tr, br, bl] = rotatePoints([
-        point(x, y),
-        point(x + width, y),
-        point(x + width, y + height),
-        point(x, y + height)
-    ], angle, org)
-
-    const minx = Math.min(tl.x, tr.x, bl.x, br.x)
-    const maxx = Math.max(tl.x, tr.x, bl.x, br.x)
-    const miny = Math.min(tl.y, tr.y, bl.y, br.y)
-    const maxy = Math.max(tl.y, tr.y, bl.y, br.y)
-
-    return {
-        tl,
-        tr,
-        br,
-        bl,
-        aabox: {
-            x: minx,
-            y: miny,
-            width: maxx - minx,
-            height: maxy - miny
-        }
-    }
-}
-
+import { TransformedBox } from "../math/matrix"
+import { Point } from "../math/point"
 
 export interface LogPointStyle {
     labelOffsetX?: number,
     labelOffsetY?: number,
+    color?: string,
 }
 
 const logPoint = (
@@ -97,7 +26,7 @@ const logPoint = (
     pointRef.style.borderRadius = `${pointSize}px`
 
     pointRef.style.transform = `translate(${point.x - (pointSize / 2)}px, ${point.y - (pointSize / 2)}px)`
-    pointRef.style.backgroundColor = 'green'
+    pointRef.style.backgroundColor =  style?.color ? style?.color : 'green'
 
 
     if (showLabel === true) {
@@ -113,7 +42,7 @@ const logPoint = (
         }px, ${
             point.y + pointSize + (style?.labelOffsetY || 0)
         }px)`
-        labelRef.style.color = 'green'
+        labelRef.style.color = style?.color ? style?.color : 'green'
         labelRef.innerHTML = `${label}{${point.x}, ${point.y}}`
         document.body.appendChild(labelRef)
     }
@@ -140,11 +69,11 @@ export const logInfo = (
 ) => {
     if (data.points)
         data.points.forEach(item => {
-            logPoint(item.point, item.label, { labelOffsetX: -8, labelOffsetY: -8 }, item.showLabel)
+            logPoint(item.point, item.label, { labelOffsetX: -8, labelOffsetY: -8, color: item.color }, item.showLabel)
         })
     if (data.TransformedBox)
         data.TransformedBox.forEach(item => {
-            const currentResizelogStyle: LogPointStyle = { labelOffsetX: -8, labelOffsetY: -8 }
+            const currentResizelogStyle: LogPointStyle = { labelOffsetX: -8, labelOffsetY: -8, color: item.color }
             logPoint(item.points.tl, `${item.prefix || ''}tl`, currentResizelogStyle, item.showLabel)
             logPoint(item.points.tr, `${item.prefix || ''}tr`, currentResizelogStyle)
             logPoint(item.points.bl, `${item.prefix || ''}bl`, currentResizelogStyle, item.showLabel)
