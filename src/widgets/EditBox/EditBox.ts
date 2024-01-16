@@ -44,6 +44,7 @@ export class EditBox extends BaseSvg {
         this.rmidResizeListener = new RmidResizeListener(this.rmidResizeRef, this)
         this.bmidResizeListener = new BmidResizeListener(this.bmidResizeRef, this)
         this.brResizeListener = new BrResizeListener(this.brResizeRef, this)
+        this.render()
     }
     attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string) {
         switch (attributeName) {
