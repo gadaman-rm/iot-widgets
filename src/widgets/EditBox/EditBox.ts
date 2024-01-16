@@ -1,4 +1,5 @@
 import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
+import { randomId } from "../../math/helper"
 import html from './EditBox.html?raw'
 import { BmidResizeListener } from "./listeners/BmidResizeListener"
 import { BrResizeListener } from "./listeners/BrResizeListener"
@@ -27,7 +28,7 @@ export class EditBox extends BaseSvg {
     rotateListener: RotateListener
     moveListener: MoveListener
     constructor(width = 100, height = 100, x = 0, y = 0, rotate = 0) {
-        super(template, width, height, x, y, rotate)
+        super(template, randomId(), width, height, x, y, rotate)
         this.controllerSize = 12
         this.bodyRef = this.root.querySelector('#body')!
         this.rotateRef = this.root.querySelector('#rotate')!

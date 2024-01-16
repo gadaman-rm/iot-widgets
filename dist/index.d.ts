@@ -9,7 +9,7 @@ declare const BASE_SVG_ATTRIBUTES: readonly ["x", "y", "width", "height", "rotat
 declare class BaseSvg extends HTMLDivElement {
     #private;
     root: SVGSVGElement;
-    constructor(template: HTMLTemplateElement, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
+    constructor(template: HTMLTemplateElement, id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
     get transform(): {
         x: number;
         y: number;

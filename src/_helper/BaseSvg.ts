@@ -1,8 +1,11 @@
+import { randomId } from "../math/helper"
+
 export const BASE_SVG_ATTRIBUTES = ['x', 'y', 'width', 'height', 'rotate', 'scalex', 'scaley', 'origin'] as const
 export class BaseSvg extends HTMLDivElement {
     root: SVGSVGElement
     constructor(
         template: HTMLTemplateElement,
+        id = randomId(),
         width?: number,
         height?: number,
         x = 0,
@@ -27,6 +30,8 @@ export class BaseSvg extends HTMLDivElement {
         this.origin = originStr
         this.transform = { x, y, scaleX, scaleY, rotate }
 
+        this.id = id
+        this.setAttribute('id', id)
         if(this.width !== undefined) this.setAttribute('width', this.width.toString())
         if(this.height !== undefined) this.setAttribute('height', this.height.toString())
         if(x !== undefined) this.setAttribute('x', x.toString())

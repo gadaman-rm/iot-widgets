@@ -1,3 +1,5 @@
+import { V4Options } from 'uuid';
+
 export declare const absPoint: (point: Point) => Readonly<{
     x: number;
     y: number;
@@ -82,6 +84,8 @@ export declare const pxToVH: (px: number) => number;
 export declare const pxToVW: (px: number) => number;
 
 export declare const random: (min?: number, max?: number) => number;
+
+export declare const randomId: (<T extends ArrayLike<number>>(options: V4Options | null | undefined, buffer: T, offset?: number | undefined) => T) & ((options?: V4Options | undefined) => string);
 
 export declare const randomItem: <T>(list: T[]) => T;
 

@@ -1,4 +1,5 @@
 import { BASE_SVG_ATTRIBUTES, BaseSvg } from '../../_helper'
+import { randomId } from '../../math/helper'
 import html from './Slider.html?raw'
 
 const template = document.createElement('template')
@@ -8,7 +9,7 @@ const ATTRIBUTES = ['zero'] as const
 export class Slider extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
     constructor(width = 653, height = 66.68661572947046, x = 0, y = 0, rotate = 0) {
-        super(template, width, height, x, y, rotate)
+        super(template, randomId(), width, height, x, y, rotate)
     }
     attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string) {
         switch (attributeName) {
