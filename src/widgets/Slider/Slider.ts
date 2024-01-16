@@ -7,8 +7,8 @@ template.innerHTML = `${html}`
 const ATTRIBUTES = ['zero'] as const
 export class Slider extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
-    constructor() {
-        super(template, 653, 66.68661572947046)
+    constructor(width = 653, height = 66.68661572947046, x = 0, y = 0, rotate = 0) {
+        super(template, width, height, x, y, rotate)
     }
     attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string) {
         switch (attributeName) {

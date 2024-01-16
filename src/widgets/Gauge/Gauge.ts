@@ -7,8 +7,8 @@ template.innerHTML = `${html}`
 const ATTRIBUTES = ['zero'] as const
 export class Gauge extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
-    constructor() {
-        super(template, 212.42054748535156, 158.1199951171875)
+    constructor(width = 212.42054748535156, height = 158.1199951171875, x = 0, y = 0, rotate = 0) {
+        super(template, width, height, x, y, rotate)
     }
     attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string) {
         switch (attributeName) {

@@ -102,7 +102,7 @@ export declare class EditBox extends BaseSvg {
     brResizeListener: BrResizeListener;
     rotateListener: RotateListener;
     moveListener: MoveListener;
-    constructor();
+    constructor(width?: number, height?: number, x?: number, y?: number, rotate?: number);
     attributeUpdate(attributeName: typeof ATTRIBUTES_3[number], _oldValue: string, _newValue: string): void;
     render(): void;
     widthUpdate(oldWidth: number, newWidth: number): void;
@@ -112,7 +112,7 @@ export declare class EditBox extends BaseSvg {
 
 export declare class Gauge extends BaseSvg {
     static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
-    constructor();
+    constructor(width?: number, height?: number, x?: number, y?: number, rotate?: number);
     attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string): void;
 }
 
@@ -156,7 +156,7 @@ declare class RotateListener {
 
 export declare class Slider extends BaseSvg {
     static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
-    constructor();
+    constructor(width?: number, height?: number, x?: number, y?: number, rotate?: number);
     attributeUpdate(attributeName: typeof ATTRIBUTES_2[number], _oldValue: string, _newValue: string): void;
 }
 
