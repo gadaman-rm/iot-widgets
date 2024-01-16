@@ -406,7 +406,7 @@ class K {
         } = this.edListener.transform, a = d(i, n, this.edListener.width, this.edListener.height, h);
         let x = z(s, a.tr, a.tl);
         const j = d(i, n, this.edListener.width, x, h);
-        this.fixResizePosition(i, n, e, j), x > 10 && this.edListener.setAttribute("height", x.toString());
+        x > 10 && (this.fixResizePosition(i, n, e, j), this.edListener.setAttribute("height", x.toString()));
       }
     };
   }
@@ -438,7 +438,7 @@ class T {
         } = this.edListener.transform, a = d(i, n, this.edListener.width, this.edListener.height, h);
         let x = z(s, a.tl, a.bl), j = z(s, a.tr, a.tl);
         const y = d(i, n, x, j, h);
-        this.fixResizePosition(i, n, e, y), x > 10 && j > 10 && (this.edListener.setAttribute("width", x.toString()), this.edListener.setAttribute("height", j.toString()));
+        x > 10 && j > 10 && (this.fixResizePosition(i, n, e, y), this.edListener.setAttribute("width", x.toString()), this.edListener.setAttribute("height", j.toString()));
       }
     };
   }
@@ -496,7 +496,7 @@ class Z {
         } = this.edListener.transform, a = d(i, n, this.edListener.width, this.edListener.height, h);
         let x = z(s, a.tl, a.bl);
         const j = d(i, n, x, this.edListener.height, h);
-        this.fixResizePosition(i, n, e, j), x > 10 && this.edListener.setAttribute("width", x.toString());
+        x > 10 && (this.fixResizePosition(i, n, e, j), this.edListener.setAttribute("width", x.toString()));
       }
     };
   }

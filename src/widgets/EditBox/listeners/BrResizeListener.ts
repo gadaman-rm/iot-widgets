@@ -26,9 +26,9 @@ export class BrResizeListener {
                 let newWidth = distancePointFromLine(currentMouseCoord, box.tl, box.bl)
                 let newHeight = distancePointFromLine(currentMouseCoord, box.tr, box.tl)
                 const nBox = toTransformBox(x, y, newWidth, newHeight, rotate)
-                this.fixResizePosition(x, y, iBox, nBox)
-
+                
                 if (newWidth > 10 && newHeight > 10) {
+                    this.fixResizePosition(x, y, iBox, nBox)
                     this.edListener.setAttribute('width', newWidth.toString())
                     this.edListener.setAttribute('height', newHeight.toString())
                 }

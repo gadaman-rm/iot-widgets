@@ -25,9 +25,9 @@ export class BmidResizeListener {
                 const box = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
                 let newHeight = distancePointFromLine(currentMouseCoord, box.tr, box.tl)
                 const nBox = toTransformBox(x, y, this.edListener.width, newHeight, rotate)
-                this.fixResizePosition(x, y, iBox, nBox)
-
+                
                 if (newHeight > 10) {
+                    this.fixResizePosition(x, y, iBox, nBox)
                     this.edListener.setAttribute('height', newHeight.toString())
                 }
             }

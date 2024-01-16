@@ -24,10 +24,9 @@ export class RmidResizeListener {
                 const box = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
                 let newWidth = distancePointFromLine(currentMouseCoord, box.tl, box.bl)
                 const nBox = toTransformBox(x, y, newWidth, this.edListener.height, rotate)
-                this.fixResizePosition(x, y, iBox, nBox)
 
                 if (newWidth > 10) {
-
+                    this.fixResizePosition(x, y, iBox, nBox)
                     this.edListener.setAttribute('width', newWidth.toString())
                 }
             }
