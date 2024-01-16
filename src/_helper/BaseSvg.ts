@@ -23,8 +23,18 @@ export class BaseSvg extends HTMLDivElement {
         this.rotate = rotate
         this.scaleX = scaleX
         this.scaleY = scaleY
-        this.origin = origin ? origin : (this.width && this.height) ? `${this.width / 2} ${this.height / 2}` : '0 0'
+        const originStr = origin ? origin : (this.width && this.height) ? `${this.width / 2} ${this.height / 2}` : '0 0'
+        this.origin = originStr
         this.transform = { x, y, scaleX, scaleY, rotate }
+
+        if(this.width !== undefined) this.setAttribute('width', this.width.toString())
+        if(this.height !== undefined) this.setAttribute('height', this.height.toString())
+        if(x !== undefined) this.setAttribute('x', x.toString())
+        if(y !== undefined) this.setAttribute('y', y.toString())
+        if(rotate !== undefined) this.setAttribute('rotate', rotate.toString())
+        if(scaleX !== undefined) this.setAttribute('scaleX', scaleX.toString())
+        if(scaleY !== undefined) this.setAttribute('scaleY', scaleY.toString())
+        if(this.origin !== undefined) this.setAttribute('origin', originStr)
     }
 
     #parse_transform(transform: string) {
@@ -59,7 +69,9 @@ export class BaseSvg extends HTMLDivElement {
     public set rotate(rotate: number) { this.transform = { rotate: -rotate } }
     public get width(): number { return +this.root.getAttribute('width')! }
     public set width(width: number | undefined) {
-        if (width !== undefined) this.root.setAttribute('width', width.toString())
+        if (width !== undefined) {
+            this.root.setAttribute('width', width.toString())
+        }
     }
     public get height(): number { return +this.root.getAttribute('height')! }
     public set height(height: number | undefined) {
