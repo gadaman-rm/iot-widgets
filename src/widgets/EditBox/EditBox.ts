@@ -27,8 +27,8 @@ export class EditBox extends BaseSvg {
     brResizeListener: BrResizeListener
     rotateListener: RotateListener
     moveListener: MoveListener
-    constructor(width = 100, height = 100, x = 0, y = 0, rotate = 0) {
-        super(template, randomId(), width, height, x, y, rotate)
+    constructor(width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
+        super(template, randomId(), width, height, x, y, rotate, origin, scaleX, scaleY)
         this.controllerSize = 12
         this.bodyRef = this.root.querySelector('#body')!
         this.rotateRef = this.root.querySelector('#rotate')!
