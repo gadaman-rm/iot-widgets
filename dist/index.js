@@ -11,8 +11,8 @@ var v = (h, r, t) => (O(h, r, "read from private field"), t ? t.call(h) : r.get(
 }, z = (h, r, t, e) => (O(h, r, "write to private field"), e ? e.call(h, t) : r.set(h, t), t);
 var y = (h, r, t) => (O(h, r, "access private method"), t);
 import "./preact.module-PZ3PIv-r.js";
-import { b as m } from "./helper-UFx9kGlF.js";
-import { v as f, s as u, r as Y, p as g, h as G } from "./geometry-jWzxdqIR.js";
+import { b as G } from "./helper-UFx9kGlF.js";
+import { v as f, s as u, r as Y, p as g, h as m } from "./geometry-jWzxdqIR.js";
 import { DragListener as I } from "./event.js";
 const J = `<div>
     <slot class="class-one" name="title1"></slot>
@@ -32,7 +32,7 @@ customElements.define("my-component", $, {
 const E = ["id", "x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
 var M, R, W;
 class F extends HTMLDivElement {
-  constructor(t, e = m(), i, n, A = 0, s = 0, o = 0, d, a = 1, x = 1) {
+  constructor(t, e = G(), i, n, A = 0, s = 0, o = 0, d, a = 1, x = 1) {
     super();
     p(this, R);
     c(this, "root");
@@ -301,8 +301,8 @@ const j = (h) => h != null, _ = `<svg viewBox="0 0 212.42054748535156 158.119995
 P.innerHTML = `${_}`;
 const tt = ["zero"];
 class X extends F {
-  constructor(r = m(), t = 212.42054748535156, e = 158.1199951171875, i = 0, n = 0, A = 0, s, o = 1, d = 1) {
-    super(P, r, t, e, i, n, A, s, o, d);
+  constructor(r = G(), t = 212.42054748535156, e = 158.1199951171875, i = 0, n = 0, A = 0, s, o = 1, d = 1) {
+    super(P, r, t, e, i, n, A, s, o, d), this.setAttribute("is", "my-gauge");
   }
   attributeUpdate(r, t, e) {
   }
@@ -385,8 +385,8 @@ const et = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.6866157294704
 K.innerHTML = `${et}`;
 const it = ["zero"];
 class T extends F {
-  constructor(r = m(), t = 653, e = 66.68661572947046, i = 0, n = 0, A = 0, s, o = 1, d = 1) {
-    super(K, r, t, e, i, n, A, s, o, d);
+  constructor(r = G(), t = 653, e = 66.68661572947046, i = 0, n = 0, A = 0, s, o = 1, d = 1) {
+    super(K, r, t, e, i, n, A, s, o, d), this.setAttribute("is", "my-slider");
   }
   attributeUpdate(r, t, e) {
   }
@@ -429,7 +429,7 @@ class st {
           y: s,
           rotate: o
         } = this.edListener.transform, d = f(A, s, this.edListener.width, this.edListener.height, o);
-        let a = G(n, d.tr, d.tl);
+        let a = m(n, d.tr, d.tl);
         const x = f(A, s, this.edListener.width, a, o);
         a > 10 && (this.fixResizePosition(A, s, i, x), this.edListener.setAttribute("height", a.toString()), this.edListener.editId && document.getElementById(this.edListener.editId).setAttribute("height", a.toString()));
       }
@@ -467,7 +467,7 @@ class rt {
           y: s,
           rotate: o
         } = this.edListener.transform, d = f(A, s, this.edListener.width, this.edListener.height, o);
-        let a = G(n, d.tl, d.bl), x = G(n, d.tr, d.tl);
+        let a = m(n, d.tl, d.bl), x = m(n, d.tr, d.tl);
         const l = f(A, s, a, x, o);
         if (a > 10 && x > 10 && (this.fixResizePosition(A, s, i, l), this.edListener.setAttribute("width", a.toString()), this.edListener.setAttribute("height", x.toString()), this.edListener.editId)) {
           const b = document.getElementById(this.edListener.editId);
@@ -537,7 +537,7 @@ class ot {
           y: s,
           rotate: o
         } = this.edListener.transform, d = f(A, s, this.edListener.width, this.edListener.height, o);
-        let a = G(n, d.tl, d.bl);
+        let a = m(n, d.tl, d.bl);
         const x = f(A, s, a, this.edListener.height, o);
         a > 10 && (this.fixResizePosition(A, s, i, x), this.edListener.setAttribute("width", a.toString()), this.edListener.editId && document.getElementById(this.edListener.editId).setAttribute("width", a.toString()));
       }
@@ -577,7 +577,7 @@ Q.innerHTML = `${At}`;
 const ct = ["edit-id"];
 var L;
 class Z extends F {
-  constructor(t, e = m(), i = 100, n = 100, A = 0, s = 0, o = 0, d, a = 1, x = 1) {
+  constructor(t, e = G(), i = 100, n = 100, A = 0, s = 0, o = 0, d, a = 1, x = 1) {
     super(Q, e, i, n, A, s, o, d, a, x);
     p(this, L, void 0);
     c(this, "controllerSize");
@@ -596,7 +596,7 @@ class Z extends F {
     c(this, "rotateListener");
     c(this, "moveListener");
     c(this, "isResizeByListener");
-    if (this.isResizeByListener = !1, this.controllerSize = 12, this.bodyRef = this.root.querySelector("#body"), this.rotateRef = this.root.querySelector("#rotate"), this.tlResizeRef = this.root.querySelector("#tl-resize"), this.lmidResizeRef = this.root.querySelector("#lmid-resize"), this.blResizeRef = this.root.querySelector("#bl-resize"), this.bmidResizeRef = this.root.querySelector("#bmid-resize"), this.brResizeRef = this.root.querySelector("#br-resize"), this.rmidResizeRef = this.root.querySelector("#rmid-resize"), this.tmidResizeRef = this.root.querySelector("#tmid-resize"), this.moveListener = new nt(this.bodyRef, this), this.rotateListener = new ht(this.rotateRef, this), this.rmidResizeListener = new ot(this.rmidResizeRef, this), this.bmidResizeListener = new st(this.bmidResizeRef, this), this.brResizeListener = new rt(this.brResizeRef, this), t) {
+    if (this.setAttribute("is", "my-editbox"), this.isResizeByListener = !1, this.controllerSize = 12, this.bodyRef = this.root.querySelector("#body"), this.rotateRef = this.root.querySelector("#rotate"), this.tlResizeRef = this.root.querySelector("#tl-resize"), this.lmidResizeRef = this.root.querySelector("#lmid-resize"), this.blResizeRef = this.root.querySelector("#bl-resize"), this.bmidResizeRef = this.root.querySelector("#bmid-resize"), this.brResizeRef = this.root.querySelector("#br-resize"), this.rmidResizeRef = this.root.querySelector("#rmid-resize"), this.tmidResizeRef = this.root.querySelector("#tmid-resize"), this.moveListener = new nt(this.bodyRef, this), this.rotateListener = new ht(this.rotateRef, this), this.rmidResizeListener = new ot(this.rmidResizeRef, this), this.bmidResizeListener = new st(this.bmidResizeRef, this), this.brResizeListener = new rt(this.brResizeRef, this), t) {
       z(this, L, t), this.setAttribute("edit-id", t);
       const l = document.getElementById(t);
       if (!l)

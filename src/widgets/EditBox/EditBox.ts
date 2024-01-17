@@ -31,6 +31,7 @@ export class EditBox extends BaseSvg {
     isResizeByListener: boolean
     constructor(editId: string | undefined | null, id = randomId(), width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
         super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
+        this.setAttribute('is', "my-editbox")
         this.isResizeByListener = false
         this.controllerSize = 12
         this.bodyRef = this.root.querySelector('#body')!
