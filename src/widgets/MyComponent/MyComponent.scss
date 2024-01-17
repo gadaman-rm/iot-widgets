@@ -9,3 +9,22 @@
         color: cornflowerblue;
     }
 }
+
+:host {
+    display: block;
+    background-color: yellow ;
+}
+
+:host-context(main){
+    background-color: red !important;
+}
+
+::slotted([slot="title1"]){
+    font-style: italic;
+    display: inline;
+}
+
+// this style is for usage of part out side of this component
+// ::part(description) {
+//     color: red;
+// }

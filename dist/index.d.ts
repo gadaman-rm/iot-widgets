@@ -140,7 +140,19 @@ declare class MoveListener {
 }
 
 export declare class MyComponent extends HTMLDivElement {
+    #private;
+    static get observedAttributes(): string[];
+    ageRef: HTMLDivElement;
     constructor();
+    get age(): string;
+    set age(age: string);
+    attributeChangedCallback(attrName: string, oldValue: string, newValue: string): void;
+    get onT1Click(): string;
+    set onT1Click(fn: (e: MouseEvent) => void);
+    initHandler(): void;
+    handleT1Click: (e: MouseEvent) => void;
+    connectedCallback(): void;
+    disconnectedCallback(): void;
 }
 
 declare interface Point {
