@@ -1,73 +1,80 @@
-var w = Object.defineProperty;
-var H = (c, s, t) => s in c ? w(c, s, { enumerable: !0, configurable: !0, writable: !0, value: t }) : c[s] = t;
-var h = (c, s, t) => (H(c, typeof s != "symbol" ? s + "" : s, t), t), D = (c, s, t) => {
-  if (!s.has(c))
+var V = Object.defineProperty;
+var k = (h, r, t) => r in h ? V(h, r, { enumerable: !0, configurable: !0, writable: !0, value: t }) : h[r] = t;
+var c = (h, r, t) => (k(h, typeof r != "symbol" ? r + "" : r, t), t), O = (h, r, t) => {
+  if (!r.has(h))
     throw TypeError("Cannot " + t);
 };
-var Y = (c, s, t) => {
-  if (s.has(c))
+var v = (h, r, t) => (O(h, r, "read from private field"), t ? t.call(h) : r.get(h)), p = (h, r, t) => {
+  if (r.has(h))
     throw TypeError("Cannot add the same private member more than once");
-  s instanceof WeakSet ? s.add(c) : s.set(c, t);
-};
-var p = (c, s, t) => (D(c, s, "access private method"), t);
+  r instanceof WeakSet ? r.add(h) : r.set(h, t);
+}, z = (h, r, t, e) => (O(h, r, "write to private field"), e ? e.call(h, t) : r.set(h, t), t);
+var y = (h, r, t) => (O(h, r, "access private method"), t);
 import "./preact.module-PZ3PIv-r.js";
-import { b as L } from "./helper-UFx9kGlF.js";
-import { DragListener as M } from "./event.js";
-import { v as f, p as l, h as u, s as j, r as b } from "./matrix-T0Pr0xQM.js";
-const U = `<div>
+import { b as m } from "./helper-UFx9kGlF.js";
+import { v as f, s as u, r as Y, p as g, h as G } from "./geometry-jWzxdqIR.js";
+import { DragListener as I } from "./event.js";
+const J = `<div>
     <slot class="class-one" name="title1"></slot>
     <span><slot class="class-two" name="title2"></slot></span>
-</div>`, C = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", O = document.createElement("template");
-O.innerHTML = `<style>${C}</style>${U}`;
-class B extends HTMLDivElement {
+</div>`, q = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}", N = document.createElement("template");
+N.innerHTML = `<style>${q}</style>${J}`;
+class $ extends HTMLDivElement {
   constructor() {
     super(), this.attachShadow({
       mode: "open"
-    }), this.shadowRoot.appendChild(O.content.cloneNode(!0));
+    }), this.shadowRoot.appendChild(N.content.cloneNode(!0));
   }
 }
-customElements.define("my-component", B, {
+customElements.define("my-component", $, {
   extends: "div"
 });
-const G = ["x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
-var g, R;
-class I extends HTMLDivElement {
-  constructor(t, A = L(), e, r, i = 0, n = 0, o = 0, a, d = 1, x = 1) {
+const E = ["id", "x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
+var M, R, W;
+class F extends HTMLDivElement {
+  constructor(t, e = m(), i, n, A = 0, s = 0, o = 0, d, a = 1, x = 1) {
     super();
-    Y(this, g);
-    h(this, "root");
+    p(this, R);
+    c(this, "root");
+    p(this, M, void 0);
     this.attachShadow({
       mode: "open"
-    }), this.shadowRoot.appendChild(t.content.cloneNode(!0)), this.root = this.shadowRoot.querySelector("svg"), this.width = e, this.height = r, this.x = i, this.y = n, this.rotate = o, this.scaleX = d, this.scaleY = x;
-    const z = a || (this.width && this.height ? `${this.width / 2} ${this.height / 2}` : "0 0");
-    this.origin = z, this.transform = {
-      x: i,
-      y: n,
-      scaleX: d,
+    }), this.shadowRoot.appendChild(t.content.cloneNode(!0)), this.root = this.shadowRoot.querySelector("svg"), this.width = i, this.height = n, this.x = A, this.y = s, this.rotate = o, this.scaleX = a, this.scaleY = x;
+    const l = d || (this.width && this.height ? `${this.width / 2} ${this.height / 2}` : "0 0");
+    this.origin = l, this.transform = {
+      x: A,
+      y: s,
+      scaleX: a,
       scaleY: x,
       rotate: o
-    }, this.id = A, this.setAttribute("id", A), this.width !== void 0 && this.setAttribute("width", this.width.toString()), this.height !== void 0 && this.setAttribute("height", this.height.toString()), i !== void 0 && this.setAttribute("x", i.toString()), n !== void 0 && this.setAttribute("y", n.toString()), o !== void 0 && this.setAttribute("rotate", o.toString()), d !== void 0 && this.setAttribute("scaleX", d.toString()), x !== void 0 && this.setAttribute("scaleY", x.toString()), this.origin !== void 0 && this.setAttribute("origin", z);
+    }, z(this, M, e), this.setAttribute("id", e), this.width !== void 0 && this.setAttribute("width", this.width.toString()), this.height !== void 0 && this.setAttribute("height", this.height.toString()), A !== void 0 && this.setAttribute("x", A.toString()), s !== void 0 && this.setAttribute("y", s.toString()), o !== void 0 && this.setAttribute("rotate", o.toString()), a !== void 0 && this.setAttribute("scaleX", a.toString()), x !== void 0 && this.setAttribute("scaleY", x.toString()), this.origin !== void 0 && this.setAttribute("origin", l);
   }
   get transform() {
-    return p(this, g, R).call(this, this.root.getAttribute("transform"));
+    return y(this, R, W).call(this, this.root.getAttribute("transform"));
   }
   set transform(t) {
-    const A = {
-      ...p(this, g, R).call(this, this.root.getAttribute("transform")),
+    const e = {
+      ...y(this, R, W).call(this, this.root.getAttribute("transform")),
       ...t
     };
-    this.root.setAttribute("transform", `translate(${A.x},${A.y}) rotate(${A.rotate}) scale(${A.scaleX},${A.scaleY})`);
+    this.root.setAttribute("transform", `translate(${e.x},${e.y}) rotate(${e.rotate}) scale(${e.scaleX},${e.scaleY})`);
+  }
+  get id() {
+    return v(this, M);
+  }
+  set id(t) {
+    z(this, M, t);
   }
   get x() {
     return this.transform.x;
-  }
-  get y() {
-    return this.transform.y;
   }
   set x(t) {
     this.transform = {
       x: t
     };
+  }
+  get y() {
+    return this.transform.y;
   }
   set y(t) {
     this.transform = {
@@ -102,11 +109,11 @@ class I extends HTMLDivElement {
     t !== void 0 && this.root.setAttribute("height", t.toString());
   }
   get origin() {
-    var r, i;
-    const t = (i = (r = this.root.getAttribute("transform-origin")) == null ? void 0 : r.trim()) == null ? void 0 : i.split(" "), A = +t[0], e = +t[1];
+    var n, A;
+    const t = (A = (n = this.root.getAttribute("transform-origin")) == null ? void 0 : n.trim()) == null ? void 0 : A.split(" "), e = +t[0], i = +t[1];
     return {
-      x: A,
-      y: e
+      x: e,
+      y: i
     };
   }
   set origin(t) {
@@ -114,38 +121,49 @@ class I extends HTMLDivElement {
   }
   setOriginCenter() {
     if (this.width !== void 0 && this.height !== void 0) {
-      const t = `${this.width / 2} ${this.height / 2}`, A = this.root.getAttribute("transform-origin");
-      this.originUpdate(A, t);
+      const t = `${this.width / 2} ${this.height / 2}`;
+      this.setAttribute("origin", t);
     }
   }
-  attributeChangedCallback(t, A, e) {
+  fixResizePosition(t, e, i, n) {
+    const {
+      x: A,
+      y: s,
+      rotate: o
+    } = this.transform, d = f(A, s, t, i, o), a = f(A, s, e, n, o), x = u(a.tl, d.tl), l = Y(u(g(A, s), x));
+    !isNaN(l.x) && !isNaN(l.y) && (this.setAttribute("x", l.x.toString()), this.setAttribute("y", l.y.toString()));
+  }
+  attributeChangedCallback(t, e, i) {
     switch (t) {
+      case "id":
+        this.idUpdate(e, i);
+        break;
       case "x":
-        this.xUpdate(+A, +e);
+        this.xUpdate(+e, +i);
         break;
       case "y":
-        this.yUpdate(+A, +e);
+        this.yUpdate(+e, +i);
         break;
       case "width":
-        this.widthUpdate(+A, +e);
+        this.widthUpdate(+e, +i);
         break;
       case "height":
-        this.heightUpdate(+A, +e);
+        this.heightUpdate(+e, +i);
         break;
       case "rotate":
-        this.rotateUpdate(+A, +e);
+        this.rotateUpdate(+e, +i);
         break;
       case "scalex":
-        this.scaleXUpdate(+A, +e);
+        this.scaleXUpdate(+e, +i);
         break;
       case "scaley":
-        this.scaleYUpdate(+A, +e);
+        this.scaleYUpdate(+e, +i);
         break;
       case "origin":
-        this.originUpdate(A, e);
+        this.originUpdate(e, i);
         break;
       default:
-        this.attributeUpdate(t, A, e);
+        this.attributeUpdate(t, e, i);
     }
   }
   connectedCallback() {
@@ -154,52 +172,55 @@ class I extends HTMLDivElement {
   disconnectedCallback() {
     this.unmount();
   }
-  xUpdate(t, A) {
-    this.x = A;
+  idUpdate(t, e) {
+    this.id = e;
   }
-  yUpdate(t, A) {
-    this.y = A;
+  xUpdate(t, e) {
+    this.x = e;
   }
-  widthUpdate(t, A) {
-    this.width = A, this.setOriginCenter();
+  yUpdate(t, e) {
+    this.y = e;
   }
-  heightUpdate(t, A) {
-    this.height = A, this.setOriginCenter();
+  widthUpdate(t, e) {
+    this.width = e, this.setOriginCenter(), this.fixResizePosition(t, e, this.height, this.height);
   }
-  rotateUpdate(t, A) {
-    this.rotate = A;
+  heightUpdate(t, e) {
+    this.height = e, this.setOriginCenter(), this.fixResizePosition(this.width, this.width, t, e);
   }
-  scaleXUpdate(t, A) {
-    this.scaleX = A;
+  rotateUpdate(t, e) {
+    this.rotate = e;
   }
-  scaleYUpdate(t, A) {
-    this.scaleY = A;
+  scaleXUpdate(t, e) {
+    this.scaleX = e;
   }
-  originUpdate(t, A) {
-    this.origin = A;
+  scaleYUpdate(t, e) {
+    this.scaleY = e;
   }
-  attributeUpdate(t, A, e) {
+  originUpdate(t, e) {
+    this.origin = e;
+  }
+  attributeUpdate(t, e, i) {
   }
   mount() {
   }
   unmount() {
   }
 }
-g = new WeakSet(), R = function(t) {
-  let A = 0, e = 0, r = 1, i = 1, n = 0;
+M = new WeakMap(), R = new WeakSet(), W = function(t) {
+  let e = 0, i = 0, n = 1, A = 1, s = 0;
   if (t) {
-    const o = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(t), a = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(t);
-    n = +/rotate\(\s*([^\s,)]+)/.exec(t)[1], A = +o[1], e = +o[2], r = +a[1], i = +a[2];
+    const o = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(t), d = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(t);
+    s = +/rotate\(\s*([^\s,)]+)/.exec(t)[1], e = +o[1], i = +o[2], n = +d[1], A = +d[2];
   }
   return {
-    x: A,
-    y: e,
-    scaleX: r,
-    scaleY: i,
-    rotate: n
+    x: e,
+    y: i,
+    scaleX: n,
+    scaleY: A,
+    rotate: s
   };
 };
-const S = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
+const j = (h) => h != null, _ = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
     preserveAspectRatio="none" style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="a" x1="27.44" x2="167.21" y1="48.56" y2="48.56" gradientUnits="userSpaceOnUse">
@@ -276,21 +297,21 @@ const S = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" h
             </text>
         </g>
     </g>
-</svg>`, v = document.createElement("template");
-v.innerHTML = `${S}`;
-const N = ["zero"];
-class m extends I {
-  constructor(s = 212.42054748535156, t = 158.1199951171875, A = 0, e = 0, r = 0, i, n = 1, o = 1) {
-    super(v, L(), s, t, A, e, r, i, n, o);
+</svg>`, P = document.createElement("template");
+P.innerHTML = `${_}`;
+const tt = ["zero"];
+class X extends F {
+  constructor(r = m(), t = 212.42054748535156, e = 158.1199951171875, i = 0, n = 0, A = 0, s, o = 1, d = 1) {
+    super(P, r, t, e, i, n, A, s, o, d);
   }
-  attributeUpdate(s, t, A) {
+  attributeUpdate(r, t, e) {
   }
 }
-h(m, "observedAttributes", [...G, ...N]);
-customElements.define("my-gauge", m, {
+c(X, "observedAttributes", [...E, ...tt]);
+customElements.define("my-gauge", X, {
   extends: "div"
 });
-const P = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
+const et = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
     style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="linear-gradient" x1="2" x2="412.89" y1="21.18" y2="21.18" gradientUnits="userSpaceOnUse">
@@ -360,21 +381,21 @@ const P = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046
                 class="cls-2"></path>
         </g>
     </g>
-</svg>`, W = document.createElement("template");
-W.innerHTML = `${P}`;
-const X = ["zero"];
-class F extends I {
-  constructor(s = 653, t = 66.68661572947046, A = 0, e = 0, r = 0, i, n = 1, o = 1) {
-    super(W, L(), s, t, A, e, r, i, n, o);
+</svg>`, K = document.createElement("template");
+K.innerHTML = `${et}`;
+const it = ["zero"];
+class T extends F {
+  constructor(r = m(), t = 653, e = 66.68661572947046, i = 0, n = 0, A = 0, s, o = 1, d = 1) {
+    super(K, r, t, e, i, n, A, s, o, d);
   }
-  attributeUpdate(s, t, A) {
+  attributeUpdate(r, t, e) {
   }
 }
-h(F, "observedAttributes", [...G, ...X]);
-customElements.define("my-slider", F, {
+c(T, "observedAttributes", [...E, ...it]);
+customElements.define("my-slider", T, {
   extends: "div"
 });
-const K = `<svg overflow="visible" preserveAspectRatio="xMidYMid"
+const At = `<svg overflow="visible" preserveAspectRatio="xMidYMid"
     style="user-select: none; position: absolute;">
     <rect id="body" stroke-width="5" stroke="red" stroke-dashoffset="0" fill="#fff"
         fill-opacity="0" stroke-dasharray="12, 8" />
@@ -389,89 +410,107 @@ const K = `<svg overflow="visible" preserveAspectRatio="xMidYMid"
         <rect id="tmid-resize" />
     </g>
 </svg>`;
-class T {
-  constructor(s, t) {
-    h(this, "dragListener");
-    h(this, "edListener");
-    this.dragListener = new M(s), this.edListener = t, this.dragListener.onDragStart = (A, e) => {
+class st {
+  constructor(r, t) {
+    c(this, "dragListener");
+    c(this, "edListener");
+    this.dragListener = new I(r), this.edListener = t, this.dragListener.onDragStart = (e, i) => {
+      this.edListener.isResizeByListener = !0;
       const {
-        x: r,
-        y: i,
-        rotate: n
-      } = this.edListener.transform, o = f(r, i, this.edListener.width, this.edListener.height, n);
-      e(o);
-    }, this.dragListener.onDragMove = (A, e) => {
-      if (e) {
-        const r = l(A.clientX, A.clientY), {
-          x: i,
-          y: n,
+        x: n,
+        y: A,
+        rotate: s
+      } = this.edListener.transform, o = f(n, A, this.edListener.width, this.edListener.height, s);
+      i(o);
+    }, this.dragListener.onDragMove = (e, i) => {
+      if (i) {
+        const n = g(e.clientX, e.clientY), {
+          x: A,
+          y: s,
           rotate: o
-        } = this.edListener.transform, a = f(i, n, this.edListener.width, this.edListener.height, o);
-        let d = u(r, a.tr, a.tl);
-        const x = f(i, n, this.edListener.width, d, o);
-        d > 10 && (this.fixResizePosition(i, n, e, x), this.edListener.setAttribute("height", d.toString()));
+        } = this.edListener.transform, d = f(A, s, this.edListener.width, this.edListener.height, o);
+        let a = G(n, d.tr, d.tl);
+        const x = f(A, s, this.edListener.width, a, o);
+        a > 10 && (this.fixResizePosition(A, s, i, x), this.edListener.setAttribute("height", a.toString()), this.edListener.editId && document.getElementById(this.edListener.editId).setAttribute("height", a.toString()));
       }
+    }, this.dragListener.onDragEnd = () => {
+      this.edListener.isResizeByListener = !1;
     };
   }
-  fixResizePosition(s, t, A, e) {
-    const r = j(e.tl, A.tl), i = b(j(l(s, t), r));
-    this.edListener.setAttribute("x", i.x.toString()), this.edListener.setAttribute("y", i.y.toString());
+  fixResizePosition(r, t, e, i) {
+    const n = u(i.tl, e.tl), A = Y(u(g(r, t), n));
+    if (this.edListener.setAttribute("x", A.x.toString()), this.edListener.setAttribute("y", A.y.toString()), this.edListener.editId) {
+      const s = document.getElementById(this.edListener.editId);
+      s.setAttribute("x", r.toString()), s.setAttribute("y", t.toString());
+    }
   }
   removeListener() {
     this.dragListener.removeEvent();
   }
 }
-class Q {
-  constructor(s, t) {
-    h(this, "dragListener");
-    h(this, "edListener");
-    this.dragListener = new M(s), this.edListener = t, this.dragListener.onDragStart = (A, e) => {
+class rt {
+  constructor(r, t) {
+    c(this, "dragListener");
+    c(this, "edListener");
+    this.dragListener = new I(r), this.edListener = t, this.dragListener.onDragStart = (e, i) => {
+      this.edListener.isResizeByListener = !0;
       const {
-        x: r,
-        y: i,
-        rotate: n
-      } = this.edListener.transform, o = f(r, i, this.edListener.width, this.edListener.height, n);
-      e(o);
-    }, this.dragListener.onDragMove = (A, e) => {
-      if (e) {
-        const r = l(A.clientX, A.clientY), {
-          x: i,
-          y: n,
+        x: n,
+        y: A,
+        rotate: s
+      } = this.edListener.transform, o = f(n, A, this.edListener.width, this.edListener.height, s);
+      i(o);
+    }, this.dragListener.onDragMove = (e, i) => {
+      if (i) {
+        const n = g(e.clientX, e.clientY), {
+          x: A,
+          y: s,
           rotate: o
-        } = this.edListener.transform, a = f(i, n, this.edListener.width, this.edListener.height, o);
-        let d = u(r, a.tl, a.bl), x = u(r, a.tr, a.tl);
-        const z = f(i, n, d, x, o);
-        d > 10 && x > 10 && (this.fixResizePosition(i, n, e, z), this.edListener.setAttribute("width", d.toString()), this.edListener.setAttribute("height", x.toString()));
+        } = this.edListener.transform, d = f(A, s, this.edListener.width, this.edListener.height, o);
+        let a = G(n, d.tl, d.bl), x = G(n, d.tr, d.tl);
+        const l = f(A, s, a, x, o);
+        if (a > 10 && x > 10 && (this.fixResizePosition(A, s, i, l), this.edListener.setAttribute("width", a.toString()), this.edListener.setAttribute("height", x.toString()), this.edListener.editId)) {
+          const b = document.getElementById(this.edListener.editId);
+          b.setAttribute("width", a.toString()), b.setAttribute("height", x.toString());
+        }
       }
+    }, this.dragListener.onDragEnd = () => {
+      this.edListener.isResizeByListener = !1;
     };
   }
-  fixResizePosition(s, t, A, e) {
-    const r = j(e.tl, A.tl), i = b(j(l(s, t), r));
-    this.edListener.setAttribute("x", i.x.toString()), this.edListener.setAttribute("y", i.y.toString());
+  fixResizePosition(r, t, e, i) {
+    const n = u(i.tl, e.tl), A = Y(u(g(r, t), n));
+    if (this.edListener.setAttribute("x", A.x.toString()), this.edListener.setAttribute("y", A.y.toString()), this.edListener.editId) {
+      const s = document.getElementById(this.edListener.editId);
+      s.setAttribute("x", r.toString()), s.setAttribute("y", t.toString());
+    }
   }
   removeListener() {
     this.dragListener.removeEvent();
   }
 }
-class Z {
-  constructor(s, t) {
-    h(this, "dragListener");
-    h(this, "edListener");
-    this.dragListener = new M(s), this.edListener = t, this.dragListener.onDragStart = (A, e) => {
+class nt {
+  constructor(r, t) {
+    c(this, "dragListener");
+    c(this, "edListener");
+    this.dragListener = new I(r), this.edListener = t, this.dragListener.onDragStart = (e, i) => {
       const {
-        x: r,
-        y: i
+        x: n,
+        y: A
       } = this.edListener.transform;
-      e({
-        x: r,
-        y: i,
-        clientX: A.clientX,
-        clientY: A.clientY
+      i({
+        x: n,
+        y: A,
+        clientX: e.clientX,
+        clientY: e.clientY
       });
-    }, this.dragListener.onDragMove = (A, e) => {
-      if (e) {
-        const r = l(e.clientX, e.clientY), i = l(A.clientX, A.clientY), n = r.x - e.x, o = r.y - e.y, a = i.x - n, d = i.y - o;
-        this.edListener.setAttribute("x", a.toString()), this.edListener.setAttribute("y", d.toString());
+    }, this.dragListener.onDragMove = (e, i) => {
+      if (i) {
+        const n = g(i.clientX, i.clientY), A = g(e.clientX, e.clientY), s = n.x - i.x, o = n.y - i.y, d = A.x - s, a = A.y - o;
+        if (this.edListener.setAttribute("x", d.toString()), this.edListener.setAttribute("y", a.toString()), this.edListener.editId) {
+          const x = document.getElementById(this.edListener.editId);
+          x.setAttribute("x", d.toString()), x.setAttribute("y", a.toString());
+        }
       }
     };
   }
@@ -479,100 +518,131 @@ class Z {
     this.dragListener.removeEvent();
   }
 }
-class V {
-  constructor(s, t) {
-    h(this, "dragListener");
-    h(this, "edListener");
-    this.dragListener = new M(s), this.edListener = t, this.dragListener.onDragStart = (A, e) => {
+class ot {
+  constructor(r, t) {
+    c(this, "dragListener");
+    c(this, "edListener");
+    this.dragListener = new I(r), this.edListener = t, this.dragListener.onDragStart = (e, i) => {
+      this.edListener.isResizeByListener = !0;
       const {
-        x: r,
-        y: i,
-        rotate: n
-      } = this.edListener.transform, o = f(r, i, this.edListener.width, this.edListener.height, n);
-      e(o);
-    }, this.dragListener.onDragMove = (A, e) => {
-      if (e) {
-        const r = l(A.clientX, A.clientY), {
-          x: i,
-          y: n,
+        x: n,
+        y: A,
+        rotate: s
+      } = this.edListener.transform, o = f(n, A, this.edListener.width, this.edListener.height, s);
+      i(o);
+    }, this.dragListener.onDragMove = (e, i) => {
+      if (i) {
+        const n = g(e.clientX, e.clientY), {
+          x: A,
+          y: s,
           rotate: o
-        } = this.edListener.transform, a = f(i, n, this.edListener.width, this.edListener.height, o);
-        let d = u(r, a.tl, a.bl);
-        const x = f(i, n, d, this.edListener.height, o);
-        d > 10 && (this.fixResizePosition(i, n, e, x), this.edListener.setAttribute("width", d.toString()));
+        } = this.edListener.transform, d = f(A, s, this.edListener.width, this.edListener.height, o);
+        let a = G(n, d.tl, d.bl);
+        const x = f(A, s, a, this.edListener.height, o);
+        a > 10 && (this.fixResizePosition(A, s, i, x), this.edListener.setAttribute("width", a.toString()), this.edListener.editId && document.getElementById(this.edListener.editId).setAttribute("width", a.toString()));
       }
+    }, this.dragListener.onDragEnd = () => {
+      this.edListener.isResizeByListener = !1;
     };
   }
-  fixResizePosition(s, t, A, e) {
-    const r = j(e.tl, A.tl), i = b(j(l(s, t), r));
-    this.edListener.setAttribute("x", i.x.toString()), this.edListener.setAttribute("y", i.y.toString());
+  fixResizePosition(r, t, e, i) {
+    const n = u(i.tl, e.tl), A = Y(u(g(r, t), n));
+    if (this.edListener.setAttribute("x", A.x.toString()), this.edListener.setAttribute("y", A.y.toString()), this.edListener.editId) {
+      const s = document.getElementById(this.edListener.editId);
+      s.setAttribute("x", r.toString()), s.setAttribute("y", t.toString());
+    }
   }
   removeListener() {
     this.dragListener.removeEvent();
   }
 }
-class k {
-  constructor(s, t) {
-    h(this, "dragListener");
-    h(this, "edListener");
-    this.dragListener = new M(s), this.edListener = t, this.dragListener.onDragMove = (A) => {
-      const e = l(A.clientX, A.clientY), {
-        x: r,
-        y: i
-      } = this.edListener.transform, n = l(r + this.edListener.width / 2, i + this.edListener.height / 2), o = Math.atan2(e.y - n.y, e.x - n.x) * (180 / Math.PI), a = Math.atan2(i - n.y, r + this.edListener.width - n.x) * (180 / Math.PI), d = Math.floor((o - a) * -1);
-      this.edListener.setAttribute("rotate", d.toString());
+class ht {
+  constructor(r, t) {
+    c(this, "dragListener");
+    c(this, "edListener");
+    this.dragListener = new I(r), this.edListener = t, this.dragListener.onDragMove = (e) => {
+      const i = g(e.clientX, e.clientY), {
+        x: n,
+        y: A
+      } = this.edListener.transform, s = g(n + this.edListener.width / 2, A + this.edListener.height / 2), o = Math.atan2(i.y - s.y, i.x - s.x) * (180 / Math.PI), d = Math.atan2(A - s.y, n + this.edListener.width - s.x) * (180 / Math.PI), a = Math.floor((o - d) * -1);
+      this.edListener.setAttribute("rotate", a.toString()), this.edListener.editId && document.getElementById(this.edListener.editId).setAttribute("rotate", a.toString());
     };
   }
   removeListener() {
     this.dragListener.removeEvent();
   }
 }
-const y = document.createElement("template");
-y.innerHTML = `${K}`;
-const J = ["zero"];
-class E extends I {
-  constructor(t = 100, A = 100, e = 0, r = 0, i = 0, n, o = 1, a = 1) {
-    super(y, L(), t, A, e, r, i, n, o, a);
-    h(this, "controllerSize");
-    h(this, "bodyRef");
-    h(this, "rotateRef");
-    h(this, "tlResizeRef");
-    h(this, "lmidResizeRef");
-    h(this, "blResizeRef");
-    h(this, "bmidResizeRef");
-    h(this, "brResizeRef");
-    h(this, "rmidResizeRef");
-    h(this, "tmidResizeRef");
-    h(this, "rmidResizeListener");
-    h(this, "bmidResizeListener");
-    h(this, "brResizeListener");
-    h(this, "rotateListener");
-    h(this, "moveListener");
-    this.controllerSize = 12, this.bodyRef = this.root.querySelector("#body"), this.rotateRef = this.root.querySelector("#rotate"), this.tlResizeRef = this.root.querySelector("#tl-resize"), this.lmidResizeRef = this.root.querySelector("#lmid-resize"), this.blResizeRef = this.root.querySelector("#bl-resize"), this.bmidResizeRef = this.root.querySelector("#bmid-resize"), this.brResizeRef = this.root.querySelector("#br-resize"), this.rmidResizeRef = this.root.querySelector("#rmid-resize"), this.tmidResizeRef = this.root.querySelector("#tmid-resize"), this.moveListener = new Z(this.bodyRef, this), this.rotateListener = new k(this.rotateRef, this), this.rmidResizeListener = new V(this.rmidResizeRef, this), this.bmidResizeListener = new T(this.bmidResizeRef, this), this.brResizeListener = new Q(this.brResizeRef, this), this.render();
+const Q = document.createElement("template");
+Q.innerHTML = `${At}`;
+const ct = ["edit-id"];
+var L;
+class Z extends F {
+  constructor(t, e = m(), i = 100, n = 100, A = 0, s = 0, o = 0, d, a = 1, x = 1) {
+    super(Q, e, i, n, A, s, o, d, a, x);
+    p(this, L, void 0);
+    c(this, "controllerSize");
+    c(this, "bodyRef");
+    c(this, "rotateRef");
+    c(this, "tlResizeRef");
+    c(this, "lmidResizeRef");
+    c(this, "blResizeRef");
+    c(this, "bmidResizeRef");
+    c(this, "brResizeRef");
+    c(this, "rmidResizeRef");
+    c(this, "tmidResizeRef");
+    c(this, "rmidResizeListener");
+    c(this, "bmidResizeListener");
+    c(this, "brResizeListener");
+    c(this, "rotateListener");
+    c(this, "moveListener");
+    c(this, "isResizeByListener");
+    if (this.isResizeByListener = !1, this.controllerSize = 12, this.bodyRef = this.root.querySelector("#body"), this.rotateRef = this.root.querySelector("#rotate"), this.tlResizeRef = this.root.querySelector("#tl-resize"), this.lmidResizeRef = this.root.querySelector("#lmid-resize"), this.blResizeRef = this.root.querySelector("#bl-resize"), this.bmidResizeRef = this.root.querySelector("#bmid-resize"), this.brResizeRef = this.root.querySelector("#br-resize"), this.rmidResizeRef = this.root.querySelector("#rmid-resize"), this.tmidResizeRef = this.root.querySelector("#tmid-resize"), this.moveListener = new nt(this.bodyRef, this), this.rotateListener = new ht(this.rotateRef, this), this.rmidResizeListener = new ot(this.rmidResizeRef, this), this.bmidResizeListener = new st(this.bmidResizeRef, this), this.brResizeListener = new rt(this.brResizeRef, this), t) {
+      z(this, L, t), this.setAttribute("edit-id", t);
+      const l = document.getElementById(t);
+      if (!l)
+        throw new Error("Can't find widget!");
+      const b = l.getAttribute("width"), w = l.getAttribute("height"), H = l.getAttribute("x"), B = l.getAttribute("y"), D = l.getAttribute("rotate"), U = l.getAttribute("scaleX"), S = l.getAttribute("scaleY"), C = l.getAttribute("origin");
+      j(b) && j(w) && j(H) && j(B) && j(D) && j(U) && j(S) && j(C) && (this.setAttribute("width", b), this.setAttribute("height", w), this.setAttribute("x", H), this.setAttribute("y", B), this.setAttribute("rotate", D), this.setAttribute("scaleX", U), this.setAttribute("scaleY", S), this.setAttribute("origin", C), this.render());
+    } else
+      this.render();
   }
-  attributeUpdate(t, A, e) {
+  get editId() {
+    return v(this, L);
+  }
+  set editId(t) {
+    z(this, L, t);
+  }
+  attributeUpdate(t, e, i) {
+    switch (t) {
+      case "edit-id":
+        this.editIdUpdate(e, i);
+        break;
+    }
   }
   render() {
     this.bodyRef && this.tlResizeRef && this.lmidResizeRef && this.blResizeRef && this.rotateRef && this.bmidResizeRef && this.brResizeRef && this.rmidResizeRef && this.tmidResizeRef && (this.bodyRef.setAttribute("width", this.width.toString()), this.bodyRef.setAttribute("height", this.height.toString()), this.rotateRef = this.root.querySelector("#rotate"), this.rotateRef.setAttribute("cx", this.width.toString()), this.rotateRef.setAttribute("r", (this.controllerSize / 2).toString()), this.bmidResizeRef.setAttribute("width", this.controllerSize.toString()), this.bmidResizeRef.setAttribute("height", this.controllerSize.toString()), this.bmidResizeRef.setAttribute("x", (this.width * 0.5 - this.controllerSize / 2).toString()), this.bmidResizeRef.setAttribute("y", (this.height - this.controllerSize / 2).toString()), this.brResizeRef.setAttribute("width", this.controllerSize.toString()), this.brResizeRef.setAttribute("height", this.controllerSize.toString()), this.brResizeRef.setAttribute("x", (this.width - this.controllerSize / 2).toString()), this.brResizeRef.setAttribute("y", (this.height - this.controllerSize / 2).toString()), this.rmidResizeRef.setAttribute("width", this.controllerSize.toString()), this.rmidResizeRef.setAttribute("height", this.controllerSize.toString()), this.rmidResizeRef.setAttribute("x", (this.width - this.controllerSize / 2).toString()), this.rmidResizeRef.setAttribute("y", (this.height * 0.5 - this.controllerSize / 2).toString()));
   }
-  widthUpdate(t, A) {
-    this.width = A, this.setOriginCenter(), this.render();
+  editIdUpdate(t, e) {
+    z(this, L, e);
   }
-  heightUpdate(t, A) {
-    this.height = A, this.setOriginCenter(), this.render();
+  widthUpdate(t, e) {
+    this.width = e, this.setOriginCenter(), this.isResizeByListener || this.fixResizePosition(t, e, this.height, this.height), this.render();
+  }
+  heightUpdate(t, e) {
+    this.height = e, this.setOriginCenter(), this.isResizeByListener || this.fixResizePosition(this.width, this.width, t, e), this.render();
   }
   unmount() {
     this.moveListener.removeListener(), this.rotateListener.removeListener(), this.rmidResizeListener.removeListener(), this.bmidResizeListener.removeListener(), this.brResizeListener.removeListener();
   }
 }
-h(E, "observedAttributes", [...G, ...J]);
-customElements.define("my-editbox", E, {
+L = new WeakMap(), c(Z, "observedAttributes", [...E, ...ct]);
+customElements.define("my-editbox", Z, {
   extends: "div"
 });
 export {
-  E as EditBox,
-  m as Gauge,
-  B as MyComponent,
-  F as Slider
+  Z as EditBox,
+  X as Gauge,
+  $ as MyComponent,
+  T as Slider
 };
 //# sourceMappingURL=index.js.map

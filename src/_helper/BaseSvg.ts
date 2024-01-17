@@ -1,8 +1,11 @@
 import { randomId } from "../math/helper"
+import { toTransformBox } from "../math/matrix"
+import { point, roundPoint, subPoint } from "../math/point"
 
-export const BASE_SVG_ATTRIBUTES = ['x', 'y', 'width', 'height', 'rotate', 'scalex', 'scaley', 'origin'] as const
+export const BASE_SVG_ATTRIBUTES = ['id', 'x', 'y', 'width', 'height', 'rotate', 'scalex', 'scaley', 'origin'] as const
 export class BaseSvg extends HTMLDivElement {
     root: SVGSVGElement
+    #id: string
     constructor(
         template: HTMLTemplateElement,
         id = randomId(),
@@ -29,8 +32,7 @@ export class BaseSvg extends HTMLDivElement {
         const originStr = origin ? origin : (this.width && this.height) ? `${this.width / 2} ${this.height / 2}` : '0 0'
         this.origin = originStr
         this.transform = { x, y, scaleX, scaleY, rotate }
-
-        this.id = id
+        this.#id = id
         this.setAttribute('id', id)
         if(this.width !== undefined) this.setAttribute('width', this.width.toString())
         if(this.height !== undefined) this.setAttribute('height', this.height.toString())
@@ -64,9 +66,11 @@ export class BaseSvg extends HTMLDivElement {
         this.root.setAttribute('transform',
             `translate(${t.x},${t.y}) rotate(${t.rotate}) scale(${t.scaleX},${t.scaleY})`)
     }
+    public get id() { return this.#id }
+    public set id(id: string) { this.#id = id }
     public get x(): number { return this.transform.x! }
-    public get y(): number { return this.transform.y! }
     public set x(x: number) { this.transform = { x } }
+    public get y(): number { return this.transform.y! }
     public set y(y: number) { this.transform = { y } }
 
     public set scaleX(scaleX: number) { this.transform = { scaleX } }
@@ -93,13 +97,26 @@ export class BaseSvg extends HTMLDivElement {
     setOriginCenter() {
         if (this.width !== undefined && this.height !== undefined) {
             const newOrigin = `${this.width / 2} ${this.height / 2}`
-            const oldOrigin = this.root.getAttribute('transform-origin')!
-            this.originUpdate(oldOrigin, newOrigin)
+            this.setAttribute('origin', newOrigin)
+        }
+    }
+
+    fixResizePosition(oldWidth: number, newWidth: number, oldHeight: number, newHeight: number) {
+        const { x, y, rotate } = this.transform
+        const iBox = toTransformBox(x, y, oldWidth, oldHeight, rotate)
+        const nBox = toTransformBox(x, y, newWidth, newHeight, rotate)
+        const dTl = subPoint(nBox.tl, iBox.tl)
+        const newPosition = roundPoint(subPoint(point(x, y), dTl))
+        if(!isNaN(newPosition.x) && !isNaN(newPosition.y)) {
+            this.setAttribute('x', newPosition.x.toString())
+            this.setAttribute('y', newPosition.y.toString())
         }
     }
 
     attributeChangedCallback(attributeName: typeof BASE_SVG_ATTRIBUTES[number], oldValue: string, newValue: string) {
         switch (attributeName) {
+            case 'id': this.idUpdate(oldValue, newValue)
+            break
             case 'x': this.xUpdate(+oldValue, +newValue)
                 break
             case 'y': this.yUpdate(+oldValue, +newValue)
@@ -122,15 +139,18 @@ export class BaseSvg extends HTMLDivElement {
     connectedCallback() { this.mount() }
     disconnectedCallback() { this.unmount() }
 
+    idUpdate(oldId: string, newId: string) { this.id = newId }
     xUpdate(oldX: number, newX: number) { this.x = newX }
     yUpdate(oldY: number, newY: number) { this.y = newY }
     widthUpdate(oldWidth: number, newWidth: number) {
         this.width = newWidth
         this.setOriginCenter()
+        this.fixResizePosition(oldWidth, newWidth, this.height, this.height)
     }
     heightUpdate(oldHeight: number, newHeight: number) {
         this.height = newHeight
         this.setOriginCenter()
+        this.fixResizePosition(this.width, this.width, oldHeight, newHeight)
     }
     rotateUpdate(oldRotate: number, newRotate: number) { this.rotate = newRotate }
     scaleXUpdate(oldScaleX: number, newScaleX: number) { this.scaleX = newScaleX }

@@ -1,13 +1,3 @@
-const j = (t, s) => {
-  const a = (s.y - t.y) / (s.x - t.x), e = t.y - a * t.x;
-  return {
-    m: a,
-    c: e
-  };
-}, z = (t, s) => Math.abs(s.c - t.c) / Math.sqrt(1 + t.m ** 2), R = (t, s, a) => ((a.x - s.x) * (s.y - t.y) - (a.y - s.y) * (s.x - t.x)) / Math.sqrt((a.x - s.x) ** 2 + (a.y - s.y) ** 2), l = (t, s) => ({
-  x: (s.x + t.m * (s.y - t.c)) / (1 + t.m ** 2),
-  y: (t.m * s.x - s.y + 2 * t.c) / (1 + t.m ** 2)
-});
 function b() {
   return arguments.length === 1 ? Array.isArray(arguments[0]) ? Object.freeze({
     x: arguments[0][0],
@@ -20,27 +10,27 @@ function b() {
     y: arguments[1]
   });
 }
-const A = (t) => Object.freeze({
+const j = (t) => Object.freeze({
   x: Math.abs(t.x) < 1e-10 ? 0 : t.x,
   y: Math.abs(t.y) < 1e-10 ? 0 : t.y
 });
 var m = /* @__PURE__ */ ((t) => (t[t.LESS = -1] = "LESS", t[t.EQUAL = 0] = "EQUAL", t[t.MORE = 1] = "MORE", t[t.OTHER = 2] = "OTHER", t))(m || {});
-const P = (t, s) => t.x === s.x && t.y === s.y ? 0 : t.x > s.x && t.y > s.y ? 1 : t.x < s.x && t.y < s.y ? -1 : 2, w = (t) => Object.freeze({
+const z = (t, s) => t.x === s.x && t.y === s.y ? 0 : t.x > s.x && t.y > s.y ? 1 : t.x < s.x && t.y < s.y ? -1 : 2, R = (t) => Object.freeze({
   x: Math.round(t.x),
   y: Math.round(t.y)
-}), I = (t) => Object.freeze({
+}), l = (t) => Object.freeze({
   x: Math.abs(t.x),
   y: Math.abs(t.y)
-}), L = (t, s) => Object.freeze({
+}), A = (t, s) => Object.freeze({
   x: t.x + s.x,
   y: t.y + s.y
-}), q = (t, s) => Object.freeze({
+}), P = (t, s) => Object.freeze({
   x: t.x - s.x,
   y: t.y - s.y
-}), T = (t, s) => Object.freeze({
+}), w = (t, s) => Object.freeze({
   x: t.x / s.x,
   y: t.y / s.y
-}), _ = (t, s) => Object.freeze({
+}), I = (t, s) => Object.freeze({
   x: t.x * s.x,
   y: t.y * s.y
 }), O = (t, s, a) => {
@@ -57,10 +47,10 @@ const P = (t, s) => t.x === s.x && t.y === s.y ? 0 : t.x > s.x && t.y > s.y ? 1 
  *
  * @copyright 2010 Alexis Deveria, 2010 Jeff Schiller
  */
-const u = 1e-14, E = (t, s) => b(t.a * s.x + t.c * s.y + t.e, t.b * s.x + t.d * s.y + t.f), B = (t, s) => s.map((a) => E(t, a)), v = (t) => t.a === 1 && t.b === 0 && t.c === 0 && t.d === 1 && t.e === 0 && t.f === 0, N = (...t) => {
+const u = 1e-14, E = (t, s) => b(t.a * s.x + t.c * s.y + t.e, t.b * s.x + t.d * s.y + t.f), L = (t, s) => s.map((a) => E(t, a)), v = (t) => t.a === 1 && t.b === 0 && t.c === 0 && t.d === 1 && t.e === 0 && t.f === 0, q = (...t) => {
   const s = t.reduceRight((a, e) => e.multiply(a));
   return Math.abs(s.a) < u && (s.a = 0), Math.abs(s.b) < u && (s.b = 0), Math.abs(s.c) < u && (s.c = 0), Math.abs(s.d) < u && (s.d = 0), Math.abs(s.e) < u && (s.e = 0), Math.abs(s.f) < u && (s.f = 0), s;
-}, S = (t) => {
+}, T = (t) => {
   if (!t)
     return !1;
   let s = t.numberOfItems;
@@ -70,14 +60,14 @@ const u = 1e-14, E = (t, s) => b(t.a * s.x + t.c * s.y + t.e, t.b * s.x + t.d * 
       return !0;
   }
   return !1;
-}, V = (t, s, a, e) => {
+}, _ = (t, s, a, e) => {
   const x = Math.PI / 4, n = a - t, y = e - s, o = Math.atan2(y, n), r = Math.sqrt(n * n + y * y), c = Math.round(o / x) * x;
   return {
     x: t + r * Math.cos(c),
     y: s + r * Math.sin(c),
     a: c
   };
-}, Z = (t, s) => s.x < t.x + t.width && s.x + s.width > t.x && s.y < t.y + t.height && s.y + s.height > t.y, H = (t, s, a, e, x = 0, n) => {
+}, B = (t, s) => s.x < t.x + t.width && s.x + s.width > t.x && s.y < t.y + t.height && s.y + s.height > t.y, N = (t, s, a, e, x = 0, n) => {
   const y = n || b(t + a / 2, s + e / 2), [o, r, c, h] = g([b(t, s), b(t + a, s), b(t + a, s + e), b(t, s + e)], -x, y), f = Math.min(o.x, r.x, h.x, c.x), M = Math.max(o.x, r.x, h.x, c.x), i = Math.min(o.y, r.y, h.y, c.y), d = Math.max(o.y, r.y, h.y, c.y);
   return {
     tl: o,
@@ -91,7 +81,7 @@ const u = 1e-14, E = (t, s) => b(t.a * s.x + t.c * s.y + t.e, t.b * s.x + t.d * 
       height: d - i
     }
   };
-}, Q = (t, s = "*") => {
+}, S = (t, s = "*") => {
   const a = t, e = a.getBBox(), x = [e.x, e.y, e.width, e.height].join(" "), n = e.x, y = e.y, o = e.width, r = e.height, c = a.width.baseVal.value, h = a.height.baseVal.value, f = a.x.baseVal.value, M = a.y.baseVal.value;
   return {
     x: f,
@@ -104,32 +94,41 @@ const u = 1e-14, E = (t, s) => b(t.a * s.x + t.c * s.y + t.e, t.b * s.x + t.d * 
     vWidth: o,
     vHeight: r
   };
-};
+}, V = (t, s) => {
+  const a = (s.y - t.y) / (s.x - t.x), e = t.y - a * t.x;
+  return {
+    m: a,
+    c: e
+  };
+}, Z = (t, s) => Math.abs(s.c - t.c) / Math.sqrt(1 + t.m ** 2), H = (t, s, a) => ((a.x - s.x) * (s.y - t.y) - (a.y - s.y) * (s.x - t.x)) / Math.sqrt((a.x - s.x) ** 2 + (a.y - s.y) ** 2), Q = (t, s) => ({
+  x: (s.x + t.m * (s.y - t.c)) / (1 + t.m ** 2),
+  y: (t.m * s.x - s.y + 2 * t.c) / (1 + t.m ** 2)
+});
 export {
   m as C,
-  I as a,
-  L as b,
-  P as c,
-  T as d,
+  l as a,
+  A as b,
+  z as c,
+  w as d,
   O as e,
   g as f,
-  z as g,
-  R as h,
-  l as i,
-  B as j,
+  Z as g,
+  H as h,
+  Q as i,
+  L as j,
   v as k,
-  j as l,
-  _ as m,
-  N as n,
-  S as o,
+  V as l,
+  I as m,
+  q as n,
+  T as o,
   b as p,
-  V as q,
-  w as r,
-  q as s,
+  _ as q,
+  R as r,
+  P as s,
   E as t,
-  Z as u,
-  H as v,
-  Q as w,
-  A as z
+  B as u,
+  N as v,
+  S as w,
+  j as z
 };
-//# sourceMappingURL=matrix-T0Pr0xQM.js.map
+//# sourceMappingURL=geometry-jWzxdqIR.js.map

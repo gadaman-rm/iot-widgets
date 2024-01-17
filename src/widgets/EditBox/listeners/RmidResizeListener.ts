@@ -12,6 +12,7 @@ export class RmidResizeListener {
         this.edListener = editBoxListener
 
         this.dragListener.onDragStart = (_e, initFn) => {
+            this.edListener.isResizeByListener = true
             const { x, y, rotate } = this.edListener.transform
             const initTransformBox = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
             initFn(initTransformBox)
@@ -28,8 +29,17 @@ export class RmidResizeListener {
                 if (newWidth > 10) {
                     this.fixResizePosition(x, y, iBox, nBox)
                     this.edListener.setAttribute('width', newWidth.toString())
+
+                    if(this.edListener.editId) {
+                        const item = document.getElementById(this.edListener.editId)!
+                        item.setAttribute('width', newWidth.toString())
+                    }
                 }
             }
+        }
+
+        this.dragListener.onDragEnd = () => {
+            this.edListener.isResizeByListener = false
         }
     }
 
@@ -38,6 +48,11 @@ export class RmidResizeListener {
         const newPosition = roundPoint(subPoint(point(x, y), dTl))
         this.edListener.setAttribute('x', newPosition.x.toString())
         this.edListener.setAttribute('y', newPosition.y.toString())
+        if(this.edListener.editId) {
+            const item = document.getElementById(this.edListener.editId)!
+            item.setAttribute('x', x.toString())
+            item.setAttribute('y', y.toString())
+        }
     }
 
     removeListener() {

@@ -2,9 +2,9 @@ declare const ATTRIBUTES: readonly ["zero"];
 
 declare const ATTRIBUTES_2: readonly ["zero"];
 
-declare const ATTRIBUTES_3: readonly ["zero"];
+declare const ATTRIBUTES_3: readonly ["edit-id"];
 
-declare const BASE_SVG_ATTRIBUTES: readonly ["x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
+declare const BASE_SVG_ATTRIBUTES: readonly ["id", "x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
 
 declare class BaseSvg extends HTMLDivElement {
     #private;
@@ -24,9 +24,11 @@ declare class BaseSvg extends HTMLDivElement {
         scaleY?: number;
         rotate?: number;
     });
+    get id(): string;
+    set id(id: string);
     get x(): number;
-    get y(): number;
     set x(x: number);
+    get y(): number;
     set y(y: number);
     set scaleX(scaleX: number);
     set scaleY(scaleY: number);
@@ -41,9 +43,11 @@ declare class BaseSvg extends HTMLDivElement {
     };
     set origin(origin: string);
     setOriginCenter(): void;
+    fixResizePosition(oldWidth: number, newWidth: number, oldHeight: number, newHeight: number): void;
     attributeChangedCallback(attributeName: typeof BASE_SVG_ATTRIBUTES[number], oldValue: string, newValue: string): void;
     connectedCallback(): void;
     disconnectedCallback(): void;
+    idUpdate(oldId: string, newId: string): void;
     xUpdate(oldX: number, newX: number): void;
     yUpdate(oldY: number, newY: number): void;
     widthUpdate(oldWidth: number, newWidth: number): void;
@@ -86,7 +90,8 @@ declare class DragListener<Init = undefined> {
 }
 
 export declare class EditBox extends BaseSvg {
-    static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
+    #private;
+    static observedAttributes: ("x" | "y" | "width" | "height" | "id" | "rotate" | "scalex" | "scaley" | "origin" | "edit-id")[];
     controllerSize: number;
     bodyRef: SVGRectElement;
     rotateRef: SVGCircleElement;
@@ -102,17 +107,21 @@ export declare class EditBox extends BaseSvg {
     brResizeListener: BrResizeListener;
     rotateListener: RotateListener;
     moveListener: MoveListener;
-    constructor(width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
-    attributeUpdate(attributeName: typeof ATTRIBUTES_3[number], _oldValue: string, _newValue: string): void;
+    isResizeByListener: boolean;
+    constructor(editId: string | undefined | null, id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
+    get editId(): string | undefined;
+    set editId(editId: string);
+    attributeUpdate(attributeName: typeof ATTRIBUTES_3[number], oldValue: string, newValue: string): void;
     render(): void;
+    editIdUpdate(oldEditId: string, newEditId: string): void;
     widthUpdate(oldWidth: number, newWidth: number): void;
     heightUpdate(oldHeight: number, newHeight: number): void;
     unmount(): void;
 }
 
 export declare class Gauge extends BaseSvg {
-    static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
-    constructor(width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
+    static observedAttributes: ("x" | "y" | "width" | "height" | "id" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
+    constructor(id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
     attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string): void;
 }
 
@@ -155,8 +164,8 @@ declare class RotateListener {
 }
 
 export declare class Slider extends BaseSvg {
-    static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
-    constructor(width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
+    static observedAttributes: ("x" | "y" | "width" | "height" | "id" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
+    constructor(id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
     attributeUpdate(attributeName: typeof ATTRIBUTES_2[number], _oldValue: string, _newValue: string): void;
 }
 

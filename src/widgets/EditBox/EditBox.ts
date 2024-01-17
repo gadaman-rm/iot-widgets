@@ -1,4 +1,4 @@
-import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
+import { BASE_SVG_ATTRIBUTES, BaseSvg, isValue } from "../../_helper"
 import { randomId } from "../../math/helper"
 import html from './EditBox.html?raw'
 import { BmidResizeListener } from "./listeners/BmidResizeListener"
@@ -9,9 +9,10 @@ import { RotateListener } from "./listeners/RotateListener"
 
 const template = document.createElement('template')
 template.innerHTML = `${html}`
-const ATTRIBUTES = ['zero'] as const
+const ATTRIBUTES = ['edit-id'] as const
 export class EditBox extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
+    #editId?: string
     controllerSize: number
     bodyRef: SVGRectElement
     rotateRef: SVGCircleElement
@@ -27,8 +28,10 @@ export class EditBox extends BaseSvg {
     brResizeListener: BrResizeListener
     rotateListener: RotateListener
     moveListener: MoveListener
-    constructor(width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
-        super(template, randomId(), width, height, x, y, rotate, origin, scaleX, scaleY)
+    isResizeByListener: boolean
+    constructor(editId: string | undefined | null, id = randomId(), width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
+        super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
+        this.isResizeByListener = false
         this.controllerSize = 12
         this.bodyRef = this.root.querySelector('#body')!
         this.rotateRef = this.root.querySelector('#rotate')!
@@ -45,24 +48,56 @@ export class EditBox extends BaseSvg {
         this.rmidResizeListener = new RmidResizeListener(this.rmidResizeRef, this)
         this.bmidResizeListener = new BmidResizeListener(this.bmidResizeRef, this)
         this.brResizeListener = new BrResizeListener(this.brResizeRef, this)
-        this.render()
+
+        if (editId) {
+            this.#editId = editId
+            this.setAttribute('edit-id', editId)
+
+            const item = document.getElementById(editId)
+            if (!item) throw new Error("Can't find widget!")
+
+            const width = item.getAttribute('width')
+            const height = item.getAttribute('height')
+            const x = item.getAttribute('x')
+            const y = item.getAttribute('y')
+            const rotate = item.getAttribute('rotate')
+            const scaleX = item.getAttribute('scaleX')
+            const scaleY = item.getAttribute('scaleY')
+            const origin = item.getAttribute('origin')
+
+            if (isValue(width) && isValue(height) && isValue(x) &&
+                isValue(y) && isValue(rotate) && isValue(scaleX) &&
+                isValue(scaleY) && isValue(origin)
+            ) {
+                this.setAttribute('width', width!)
+                this.setAttribute('height', height!)
+                this.setAttribute('x', x!)
+                this.setAttribute('y', y!)
+                this.setAttribute('rotate', rotate!)
+                this.setAttribute('scaleX', scaleX!)
+                this.setAttribute('scaleY', scaleY!)
+                this.setAttribute('origin', origin!)
+                this.render()
+            }
+        } else {
+            this.render()
+        }
     }
-    attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string) {
+
+    public get editId(): string | undefined { return this.#editId }
+    public set editId(editId: string) { this.#editId = editId }
+
+    attributeUpdate(attributeName: typeof ATTRIBUTES[number], oldValue: string, newValue: string) {
         switch (attributeName) {
-            case 'zero':
+            case 'edit-id': this.editIdUpdate(oldValue, newValue)
                 break
         }
     }
+
     render() {
-        if (this.bodyRef &&
-            this.tlResizeRef &&
-            this.lmidResizeRef &&
-            this.blResizeRef &&
-            this.rotateRef &&
-            this.bmidResizeRef &&
-            this.brResizeRef &&
-            this.rmidResizeRef &&
-            this.tmidResizeRef
+        if (this.bodyRef && this.tlResizeRef && this.lmidResizeRef &&
+            this.blResizeRef && this.rotateRef && this.bmidResizeRef &&
+            this.brResizeRef && this.rmidResizeRef && this.tmidResizeRef
         ) {
             this.bodyRef.setAttribute('width', this.width.toString())
             this.bodyRef.setAttribute('height', this.height.toString())
@@ -107,16 +142,23 @@ export class EditBox extends BaseSvg {
             // this.tmidResizeRef.setAttribute('y', (-this.controllerSize / 2).toString())
         }
     }
+
+    editIdUpdate(oldEditId: string, newEditId: string) { this.#editId = newEditId }
     widthUpdate(oldWidth: number, newWidth: number): void {
         this.width = newWidth
         this.setOriginCenter()
+        if (!this.isResizeByListener)
+            this.fixResizePosition(oldWidth, newWidth, this.height, this.height)
         this.render()
     }
     heightUpdate(oldHeight: number, newHeight: number): void {
         this.height = newHeight
         this.setOriginCenter()
+        if (!this.isResizeByListener)
+            this.fixResizePosition(this.width, this.width, oldHeight, newHeight)
         this.render()
     }
+
     unmount() {
         this.moveListener.removeListener()
         this.rotateListener.removeListener()
