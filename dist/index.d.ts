@@ -2,8 +2,6 @@ declare const ATTRIBUTES: readonly ["zero"];
 
 declare const ATTRIBUTES_2: readonly ["zero"];
 
-declare const ATTRIBUTES_3: readonly ["edit-id"];
-
 declare const BASE_SVG_ATTRIBUTES: readonly ["id", "x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
 
 declare class BaseSvg extends HTMLDivElement {
@@ -30,13 +28,17 @@ declare class BaseSvg extends HTMLDivElement {
     set x(x: number);
     get y(): number;
     set y(y: number);
+    get scaleX(): number;
     set scaleX(scaleX: number);
+    get scaleY(): number;
     set scaleY(scaleY: number);
+    get rotate(): number;
     set rotate(rotate: number);
     get width(): number;
     set width(width: number | undefined);
     get height(): number;
     set height(height: number | undefined);
+    get originStr(): string;
     get origin(): {
         x: number;
         y: number;
@@ -91,7 +93,7 @@ declare class DragListener<Init = undefined> {
 
 export declare class EditBox extends BaseSvg {
     #private;
-    static observedAttributes: ("x" | "y" | "width" | "height" | "id" | "rotate" | "scalex" | "scaley" | "origin" | "edit-id")[];
+    static observedAttributes: ("x" | "y" | "width" | "height" | "id" | "rotate" | "scalex" | "scaley" | "origin")[];
     controllerSize: number;
     bodyRef: SVGRectElement;
     rotateRef: SVGCircleElement;
@@ -108,16 +110,28 @@ export declare class EditBox extends BaseSvg {
     rotateListener: RotateListener;
     moveListener: MoveListener;
     isResizeByListener: boolean;
-    constructor(editId: string | undefined | null, id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
-    get editId(): string | undefined;
-    set editId(editId: string);
-    attributeUpdate(attributeName: typeof ATTRIBUTES_3[number], oldValue: string, newValue: string): void;
+    constructor(id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
+    onEditEmit(e: Partial<EditEvent>): void;
+    get onEdit(): string;
+    set onEdit(fn: (e: EditEvent) => void);
+    initHandler(): void;
     render(): void;
-    editIdUpdate(oldEditId: string, newEditId: string): void;
     widthUpdate(oldWidth: number, newWidth: number): void;
     heightUpdate(oldHeight: number, newHeight: number): void;
     unmount(): void;
 }
+
+export declare type EditEvent = {
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+    rotate: number;
+    scaleX: number;
+    scaleY: number;
+    origin: Point;
+    originStr: string;
+};
 
 export declare class Gauge extends BaseSvg {
     static observedAttributes: ("x" | "y" | "width" | "height" | "id" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];

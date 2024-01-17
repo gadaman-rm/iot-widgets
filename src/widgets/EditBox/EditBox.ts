@@ -1,5 +1,6 @@
-import { BASE_SVG_ATTRIBUTES, BaseSvg, isValue } from "../../_helper"
+import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
 import { randomId } from "../../math/helper"
+import { Point } from "../../math/point"
 import html from './EditBox.html?raw'
 import { BmidResizeListener } from "./listeners/BmidResizeListener"
 import { BrResizeListener } from "./listeners/BrResizeListener"
@@ -9,10 +10,10 @@ import { RotateListener } from "./listeners/RotateListener"
 
 const template = document.createElement('template')
 template.innerHTML = `${html}`
-const ATTRIBUTES = ['edit-id'] as const
+const ATTRIBUTES = [] as const
+export type EditEvent = { width: number, height: number, x: number, y: number, rotate: number, scaleX: number, scaleY: number, origin: Point, originStr: string }
 export class EditBox extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
-    #editId?: string
     controllerSize: number
     bodyRef: SVGRectElement
     rotateRef: SVGCircleElement
@@ -29,7 +30,8 @@ export class EditBox extends BaseSvg {
     rotateListener: RotateListener
     moveListener: MoveListener
     isResizeByListener: boolean
-    constructor(editId: string | undefined | null, id = randomId(), width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
+    #onEdit?: (e: EditEvent) => void
+    constructor(id = randomId(), width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
         super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
         this.setAttribute('is', "my-editbox")
         this.isResizeByListener = false
@@ -49,51 +51,37 @@ export class EditBox extends BaseSvg {
         this.rmidResizeListener = new RmidResizeListener(this.rmidResizeRef, this)
         this.bmidResizeListener = new BmidResizeListener(this.bmidResizeRef, this)
         this.brResizeListener = new BrResizeListener(this.brResizeRef, this)
-
-        if (editId) {
-            this.#editId = editId
-            this.setAttribute('edit-id', editId)
-
-            const item = document.getElementById(editId)
-            if (!item) throw new Error("Can't find widget!")
-
-            const width = item.getAttribute('width')
-            const height = item.getAttribute('height')
-            const x = item.getAttribute('x')
-            const y = item.getAttribute('y')
-            const rotate = item.getAttribute('rotate')
-            const scaleX = item.getAttribute('scaleX')
-            const scaleY = item.getAttribute('scaleY')
-            const origin = item.getAttribute('origin')
-
-            if (isValue(width) && isValue(height) && isValue(x) &&
-                isValue(y) && isValue(rotate) && isValue(scaleX) &&
-                isValue(scaleY) && isValue(origin)
-            ) {
-                this.setAttribute('width', width!)
-                this.setAttribute('height', height!)
-                this.setAttribute('x', x!)
-                this.setAttribute('y', y!)
-                this.setAttribute('rotate', rotate!)
-                this.setAttribute('scaleX', scaleX!)
-                this.setAttribute('scaleY', scaleY!)
-                this.setAttribute('origin', origin!)
-                this.render()
-            }
-        } else {
-            this.render()
+        this.initHandler()
+        this.render()
+    }
+    onEditEmit(e: Partial<EditEvent>) {
+        const { x, y, rotate, scaleX, scaleY } = this.transform
+        if (this.#onEdit) {
+            this.#onEdit({
+                x: x,
+                y: y,
+                rotate: rotate,
+                scaleX: scaleX,
+                scaleY: scaleY,
+                width: this.width,
+                height: this.height,
+                origin: this.origin,
+                originStr: this.originStr,
+                ...e
+            })
         }
     }
-
-    public get editId(): string | undefined { return this.#editId }
-    public set editId(editId: string) { this.#editId = editId }
-
-    attributeUpdate(attributeName: typeof ATTRIBUTES[number], oldValue: string, newValue: string) {
-        switch (attributeName) {
-            case 'edit-id': this.editIdUpdate(oldValue, newValue)
-                break
-        }
+    public get onEdit(): string { return this.getAttribute('onedit')! }
+    public set onEdit(fn: (e: EditEvent) => void) { this.#onEdit = fn }
+    initHandler() {
+        if (this.onEdit && typeof window[this.onEdit as any] === 'function')
+            this.#onEdit = window[this.onEdit as any] as any
     }
+
+    // attributeUpdate(attributeName: typeof ATTRIBUTES[number], oldValue: string, newValue: string) {
+    //     switch (attributeName) {
+    //     }
+    // }
 
     render() {
         if (this.bodyRef && this.tlResizeRef && this.lmidResizeRef &&
@@ -144,7 +132,6 @@ export class EditBox extends BaseSvg {
         }
     }
 
-    editIdUpdate(oldEditId: string, newEditId: string) { this.#editId = newEditId }
     widthUpdate(oldWidth: number, newWidth: number): void {
         this.width = newWidth
         this.setOriginCenter()

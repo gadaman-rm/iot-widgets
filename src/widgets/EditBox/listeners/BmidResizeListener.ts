@@ -30,11 +30,7 @@ export class BmidResizeListener {
                 if (newHeight > 10) {
                     this.fixResizePosition(x, y, iBox, nBox)
                     this.edListener.setAttribute('height', newHeight.toString())
-
-                    if(this.edListener.editId) {
-                        const item = document.getElementById(this.edListener.editId)!
-                        item.setAttribute('height', newHeight.toString())
-                    }
+                    this.edListener.onEditEmit({ height: newHeight })
                 }
             }
         }
@@ -49,11 +45,7 @@ export class BmidResizeListener {
         const newPosition = roundPoint(subPoint(point(x, y), dTl))
         this.edListener.setAttribute('x', newPosition.x.toString())
         this.edListener.setAttribute('y', newPosition.y.toString())
-        if(this.edListener.editId) {
-            const item = document.getElementById(this.edListener.editId)!
-            item.setAttribute('x', x.toString())
-            item.setAttribute('y', y.toString())
-        }
+        this.edListener.onEditEmit({ x, y })
     }
 
     removeListener() {

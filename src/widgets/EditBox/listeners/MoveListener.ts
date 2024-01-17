@@ -34,12 +34,7 @@ export class MoveListener {
 
                 this.edListener.setAttribute('x', x.toString())
                 this.edListener.setAttribute('y', y.toString())
-
-                if(this.edListener.editId) {
-                    const item = document.getElementById(this.edListener.editId)!
-                    item.setAttribute('x', x.toString())
-                    item.setAttribute('y', y.toString())
-                }
+                this.edListener.onEditEmit({ x, y })
             }
         }
     }

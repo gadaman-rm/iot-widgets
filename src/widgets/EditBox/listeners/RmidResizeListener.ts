@@ -29,11 +29,7 @@ export class RmidResizeListener {
                 if (newWidth > 10) {
                     this.fixResizePosition(x, y, iBox, nBox)
                     this.edListener.setAttribute('width', newWidth.toString())
-
-                    if(this.edListener.editId) {
-                        const item = document.getElementById(this.edListener.editId)!
-                        item.setAttribute('width', newWidth.toString())
-                    }
+                    this.edListener.onEditEmit({ width: newWidth })
                 }
             }
         }
@@ -48,11 +44,7 @@ export class RmidResizeListener {
         const newPosition = roundPoint(subPoint(point(x, y), dTl))
         this.edListener.setAttribute('x', newPosition.x.toString())
         this.edListener.setAttribute('y', newPosition.y.toString())
-        if(this.edListener.editId) {
-            const item = document.getElementById(this.edListener.editId)!
-            item.setAttribute('x', x.toString())
-            item.setAttribute('y', y.toString())
-        }
+        this.edListener.onEditEmit({ x, y })
     }
 
     removeListener() {

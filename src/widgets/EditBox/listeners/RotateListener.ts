@@ -19,10 +19,7 @@ export class RotateListener {
                 const rotate = Math.floor((R - initR) * -1)
 
                 this.edListener.setAttribute('rotate', rotate.toString())
-                if(this.edListener.editId) {
-                    const item = document.getElementById(this.edListener.editId)!
-                    item.setAttribute('rotate', rotate.toString())
-                }
+                this.edListener.onEditEmit({ rotate })
         }
     }
 

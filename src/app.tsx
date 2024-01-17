@@ -1,19 +1,25 @@
 import { useEffect, useRef } from "preact/hooks"
 import "./widgets"
-import { MyComponent } from "./widgets"
-// import { EditBox, Gauge } from "./widgets"
+// import { MyComponent } from "./widgets"
+import { EditBox, Gauge } from "./widgets"
+import { randomId } from "./math/helper"
 
 export function App() {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (ref.current) {
-      // const gauge = new Gauge('zero', 200, 200, 200, 200, 45)
+      const gauge = new Gauge('zero', 200, 200, 200, 200, 45)
+      const { x, y, rotate } = gauge.transform
   
-      // ref.current.appendChild(gauge)
-      // const editBox = new EditBox('zero')
-      // ref.current.appendChild(editBox)
+      ref.current.appendChild(gauge)
+      const editBox = new EditBox(randomId(), gauge.width, gauge.height, x, y, -rotate)
+      editBox.onEdit = (e) => {
+        console.log(e)
+      }
+      ref.current.appendChild(editBox)
 
+      /*
       const myCom = new MyComponent()
       myCom.innerHTML = `
         <div slot="title1">Zero</div>
@@ -34,6 +40,7 @@ export function App() {
       </div>
       `
       ref.current.appendChild(div)
+      */
     }
   }, [ref])
 

@@ -72,9 +72,11 @@ export class BaseSvg extends HTMLDivElement {
     public set x(x: number) { this.transform = { x } }
     public get y(): number { return this.transform.y! }
     public set y(y: number) { this.transform = { y } }
-
+    public get scaleX() { return this.transform.scaleX}
     public set scaleX(scaleX: number) { this.transform = { scaleX } }
+    public get scaleY() { return this.transform.scaleY}
     public set scaleY(scaleY: number) { this.transform = { scaleY } }
+    public get rotate() { return -this.transform.rotate}
     public set rotate(rotate: number) { this.transform = { rotate: -rotate } }
     public get width(): number { return +this.root.getAttribute('width')! }
     public set width(width: number | undefined) {
@@ -86,6 +88,7 @@ export class BaseSvg extends HTMLDivElement {
     public set height(height: number | undefined) {
         if (height !== undefined) this.root.setAttribute('height', height.toString())
     }
+    public get originStr() { return this.root.getAttribute('transform-origin')! }
     public get origin(): { x: number, y: number } {
         const origin = this.root.getAttribute('transform-origin')?.trim()?.split(' ')!
         const x = +origin[0]
