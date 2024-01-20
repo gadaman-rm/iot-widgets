@@ -10,17 +10,16 @@ export function App() {
   useEffect(() => {
     if (ref.current) {
       const gauge = new Gauge('zero', 200, 200, 200, 200, 45)
-      const { x, y, rotate } = gauge.transform
   
       ref.current.appendChild(gauge)
-      const editBox = new EditBox(randomId(), gauge.width, gauge.height, x, y, -rotate)
+      const editBox = new EditBox(randomId(), gauge.width, gauge.height, gauge.x, gauge.y, gauge.rotate)
       editBox.onEdit = (e) => {
-        gauge.setAttribute('x', e.x.toString())
-        gauge.setAttribute('y', e.y.toString())
         gauge.setAttribute('width', e.width.toString())
         gauge.setAttribute('height', e.height.toString())
         gauge.setAttribute('rotate', e.rotate.toString())
         gauge.setAttribute('origin', e.originStr)
+        gauge.setAttribute('x', e.x.toString())
+        gauge.setAttribute('y', e.y.toString())
       }
       ref.current.appendChild(editBox)
 

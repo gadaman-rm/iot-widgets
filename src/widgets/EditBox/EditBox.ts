@@ -11,7 +11,18 @@ import { RotateListener } from "./listeners/RotateListener"
 const template = document.createElement('template')
 template.innerHTML = `${html}`
 const ATTRIBUTES = [] as const
-export type EditEvent = { width: number, height: number, x: number, y: number, rotate: number, scaleX: number, scaleY: number, origin: Point, originStr: string }
+export type EditEvent = {
+    type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate'
+    width: number
+    height: number
+    x: number
+    y: number
+    rotate: number
+    scaleX: number
+    scaleY: number
+    origin: Point
+    originStr: string
+}
 export class EditBox extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
     controllerSize: number
@@ -54,19 +65,20 @@ export class EditBox extends BaseSvg {
         this.initHandler()
         this.render()
     }
-    onEditEmit(e: Partial<EditEvent>) {
+    onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>) {
         const { x, y, rotate, scaleX, scaleY } = this.transform
         if (this.#onEdit) {
             this.#onEdit({
+                type,
+                width: this.width,
+                height: this.height,
                 x: x,
                 y: y,
                 rotate: -rotate,
                 scaleX: scaleX,
                 scaleY: scaleY,
-                width: this.width,
-                height: this.height,
-                origin: this.origin,
                 originStr: this.originStr,
+                origin: this.origin,
                 ...e
             })
         }

@@ -34,7 +34,7 @@ export class MoveListener {
 
                 this.edListener.setAttribute('x', x.toString())
                 this.edListener.setAttribute('y', y.toString())
-                this.edListener.onEditEmit({ x, y })
+                this.edListener.onEditEmit('move', { x, y })
             }
         }
     }

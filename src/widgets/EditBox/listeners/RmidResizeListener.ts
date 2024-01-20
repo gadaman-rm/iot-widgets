@@ -27,9 +27,11 @@ export class RmidResizeListener {
                 const nBox = toTransformBox(x, y, newWidth, this.edListener.height, rotate)
 
                 if (newWidth > 10) {
-                    this.fixResizePosition(x, y, iBox, nBox)
+                    const newPosition = this.fixResizePosition(x, y, iBox, nBox)
+                    this.edListener.setAttribute('x', newPosition.x.toString())
+                    this.edListener.setAttribute('y', newPosition.y.toString())
                     this.edListener.setAttribute('width', newWidth.toString())
-                    this.edListener.onEditEmit({ width: newWidth })
+                    this.edListener.onEditEmit('rmid-resize', { width: newWidth, x: newPosition.x, y: newPosition.y })
                 }
             }
         }
@@ -42,9 +44,7 @@ export class RmidResizeListener {
     fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox) {
         const dTl = subPoint(newTransformBox.tl, initTransformBox.tl)
         const newPosition = roundPoint(subPoint(point(x, y), dTl))
-        this.edListener.setAttribute('x', newPosition.x.toString())
-        this.edListener.setAttribute('y', newPosition.y.toString())
-        this.edListener.onEditEmit({ x, y })
+        return newPosition
     }
 
     removeListener() {

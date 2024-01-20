@@ -67,7 +67,10 @@ declare class BmidResizeListener {
     dragListener: DragListener<TransformedBox>;
     edListener: EditBox;
     constructor(svgElement: SVGRectElement, editBoxListener: EditBox);
-    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): void;
+    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): Readonly<{
+        x: number;
+        y: number;
+    }>;
     removeListener(): void;
 }
 
@@ -75,7 +78,10 @@ declare class BrResizeListener {
     dragListener: DragListener<TransformedBox>;
     edListener: EditBox;
     constructor(svgElement: SVGRectElement, editBoxListener: EditBox);
-    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): void;
+    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): Readonly<{
+        x: number;
+        y: number;
+    }>;
     removeListener(): void;
 }
 
@@ -111,7 +117,7 @@ export declare class EditBox extends BaseSvg {
     moveListener: MoveListener;
     isResizeByListener: boolean;
     constructor(id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
-    onEditEmit(e: Partial<EditEvent>): void;
+    onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>): void;
     get onEdit(): string;
     set onEdit(fn: (e: EditEvent) => void);
     initHandler(): void;
@@ -122,6 +128,7 @@ export declare class EditBox extends BaseSvg {
 }
 
 export declare type EditEvent = {
+    type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate';
     width: number;
     height: number;
     x: number;
@@ -178,7 +185,10 @@ declare class RmidResizeListener {
     dragListener: DragListener<TransformedBox>;
     edListener: EditBox;
     constructor(svgElement: SVGRectElement, editBoxListener: EditBox);
-    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): void;
+    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): Readonly<{
+        x: number;
+        y: number;
+    }>;
     removeListener(): void;
 }
 
