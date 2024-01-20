@@ -668,7 +668,7 @@ class S extends w {
     j(this, M) && j(this, M).call(this, {
       x: e,
       y: i,
-      rotate: r,
+      rotate: -r,
       scaleX: A,
       scaleY: n,
       width: this.width,

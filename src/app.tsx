@@ -15,7 +15,12 @@ export function App() {
       ref.current.appendChild(gauge)
       const editBox = new EditBox(randomId(), gauge.width, gauge.height, x, y, -rotate)
       editBox.onEdit = (e) => {
-        console.log(e)
+        gauge.setAttribute('x', e.x.toString())
+        gauge.setAttribute('y', e.y.toString())
+        gauge.setAttribute('width', e.width.toString())
+        gauge.setAttribute('height', e.height.toString())
+        gauge.setAttribute('rotate', e.rotate.toString())
+        gauge.setAttribute('origin', e.originStr)
       }
       ref.current.appendChild(editBox)
 

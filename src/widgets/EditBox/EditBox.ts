@@ -60,7 +60,7 @@ export class EditBox extends BaseSvg {
             this.#onEdit({
                 x: x,
                 y: y,
-                rotate: rotate,
+                rotate: -rotate,
                 scaleX: scaleX,
                 scaleY: scaleY,
                 width: this.width,
