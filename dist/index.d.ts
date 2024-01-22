@@ -117,10 +117,21 @@ export declare class EditBox extends BaseSvg {
     rotateListener: RotateListener;
     moveListener: MoveListener;
     isResizeByListener: boolean;
-    constructor(id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
+    constructor(id?: string, pan?: {
+        x: number;
+        y: number;
+    }, zoom?: number, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
+    mouseCoordInZoomAndPan: (e: MouseEvent) => {
+        x: number;
+        y: number;
+    };
     onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>): void;
     get onEdit(): string;
     set onEdit(fn: (e: EditEvent) => void);
+    get pan(): Point;
+    set pan(pan: Point);
+    get zoom(): number;
+    set zoom(zoom: number);
     initHandler(): void;
     render(): void;
     widthUpdate(oldWidth: number, newWidth: number): void;

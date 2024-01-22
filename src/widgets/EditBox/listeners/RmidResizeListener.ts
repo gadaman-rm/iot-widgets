@@ -20,7 +20,7 @@ export class RmidResizeListener {
 
         this.dragListener.onDragMove = (e, iBox) => {
             if (iBox) {
-                const currentMouseCoord = point(e.clientX, e.clientY)
+                const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
                 const { x, y, rotate } = this.edListener.transform
                 const box = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
                 let newWidth = distancePointFromLine(currentMouseCoord, box.tl, box.bl)

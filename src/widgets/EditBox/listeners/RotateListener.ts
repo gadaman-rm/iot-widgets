@@ -10,7 +10,7 @@ export class RotateListener {
         this.edListener = editBoxListener
 
         this.dragListener.onDragMove = (e) => {
-                const currentMouseCoord = point(e.clientX, e.clientY)
+                const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
                 const { x, y } = this.edListener.transform
 
                 const editBoxCenter = point(x + this.edListener.width / 2, y + this.edListener.height / 2)

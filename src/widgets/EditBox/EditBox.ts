@@ -26,6 +26,8 @@ export type EditEvent = {
 export class EditBox extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
     controllerSize: number
+    #pan: Point
+    #zoom: number
     bodyRef: SVGRectElement
     rotateRef: SVGCircleElement
     tlResizeRef: SVGRectElement
@@ -42,11 +44,13 @@ export class EditBox extends BaseSvg {
     moveListener: MoveListener
     isResizeByListener: boolean
     #onEdit?: (e: EditEvent) => void
-    constructor(id = randomId(), width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
+    constructor(id = randomId(), pan = {x: 0, y: 0}, zoom = 1, width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
         super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
         this.setAttribute('is', "my-editbox")
         this.isResizeByListener = false
         this.controllerSize = 12
+        this.#pan = pan
+        this.#zoom = zoom
         this.bodyRef = this.root.querySelector('#body')!
         this.rotateRef = this.root.querySelector('#rotate')!
         this.tlResizeRef = this.root.querySelector('#tl-resize')!
@@ -64,6 +68,13 @@ export class EditBox extends BaseSvg {
         this.brResizeListener = new BrResizeListener(this.brResizeRef, this)
         this.initHandler()
         this.render()
+    }
+    mouseCoordInZoomAndPan = (e: MouseEvent) => {
+        const { x, y } = this.pan
+        return {
+            x: (e.clientX - x) * 1 / this.zoom,
+            y: (e.clientY - y) * 1 / this.zoom,
+        }
     }
     onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>) {
         const { x, y, rotate, scaleX, scaleY } = this.transform
@@ -85,6 +96,10 @@ export class EditBox extends BaseSvg {
     }
     public get onEdit(): string { return this.getAttribute('onedit')! }
     public set onEdit(fn: (e: EditEvent) => void) { this.#onEdit = fn }
+    public get pan() { return this.#pan }
+    public set pan(pan: Point) { this.#pan = pan }
+    public get zoom() { return this.#zoom }
+    public set zoom(zoom : number) { this.#zoom = zoom }
     initHandler() {
         if (this.onEdit && typeof window[this.onEdit as any] === 'function')
             this.#onEdit = window[this.onEdit as any] as any
