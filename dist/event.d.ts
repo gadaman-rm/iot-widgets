@@ -22,10 +22,9 @@ export declare class KeyShortcatListener {
 
 export declare class PanListener<Init = undefined> {
     #private;
-    element: HTMLElement;
     active: boolean;
     init?: Init;
-    constructor(element: HTMLElement);
+    constructor();
     set onPanStart(onPanStart: (e: MouseEvent, initFn: (init: Init) => Init) => void);
     set onPanMove(onPanMove: (e: MouseEvent, init?: Init) => void);
     set onPanEnd(onPanEnd: (e: MouseEvent, init?: Init) => void);
