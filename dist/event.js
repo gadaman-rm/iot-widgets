@@ -1,49 +1,103 @@
-var f = Object.defineProperty;
-var g = (e, t, i) => t in e ? f(e, t, { enumerable: !0, configurable: !0, writable: !0, value: i }) : e[t] = i;
-var a = (e, t, i) => (g(e, typeof t != "symbol" ? t + "" : t, i), i), E = (e, t, i) => {
-  if (!t.has(e))
-    throw TypeError("Cannot " + i);
+var D = Object.defineProperty;
+var K = (i, e, s) => e in i ? D(i, e, { enumerable: !0, configurable: !0, writable: !0, value: s }) : i[e] = s;
+var o = (i, e, s) => (K(i, typeof e != "symbol" ? e + "" : e, s), s), P = (i, e, s) => {
+  if (!e.has(i))
+    throw TypeError("Cannot " + s);
 };
-var s = (e, t, i) => (E(e, t, "read from private field"), i ? i.call(e) : t.get(e)), n = (e, t, i) => {
-  if (t.has(e))
+var t = (i, e, s) => (P(i, e, "read from private field"), s ? s.call(i) : e.get(i)), n = (i, e, s) => {
+  if (e.has(i))
     throw TypeError("Cannot add the same private member more than once");
-  t instanceof WeakSet ? t.add(e) : t.set(e, i);
-}, c = (e, t, i, u) => (E(e, t, "write to private field"), u ? u.call(e, i) : t.set(e, i), i);
-var o, h, r, v, m, d;
-class D {
-  constructor(t) {
-    a(this, "element");
-    a(this, "active");
-    a(this, "init");
-    n(this, o, void 0);
-    n(this, h, void 0);
+  e instanceof WeakSet ? e.add(i) : e.set(i, s);
+}, h = (i, e, s, w) => (P(i, e, "write to private field"), w ? w.call(i, s) : e.set(i, s), s);
+import { D as M } from "./DragListener-cHBlx02M.js";
+var v, a, r, m, f, l, L, E;
+class b {
+  constructor(e) {
+    o(this, "element");
+    o(this, "active");
+    o(this, "init");
+    n(this, v, void 0);
+    n(this, a, void 0);
     n(this, r, void 0);
-    n(this, v, (t, i) => {
-      this.active = !0, this.init = i, s(this, o) && s(this, o).call(this, t, (u) => this.init = u);
+    n(this, m, void 0);
+    n(this, f, (e, s) => {
+      e.button === 1 && !this.active && (this.active = !0, this.init = s, t(this, v) && t(this, v).call(this, e, (w) => this.init = w));
     });
-    n(this, m, (t) => {
-      this.active && s(this, h) && s(this, h).call(this, t, this.init);
+    n(this, l, (e) => {
+      this.active && t(this, a) && t(this, a).call(this, e, this.init);
     });
-    n(this, d, (t) => {
-      this.active && (this.active = !1, s(this, r) && s(this, r).call(this, t, this.init));
+    n(this, L, (e) => {
+      e.button === 1 && this.active && (this.active = !1, t(this, r) && t(this, r).call(this, e, this.init));
     });
-    a(this, "removeEvent", () => {
-      this.element.removeEventListener("mousedown", s(this, v)), document.removeEventListener("mousemove", s(this, m)), document.removeEventListener("mouseup", s(this, d));
+    n(this, E, (e) => {
+      e.button === 1 && this.active && (this.active = !1, t(this, m) && t(this, m).call(this, e, this.init));
     });
-    this.active = !1, this.element = t, this.element.addEventListener("mousedown", s(this, v)), document.addEventListener("mousemove", s(this, m)), document.addEventListener("mouseup", s(this, d));
+    o(this, "removeEvent", () => {
+      this.element.removeEventListener("mousedown", t(this, f)), document.removeEventListener("mousemove", t(this, l)), document.removeEventListener("mouseup", t(this, L)), document.removeEventListener("mouseleave", t(this, E));
+    });
+    this.active = !1, this.element = e, this.element.addEventListener("mousedown", t(this, f)), document.addEventListener("mousemove", t(this, l)), document.addEventListener("mouseup", t(this, L)), document.addEventListener("mouseleave", t(this, E));
   }
-  set onDragStart(t) {
-    c(this, o, t);
+  set onPanStart(e) {
+    h(this, v, e);
   }
-  set onDragMove(t) {
-    c(this, h, t);
+  set onPanMove(e) {
+    h(this, a, e);
   }
-  set onDragEnd(t) {
-    c(this, r, t);
+  set onPanEnd(e) {
+    h(this, r, e);
+  }
+  set onPanLeave(e) {
+    h(this, m, e);
   }
 }
-o = new WeakMap(), h = new WeakMap(), r = new WeakMap(), v = new WeakMap(), m = new WeakMap(), d = new WeakMap();
+v = new WeakMap(), a = new WeakMap(), r = new WeakMap(), m = new WeakMap(), f = new WeakMap(), l = new WeakMap(), L = new WeakMap(), E = new WeakMap();
+var c, y;
+class S {
+  constructor() {
+    o(this, "active");
+    n(this, c, void 0);
+    n(this, y, (e) => {
+      e.ctrlKey ? (e.preventDefault(), this.active = !0) : this.active = !1, this.active && t(this, c) && t(this, c).call(this, e);
+    });
+    o(this, "removeEvent", () => {
+      document.removeEventListener("wheel", t(this, y));
+    });
+    this.active = !1, document.addEventListener("wheel", t(this, y));
+  }
+  set onZoom(e) {
+    h(this, c, e);
+  }
+}
+c = new WeakMap(), y = new WeakMap();
+var d, u, k, p;
+class U {
+  constructor(e) {
+    o(this, "keyCode");
+    n(this, d, void 0);
+    n(this, u, void 0);
+    n(this, k, (e) => {
+      e.code === this.keyCode && t(this, d) && t(this, d).call(this, e);
+    });
+    n(this, p, (e) => {
+      e.code === this.keyCode && t(this, u) && t(this, u).call(this, e);
+    });
+    o(this, "removeEvent", () => {
+      document.removeEventListener("keydown", t(this, k)), document.removeEventListener("keyup", t(this, p));
+    });
+    this.keyCode = e, document.addEventListener("keydown", t(this, k)), document.addEventListener("keyup", t(this, p));
+  }
+  set onKeyDown(e) {
+    h(this, d, e);
+  }
+  set onKeyUp(e) {
+    h(this, u, e);
+  }
+}
+d = new WeakMap(), u = new WeakMap(), k = new WeakMap(), p = new WeakMap();
 export {
-  D as DragListener
+  M as DragListener,
+  U as KeyShortcatListener,
+  b as PanListener,
+  S as ZoomListener
 };
 //# sourceMappingURL=event.js.map
