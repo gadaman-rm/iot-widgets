@@ -18,14 +18,14 @@ export class MoveListener {
 
         this.dragListener.onDragStart = (e, initFn) => {
             const { x, y } = this.edListener.transform
-            const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
+            const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan2(e)
             initFn({ x, y, clientX: currentMouseCoord.x, clientY: currentMouseCoord.y })
         }
 
         this.dragListener.onDragMove = (e, init) => {
             if(init) {
                 const initMouseCoord = point(init.clientX, init.clientY)
-                const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
+                const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan2(e)
 
                 const dx = initMouseCoord.x - init.x
                 const dy = initMouseCoord.y - init.y

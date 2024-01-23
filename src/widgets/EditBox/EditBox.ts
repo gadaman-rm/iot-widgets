@@ -69,6 +69,20 @@ export class EditBox extends BaseSvg {
         this.render()
     }
     mouseCoordInZoomAndPan = (e: MouseEvent) => {
+        // var rect = (e.target as any).getBoundingClientRect() as DOMRect
+        // var bodyRect = document.body.getBoundingClientRect()
+        // const offsetX1 = e.clientX - rect.left
+        // const offsetX2 = e.clientX - bodyRect.left
+        // const offsetX3 = e.pageX - (rect.left - bodyRect.left)
+        const dx = e.clientX - e.offsetX
+        const dy = e.clientY - e.offsetY
+
+        return {
+            x: e.clientX - dx,
+            y: e.clientY - dy,
+        }
+    }
+    mouseCoordInZoomAndPan2 = (e: MouseEvent) => {
         const { x, y, scaleX } = this.containerTransform
         return {
             x: (e.clientX - x) * (1 / scaleX),

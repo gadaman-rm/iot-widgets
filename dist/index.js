@@ -1,15 +1,15 @@
 var N = Object.defineProperty;
-var X = (a, s, t) => s in a ? N(a, s, { enumerable: !0, configurable: !0, writable: !0, value: t }) : a[s] = t;
-var h = (a, s, t) => (X(a, typeof s != "symbol" ? s + "" : s, t), t), O = (a, s, t) => {
-  if (!s.has(a))
+var X = (c, s, t) => s in c ? N(c, s, { enumerable: !0, configurable: !0, writable: !0, value: t }) : c[s] = t;
+var h = (c, s, t) => (X(c, typeof s != "symbol" ? s + "" : s, t), t), O = (c, s, t) => {
+  if (!s.has(c))
     throw TypeError("Cannot " + t);
 };
-var g = (a, s, t) => (O(a, s, "read from private field"), t ? t.call(a) : s.get(a)), M = (a, s, t) => {
-  if (s.has(a))
+var g = (c, s, t) => (O(c, s, "read from private field"), t ? t.call(c) : s.get(c)), M = (c, s, t) => {
+  if (s.has(c))
     throw TypeError("Cannot add the same private member more than once");
-  s instanceof WeakSet ? s.add(a) : s.set(a, t);
-}, j = (a, s, t, e) => (O(a, s, "write to private field"), e ? e.call(a, t) : s.set(a, t), t);
-var E = (a, s, t) => (O(a, s, "access private method"), t);
+  s instanceof WeakSet ? s.add(c) : s.set(c, t);
+}, j = (c, s, t, e) => (O(c, s, "write to private field"), e ? e.call(c, t) : s.set(c, t), t);
+var E = (c, s, t) => (O(c, s, "access private method"), t);
 import "./preact.module-PZ3PIv-r.js";
 import { r as v } from "./helper-3XeWbX50.js";
 import { t as f, s as u, r as y, p, d as Y } from "./geometry-2uHTdEjL.js";
@@ -73,7 +73,7 @@ customElements.define("my-component", Q, {
 const w = ["id", "x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
 var b, m, W;
 class F extends HTMLDivElement {
-  constructor(t, e = v(), i, r, A = 0, n = 0, o = 0, c, d = 1, x = 1) {
+  constructor(t, e = v(), i, r, A = 0, n = 0, o = 0, a, d = 1, x = 1) {
     super();
     M(this, m);
     h(this, "root");
@@ -81,7 +81,7 @@ class F extends HTMLDivElement {
     this.attachShadow({
       mode: "open"
     }), this.shadowRoot.appendChild(t.content.cloneNode(!0)), this.root = this.shadowRoot.querySelector("svg"), this.width = i, this.height = r, this.x = A, this.y = n, this.rotate = o, this.scaleX = d, this.scaleY = x;
-    const l = c || (this.width && this.height ? `${this.width / 2} ${this.height / 2}` : "0 0");
+    const l = a || (this.width && this.height ? `${this.width / 2} ${this.height / 2}` : "0 0");
     this.origin = l, this.transform = {
       x: A,
       y: n,
@@ -183,7 +183,7 @@ class F extends HTMLDivElement {
       x: A,
       y: n,
       rotate: o
-    } = this.transform, c = f(A, n, t, i, o), d = f(A, n, e, r, o), x = u(d.tl, c.tl), l = y(u(p(A, n), x));
+    } = this.transform, a = f(A, n, t, i, o), d = f(A, n, e, r, o), x = u(d.tl, a.tl), l = y(u(p(A, n), x));
     !isNaN(l.x) && !isNaN(l.y) && (this.setAttribute("x", l.x.toString()), this.setAttribute("y", l.y.toString()));
   }
   attributeChangedCallback(t, e, i) {
@@ -262,8 +262,8 @@ class F extends HTMLDivElement {
 b = new WeakMap(), m = new WeakSet(), W = function(t) {
   let e = 0, i = 0, r = 1, A = 1, n = 0;
   if (t) {
-    const o = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(t), c = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(t);
-    n = +/rotate\(\s*([^\s,)]+)/.exec(t)[1], e = +o[1], i = +o[2], r = +c[1], A = +c[2];
+    const o = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(t), a = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(t);
+    n = +/rotate\(\s*([^\s,)]+)/.exec(t)[1], e = +o[1], i = +o[2], r = +a[1], A = +a[2];
   }
   return {
     x: e,
@@ -354,8 +354,8 @@ const Z = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" h
 C.innerHTML = `${Z}`;
 const k = ["zero"];
 class D extends F {
-  constructor(s = v(), t = 212.42054748535156, e = 158.1199951171875, i = 0, r = 0, A = 0, n, o = 1, c = 1) {
-    super(C, s, t, e, i, r, A, n, o, c), this.setAttribute("is", "my-gauge");
+  constructor(s = v(), t = 212.42054748535156, e = 158.1199951171875, i = 0, r = 0, A = 0, n, o = 1, a = 1) {
+    super(C, s, t, e, i, r, A, n, o, a), this.setAttribute("is", "my-gauge");
   }
   attributeUpdate(s, t, e) {
   }
@@ -438,8 +438,8 @@ const V = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046
 U.innerHTML = `${V}`;
 const J = ["zero"];
 class B extends F {
-  constructor(s = v(), t = 653, e = 66.68661572947046, i = 0, r = 0, A = 0, n, o = 1, c = 1) {
-    super(U, s, t, e, i, r, A, n, o, c), this.setAttribute("is", "my-slider");
+  constructor(s = v(), t = 653, e = 66.68661572947046, i = 0, r = 0, A = 0, n, o = 1, a = 1) {
+    super(U, s, t, e, i, r, A, n, o, a), this.setAttribute("is", "my-slider");
   }
   attributeUpdate(s, t, e) {
   }
@@ -481,8 +481,8 @@ class $ {
           x: A,
           y: n,
           rotate: o
-        } = this.edListener.transform, c = f(A, n, this.edListener.width, this.edListener.height, o);
-        let d = Y(r, c.tr, c.tl);
+        } = this.edListener.transform, a = f(A, n, this.edListener.width, this.edListener.height, o);
+        let d = Y(r, a.tr, a.tl);
         const x = f(A, n, this.edListener.width, d, o);
         if (d > 10) {
           const l = this.fixResizePosition(A, n, i, x);
@@ -523,8 +523,8 @@ class _ {
           x: A,
           y: n,
           rotate: o
-        } = this.edListener.transform, c = f(A, n, this.edListener.width, this.edListener.height, o);
-        let d = Y(r, c.tl, c.bl), x = Y(r, c.tr, c.tl);
+        } = this.edListener.transform, a = f(A, n, this.edListener.width, this.edListener.height, o);
+        let d = Y(r, a.tl, a.bl), x = Y(r, a.tr, a.tl);
         const l = f(A, n, d, x, o);
         if (d > 10 && x > 10) {
           const G = this.fixResizePosition(A, n, i, l);
@@ -556,7 +556,7 @@ class tt {
       const {
         x: r,
         y: A
-      } = this.edListener.transform, n = this.edListener.mouseCoordInZoomAndPan(e);
+      } = this.edListener.transform, n = this.edListener.mouseCoordInZoomAndPan2(e);
       i({
         x: r,
         y: A,
@@ -565,9 +565,9 @@ class tt {
       });
     }, this.dragListener.onDragMove = (e, i) => {
       if (i) {
-        const r = p(i.clientX, i.clientY), A = this.edListener.mouseCoordInZoomAndPan(e), n = r.x - i.x, o = r.y - i.y, c = A.x - n, d = A.y - o;
-        this.edListener.setAttribute("x", c.toString()), this.edListener.setAttribute("y", d.toString()), this.edListener.onEditEmit("move", {
-          x: c,
+        const r = p(i.clientX, i.clientY), A = this.edListener.mouseCoordInZoomAndPan2(e), n = r.x - i.x, o = r.y - i.y, a = A.x - n, d = A.y - o;
+        this.edListener.setAttribute("x", a.toString()), this.edListener.setAttribute("y", d.toString()), this.edListener.onEditEmit("move", {
+          x: a,
           y: d
         });
       }
@@ -595,8 +595,8 @@ class et {
           x: A,
           y: n,
           rotate: o
-        } = this.edListener.transform, c = f(A, n, this.edListener.width, this.edListener.height, o);
-        let d = Y(r, c.tl, c.bl);
+        } = this.edListener.transform, a = f(A, n, this.edListener.width, this.edListener.height, o);
+        let d = Y(r, a.tl, a.bl);
         const x = f(A, n, d, this.edListener.height, o);
         if (d > 10) {
           const l = this.fixResizePosition(A, n, i, x);
@@ -627,7 +627,7 @@ class it {
       const i = this.edListener.mouseCoordInZoomAndPan(e), {
         x: r,
         y: A
-      } = this.edListener.transform, n = p(r + this.edListener.width / 2, A + this.edListener.height / 2), o = Math.atan2(i.y - n.y, i.x - n.x) * (180 / Math.PI), c = Math.atan2(A - n.y, r + this.edListener.width - n.x) * (180 / Math.PI), d = Math.floor((o - c) * -1);
+      } = this.edListener.transform, n = p(r + this.edListener.width / 2, A + this.edListener.height / 2), o = Math.atan2(i.y - n.y, i.x - n.x) * (180 / Math.PI), a = Math.atan2(A - n.y, r + this.edListener.width - n.x) * (180 / Math.PI), d = Math.floor((o - a) * -1);
       this.edListener.setAttribute("rotate", d.toString()), this.edListener.onEditEmit("rotate", {
         rotate: d
       });
@@ -642,8 +642,8 @@ P.innerHTML = `${q}`;
 const At = [];
 var z;
 class S extends F {
-  constructor(t = v(), e, i = 100, r = 100, A = 0, n = 0, o = 0, c, d = 1, x = 1) {
-    super(P, t, i, r, A, n, o, c, d, x);
+  constructor(t = v(), e, i = 100, r = 100, A = 0, n = 0, o = 0, a, d = 1, x = 1) {
+    super(P, t, i, r, A, n, o, a, d, x);
     h(this, "controllerSize");
     h(this, "containerTransform");
     h(this, "bodyRef");
@@ -663,6 +663,13 @@ class S extends F {
     h(this, "isResizeByListener");
     M(this, z, void 0);
     h(this, "mouseCoordInZoomAndPan", (t) => {
+      const e = t.clientX - t.offsetX, i = t.clientY - t.offsetY;
+      return {
+        x: t.clientX - e,
+        y: t.clientY - i
+      };
+    });
+    h(this, "mouseCoordInZoomAndPan2", (t) => {
       const {
         x: e,
         y: i,
