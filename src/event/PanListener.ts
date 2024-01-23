@@ -49,7 +49,7 @@ export class PanListener<Init = undefined>{
     }
     #leave = (e: MouseEvent) => {
         if (e.button === 1 && this.active) {
-            this.active = false
+            // this.active = false
             if (this.#onPanLeave) this.#onPanLeave(e, this.init)
         }
     }

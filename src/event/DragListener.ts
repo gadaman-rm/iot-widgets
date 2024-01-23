@@ -51,7 +51,7 @@ export class DragListener<Init = undefined>{
     }
     #leave = (e: MouseEvent) => {
         if (this.active) {
-            this.active = false
+            // this.active = false
             if (this.#onDragLeave) this.#onDragLeave(e, this.init)
         }
     }

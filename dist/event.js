@@ -9,8 +9,8 @@ var t = (i, e, s) => (P(i, e, "read from private field"), s ? s.call(i) : e.get(
     throw TypeError("Cannot add the same private member more than once");
   e instanceof WeakSet ? e.add(i) : e.set(i, s);
 }, h = (i, e, s, w) => (P(i, e, "write to private field"), w ? w.call(i, s) : e.set(i, s), s);
-import { D as M } from "./DragListener-cHBlx02M.js";
-var v, a, r, c, f, L, E, l;
+import { D as M } from "./DragListener-Tmy3VwBm.js";
+var v, a, r, d, f, L, E, l;
 class b {
   constructor() {
     o(this, "active");
@@ -18,7 +18,7 @@ class b {
     n(this, v, void 0);
     n(this, a, void 0);
     n(this, r, void 0);
-    n(this, c, void 0);
+    n(this, d, void 0);
     n(this, f, (e, s) => {
       e.button === 1 && !this.active && (this.active = !0, this.init = s, t(this, v) && t(this, v).call(this, e, (w) => this.init = w));
     });
@@ -29,7 +29,7 @@ class b {
       e.button === 1 && this.active && (this.active = !1, t(this, r) && t(this, r).call(this, e, this.init));
     });
     n(this, l, (e) => {
-      e.button === 1 && this.active && (this.active = !1, t(this, c) && t(this, c).call(this, e, this.init));
+      e.button === 1 && this.active && t(this, d) && t(this, d).call(this, e, this.init);
     });
     o(this, "removeEvent", () => {
       document.removeEventListener("mousedown", t(this, f)), document.removeEventListener("mousemove", t(this, L)), document.removeEventListener("mouseup", t(this, E)), document.removeEventListener("mouseleave", t(this, l));
@@ -46,17 +46,17 @@ class b {
     h(this, r, e);
   }
   set onPanLeave(e) {
-    h(this, c, e);
+    h(this, d, e);
   }
 }
-v = new WeakMap(), a = new WeakMap(), r = new WeakMap(), c = new WeakMap(), f = new WeakMap(), L = new WeakMap(), E = new WeakMap(), l = new WeakMap();
-var d, y;
+v = new WeakMap(), a = new WeakMap(), r = new WeakMap(), d = new WeakMap(), f = new WeakMap(), L = new WeakMap(), E = new WeakMap(), l = new WeakMap();
+var c, y;
 class S {
   constructor() {
     o(this, "active");
-    n(this, d, void 0);
+    n(this, c, void 0);
     n(this, y, (e) => {
-      e.ctrlKey ? (e.preventDefault(), this.active = !0) : this.active = !1, this.active && t(this, d) && t(this, d).call(this, e);
+      e.ctrlKey ? (e.preventDefault(), this.active = !0) : this.active = !1, this.active && t(this, c) && t(this, c).call(this, e);
     });
     o(this, "removeEvent", () => {
       document.removeEventListener("wheel", t(this, y));
@@ -66,10 +66,10 @@ class S {
     });
   }
   set onZoom(e) {
-    h(this, d, e);
+    h(this, c, e);
   }
 }
-d = new WeakMap(), y = new WeakMap();
+c = new WeakMap(), y = new WeakMap();
 var m, u, p, k;
 class U {
   constructor(e) {

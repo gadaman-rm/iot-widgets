@@ -3,6 +3,7 @@ import "./widgets"
 // import { MyComponent } from "./widgets"
 import { EditBox, Gauge } from "./widgets"
 import { randomId } from "./math/helper"
+import { Transform } from "./math/matrix"
 
 export function App() {
   const ref = useRef<HTMLDivElement>(null)
@@ -10,9 +11,15 @@ export function App() {
   useEffect(() => {
     if (ref.current) {
       const gauge = new Gauge('zero', 200, 200, 200, 200, 45)
+      const tstr = 'translate(0px, 0px) scale(1) rotate(0deg)'
+      const t =  new Transform(tstr)
+      document.body.style.transform = tstr
   
       ref.current.appendChild(gauge)
-      const editBox = new EditBox(randomId(), {x: 0, y: 0}, 1, gauge.width, gauge.height, gauge.x, gauge.y, gauge.rotate)
+      const editBox = new EditBox(
+        randomId(),
+        t,
+        gauge.width, gauge.height, gauge.x, gauge.y, gauge.rotate)
       editBox.onEdit = (e) => {
         gauge.setAttribute('width', e.width.toString())
         gauge.setAttribute('height', e.height.toString())

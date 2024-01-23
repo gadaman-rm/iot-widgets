@@ -155,6 +155,24 @@ export declare const svgInfo: (ref: SVGSVGElement, _props?: '*' | 'width' | 'hei
 
 export declare const toTransformBox: (x: number, y: number, width: number, height: number, angle?: number, origin?: Point) => TransformedBox;
 
+export declare class Transform {
+    #private;
+    x: number;
+    y: number;
+    rotate: number;
+    scaleX: number;
+    scaleY: number;
+    constructor(transform: string);
+    get transform(): {
+        x: number;
+        y: number;
+        rotate: number;
+        scaleX: number;
+        scaleY: number;
+    };
+    set transform(transform: string);
+}
+
 /**
  * @typedef {PlainObject} module:math.TransformedBox An object with the following values
  * @property {module:math.XYObject} tl - The top left coordinate

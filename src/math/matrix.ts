@@ -243,3 +243,55 @@ export const svgInfo = (
         vHeight,
     }
 }
+
+export class Transform {
+    x: number
+    y: number
+    rotate: number
+    scaleX: number
+    scaleY: number
+
+    constructor(transform: string) {
+        this.x = 0
+        this.y = 0
+        this.scaleX = 1
+        this.scaleY = 1
+        this.rotate = 0
+        this.#parse(transform)
+    }
+    
+    public get transform(): {x: number, y: number, rotate: number, scaleX: number, scaleY: number } { 
+        return { x: this.x, y: this.y, rotate: this.rotate, scaleX: this.scaleX, scaleY: this.scaleY }
+    }
+    public set transform(transform: string) { this.#parse(transform) }
+
+    #parse(transform: string) {
+        if (transform) {
+            const transformTrim = transform.replace(/, /g, ',')
+            .replace(/px/g, '')
+            const translate = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(transformTrim)
+            const scale2d = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(transformTrim)
+            const rotate = /rotate\(\s*([^\s,)]+)/.exec(transformTrim)
+
+            if(translate) {
+                this.x = +translate[1]
+                this.y = +translate[2]
+            }
+
+            if(scale2d) {
+                this.scaleX = +scale2d[1]
+                this.scaleY = +scale2d[2]
+            } else {
+                const scale = /scale\(\s*([^\s,)]+)/.exec(transformTrim)
+                if(scale) {
+                    this.scaleX = +scale[1]
+                    this.scaleY = +scale[1]
+                }
+            }
+
+            if(rotate) {
+                this.rotate = +rotate[1]
+            }
+        }
+    }
+}

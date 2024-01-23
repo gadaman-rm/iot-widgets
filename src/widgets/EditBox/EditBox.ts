@@ -1,5 +1,6 @@
 import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
 import { randomId } from "../../math/helper"
+import { Transform } from "../../math/matrix"
 import { Point } from "../../math/point"
 import html from './EditBox.html?raw'
 import { BmidResizeListener } from "./listeners/BmidResizeListener"
@@ -26,8 +27,7 @@ export type EditEvent = {
 export class EditBox extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
     controllerSize: number
-    #pan: Point
-    #zoom: number
+    containerTransform: Transform
     bodyRef: SVGRectElement
     rotateRef: SVGCircleElement
     tlResizeRef: SVGRectElement
@@ -44,13 +44,12 @@ export class EditBox extends BaseSvg {
     moveListener: MoveListener
     isResizeByListener: boolean
     #onEdit?: (e: EditEvent) => void
-    constructor(id = randomId(), pan = {x: 0, y: 0}, zoom = 1, width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
+    constructor(id = randomId(), transform: Transform, width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
         super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
         this.setAttribute('is', "my-editbox")
         this.isResizeByListener = false
         this.controllerSize = 12
-        this.#pan = pan
-        this.#zoom = zoom
+        this.containerTransform = transform
         this.bodyRef = this.root.querySelector('#body')!
         this.rotateRef = this.root.querySelector('#rotate')!
         this.tlResizeRef = this.root.querySelector('#tl-resize')!
@@ -70,10 +69,10 @@ export class EditBox extends BaseSvg {
         this.render()
     }
     mouseCoordInZoomAndPan = (e: MouseEvent) => {
-        const { x, y } = this.pan
+        const { x, y, scaleX } = this.containerTransform
         return {
-            x: (e.clientX - x) * 1 / this.zoom,
-            y: (e.clientY - y) * 1 / this.zoom,
+            x: (e.clientX - x) * (1 / scaleX),
+            y: (e.clientY - y) * (1 / scaleX),
         }
     }
     onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>) {
@@ -96,10 +95,6 @@ export class EditBox extends BaseSvg {
     }
     public get onEdit(): string { return this.getAttribute('onedit')! }
     public set onEdit(fn: (e: EditEvent) => void) { this.#onEdit = fn }
-    public get pan() { return this.#pan }
-    public set pan(pan: Point) { this.#pan = pan }
-    public get zoom() { return this.#zoom }
-    public set zoom(zoom : number) { this.#zoom = zoom }
     initHandler() {
         if (this.onEdit && typeof window[this.onEdit as any] === 'function')
             this.#onEdit = window[this.onEdit as any] as any
