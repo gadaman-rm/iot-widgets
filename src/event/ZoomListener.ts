@@ -3,7 +3,7 @@ export class ZoomListener {
     #onZoom?: (e: WheelEvent) => void
     constructor() {
         this.active = false
-        document.addEventListener('wheel', this.#wheel)
+        document.addEventListener('wheel', this.#wheel, { passive: false })
     }
 
     public set onZoom(onZoom: (e: WheelEvent) => void) {

@@ -61,29 +61,31 @@ class S {
     o(this, "removeEvent", () => {
       document.removeEventListener("wheel", t(this, y));
     });
-    this.active = !1, document.addEventListener("wheel", t(this, y));
+    this.active = !1, document.addEventListener("wheel", t(this, y), {
+      passive: !1
+    });
   }
   set onZoom(e) {
     h(this, d, e);
   }
 }
 d = new WeakMap(), y = new WeakMap();
-var m, u, k, p;
+var m, u, p, k;
 class U {
   constructor(e) {
     o(this, "keyCode");
     n(this, m, void 0);
     n(this, u, void 0);
-    n(this, k, (e) => {
+    n(this, p, (e) => {
       e.code === this.keyCode && t(this, m) && t(this, m).call(this, e);
     });
-    n(this, p, (e) => {
+    n(this, k, (e) => {
       e.code === this.keyCode && t(this, u) && t(this, u).call(this, e);
     });
     o(this, "removeEvent", () => {
-      document.removeEventListener("keydown", t(this, k)), document.removeEventListener("keyup", t(this, p));
+      document.removeEventListener("keydown", t(this, p)), document.removeEventListener("keyup", t(this, k));
     });
-    this.keyCode = e, document.addEventListener("keydown", t(this, k)), document.addEventListener("keyup", t(this, p));
+    this.keyCode = e, document.addEventListener("keydown", t(this, p)), document.addEventListener("keyup", t(this, k));
   }
   set onKeyDown(e) {
     h(this, m, e);
@@ -92,7 +94,7 @@ class U {
     h(this, u, e);
   }
 }
-m = new WeakMap(), u = new WeakMap(), k = new WeakMap(), p = new WeakMap();
+m = new WeakMap(), u = new WeakMap(), p = new WeakMap(), k = new WeakMap();
 export {
   M as DragListener,
   U as KeyShortcatListener,
