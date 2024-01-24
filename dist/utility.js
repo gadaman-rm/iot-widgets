@@ -9,17 +9,9 @@ const i = (n, o, e, s = !0) => {
   document.body.appendChild(t);
 }, a = (n) => {
   n.points && n.points.forEach((o) => {
-    i(o.point, o.label, {
-      labelOffsetX: -8,
-      labelOffsetY: -8,
-      color: o.color
-    }, o.showLabel);
+    i(o.point, o.label, { labelOffsetX: -8, labelOffsetY: -8, color: o.color }, o.showLabel);
   }), n.TransformedBox && n.TransformedBox.forEach((o) => {
-    const e = {
-      labelOffsetX: -8,
-      labelOffsetY: -8,
-      color: o.color
-    };
+    const e = { labelOffsetX: -8, labelOffsetY: -8, color: o.color };
     i(o.points.tl, `${o.prefix || ""}tl`, e, o.showLabel), i(o.points.tr, `${o.prefix || ""}tr`, e), i(o.points.bl, `${o.prefix || ""}bl`, e, o.showLabel), i(o.points.br, `${o.prefix || ""}br`, e, o.showLabel);
   });
 }, f = (n) => n != null;

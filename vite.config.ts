@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
-import preact from '@preact/preset-vite'
 import dts from 'vite-plugin-dts'
 import { libInjectCss } from 'vite-plugin-lib-inject-css'
 import path from 'path'
@@ -16,7 +15,6 @@ export default defineConfig({
         path.resolve(__dirname, "./src/widgets/index.ts"),
         path.resolve(__dirname, "./src/math/math.ts"),
         path.resolve(__dirname, "./src/event/event.ts"),
-        path.resolve(__dirname, "./src/mui/mui.ts"),
         path.resolve(__dirname, "./src/utility/utility.ts"),
       ],
       fileName: (format, name) => {
@@ -29,7 +27,6 @@ export default defineConfig({
     }
   },
   plugins: [
-    preact(),
     libInjectCss(),
     dts({
       exclude: ['src/app.tsx', 'src/main.tsx'],

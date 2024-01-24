@@ -98,3 +98,10 @@ body {
     touch-action: manipulation;
     user-select: none;
 }
+
+#app {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: gray;
+}

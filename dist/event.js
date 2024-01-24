@@ -61,9 +61,7 @@ class S {
     o(this, "removeEvent", () => {
       document.removeEventListener("wheel", t(this, y));
     });
-    this.active = !1, document.addEventListener("wheel", t(this, y), {
-      passive: !1
-    });
+    this.active = !1, document.addEventListener("wheel", t(this, y), { passive: !1 });
   }
   set onZoom(e) {
     h(this, c, e);
