@@ -11,11 +11,9 @@ export function App() {
   useEffect(() => {
     if (ref.current) {
       const gauge = new Gauge('zero', 200, 200, 200, 200, 45)
-      const tstr = 'translate(700px, 700px) scale(1.5)'
-      const t =  new Transform(tstr)
-      // document.querySelector<HTMLDivElement>("#app")!.style.transform = tstr
-      // document.body.style.transform = tstr
-      ref.current.style.transform = tstr
+      const tstr = 'translate(700px, 400px) scale(1.5)'
+      document.body.style.transform = tstr
+      const t =  new Transform(document.body)
   
       ref.current.appendChild(gauge)
       const editBox = new EditBox(

@@ -12,17 +12,16 @@ var g = (c, s, t) => (O(c, s, "read from private field"), t ? t.call(c) : s.get(
 var E = (c, s, t) => (O(c, s, "access private method"), t);
 import "./preact.module-PZ3PIv-r.js";
 import { r as v } from "./helper-3XeWbX50.js";
-import { t as f, s as u, r as y, p, d as Y } from "./geometry-2uHTdEjL.js";
+import { t as f, s as u, r as y, p, d as Y } from "./geometry-H6G3_PsD.js";
 import { D as I } from "./DragListener-Tmy3VwBm.js";
-import { l as T } from "./debug-klNDAb3C.js";
-const K = `<div>
+const T = `<div>
     <div id="age"></div>
     <slot class="class-one" name="title1"></slot>
     <span><slot class="class-two" name="title2" part="title2"></slot></span>
-</div>`, Q = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}:host{display:block;background-color:#ff0}:host-context(main){background-color:red!important}::slotted([slot=title1]){font-style:italic;display:inline}", H = document.createElement("template");
-H.innerHTML = `<style>${Q}</style>${K}`;
+</div>`, K = ".class-one{font-size:2rem;color:tomato}.class-two{font-size:4rem;color:#6495ed}:host{display:block;background-color:#ff0}:host-context(main){background-color:red!important}::slotted([slot=title1]){font-style:italic;display:inline}", H = document.createElement("template");
+H.innerHTML = `<style>${K}</style>${T}`;
 var L, R;
-class Z extends HTMLDivElement {
+class Q extends HTMLDivElement {
   constructor() {
     super();
     M(this, L, void 0);
@@ -68,7 +67,7 @@ class Z extends HTMLDivElement {
   }
 }
 L = new WeakMap(), R = new WeakMap();
-customElements.define("my-component", Z, {
+customElements.define("my-component", Q, {
   extends: "div"
 });
 const w = ["id", "x", "y", "width", "height", "rotate", "scalex", "scaley", "origin"];
@@ -274,7 +273,7 @@ b = new WeakMap(), m = new WeakSet(), W = function(t) {
     rotate: n
   };
 };
-const k = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
+const Z = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" height="200" overflow="visible"
     preserveAspectRatio="none" style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="a" x1="27.44" x2="167.21" y1="48.56" y2="48.56" gradientUnits="userSpaceOnUse">
@@ -352,8 +351,8 @@ const k = `<svg viewBox="0 0 212.42054748535156 158.1199951171875" width="200" h
         </g>
     </g>
 </svg>`, C = document.createElement("template");
-C.innerHTML = `${k}`;
-const V = ["zero"];
+C.innerHTML = `${Z}`;
+const k = ["zero"];
 class D extends F {
   constructor(s = v(), t = 212.42054748535156, e = 158.1199951171875, i = 0, r = 0, A = 0, n, o = 1, a = 1) {
     super(C, s, t, e, i, r, A, n, o, a), this.setAttribute("is", "my-gauge");
@@ -361,11 +360,11 @@ class D extends F {
   attributeUpdate(s, t, e) {
   }
 }
-h(D, "observedAttributes", [...w, ...V]);
+h(D, "observedAttributes", [...w, ...k]);
 customElements.define("my-gauge", D, {
   extends: "div"
 });
-const J = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
+const V = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046" overflow="visible" preserveAspectRatio="xMidYMid"
     style="user-select: none; position: absolute;">
     <defs>
         <linearGradient id="linear-gradient" x1="2" x2="412.89" y1="21.18" y2="21.18" gradientUnits="userSpaceOnUse">
@@ -436,8 +435,8 @@ const J = `<svg viewBox="0 0 414.89 42.37" width="653" height="66.68661572947046
         </g>
     </g>
 </svg>`, U = document.createElement("template");
-U.innerHTML = `${J}`;
-const q = ["zero"];
+U.innerHTML = `${V}`;
+const J = ["zero"];
 class B extends F {
   constructor(s = v(), t = 653, e = 66.68661572947046, i = 0, r = 0, A = 0, n, o = 1, a = 1) {
     super(U, s, t, e, i, r, A, n, o, a), this.setAttribute("is", "my-slider");
@@ -445,11 +444,11 @@ class B extends F {
   attributeUpdate(s, t, e) {
   }
 }
-h(B, "observedAttributes", [...w, ...q]);
+h(B, "observedAttributes", [...w, ...J]);
 customElements.define("my-slider", B, {
   extends: "div"
 });
-const $ = `<svg overflow="visible" preserveAspectRatio="xMidYMid"
+const q = `<svg overflow="visible" preserveAspectRatio="xMidYMid"
     style="user-select: none; position: absolute;">
     <rect id="body" stroke-width="5" stroke="red" stroke-dashoffset="0" fill="#fff"
         fill-opacity="0" stroke-dasharray="12, 8" />
@@ -464,7 +463,7 @@ const $ = `<svg overflow="visible" preserveAspectRatio="xMidYMid"
         <rect id="tmid-resize" />
     </g>
 </svg>`;
-class _ {
+class $ {
   constructor(s, t) {
     h(this, "dragListener");
     h(this, "edListener");
@@ -506,7 +505,7 @@ class _ {
     this.dragListener.removeEvent();
   }
 }
-class tt {
+class _ {
   constructor(s, t) {
     h(this, "dragListener");
     h(this, "edListener");
@@ -549,7 +548,7 @@ class tt {
     this.dragListener.removeEvent();
   }
 }
-class et {
+class tt {
   constructor(s, t) {
     h(this, "dragListener");
     h(this, "edListener");
@@ -557,7 +556,7 @@ class et {
       const {
         x: r,
         y: A
-      } = this.edListener.transform, n = this.edListener.mouseCoordInZoomAndPan2(e);
+      } = this.edListener.transform, n = this.edListener.mouseCoordInZoomAndPan(e);
       i({
         x: r,
         y: A,
@@ -566,7 +565,7 @@ class et {
       });
     }, this.dragListener.onDragMove = (e, i) => {
       if (i) {
-        const r = p(i.clientX, i.clientY), A = this.edListener.mouseCoordInZoomAndPan2(e), n = r.x - i.x, o = r.y - i.y, a = A.x - n, d = A.y - o;
+        const r = p(i.clientX, i.clientY), A = this.edListener.mouseCoordInZoomAndPan(e), n = r.x - i.x, o = r.y - i.y, a = A.x - n, d = A.y - o;
         this.edListener.setAttribute("x", a.toString()), this.edListener.setAttribute("y", d.toString()), this.edListener.onEditEmit("move", {
           x: a,
           y: d
@@ -578,7 +577,7 @@ class et {
     this.dragListener.removeEvent();
   }
 }
-class it {
+class et {
   constructor(s, t) {
     h(this, "dragListener");
     h(this, "edListener");
@@ -592,17 +591,7 @@ class it {
       i(o);
     }, this.dragListener.onDragMove = (e, i) => {
       if (i) {
-        const r = this.edListener.mouseCoordInZoomAndPan(e);
-        T({
-          points: [{
-            label: "m",
-            point: {
-              x: e.clientX,
-              y: e.clientY
-            }
-          }]
-        });
-        const {
+        const r = this.edListener.mouseCoordInZoomAndPan(e), {
           x: A,
           y: n,
           rotate: o
@@ -630,7 +619,7 @@ class it {
     this.dragListener.removeEvent();
   }
 }
-class At {
+class it {
   constructor(s, t) {
     h(this, "dragListener");
     h(this, "edListener");
@@ -649,8 +638,8 @@ class At {
   }
 }
 const P = document.createElement("template");
-P.innerHTML = `${$}`;
-const st = [];
+P.innerHTML = `${q}`;
+const At = [];
 var z;
 class S extends F {
   constructor(t = v(), e, i = 100, r = 100, A = 0, n = 0, o = 0, a, d = 1, x = 1) {
@@ -673,25 +662,25 @@ class S extends F {
     h(this, "moveListener");
     h(this, "isResizeByListener");
     M(this, z, void 0);
-    h(this, "mouseCoordInZoomAndPan", (t) => {
+    h(this, "mouseCoordInZoomAndPan2", (t) => {
       const e = t.clientX - t.offsetX, i = t.clientY - t.offsetY;
       return {
         x: t.clientX - e,
         y: t.clientY - i
       };
     });
-    h(this, "mouseCoordInZoomAndPan2", (t) => {
+    h(this, "mouseCoordInZoomAndPan", (t) => {
       const {
         x: e,
         y: i,
         scaleX: r
-      } = this.containerTransform;
+      } = this.containerTransform.transform;
       return {
         x: (t.clientX - e) * (1 / r),
         y: (t.clientY - i) * (1 / r)
       };
     });
-    this.setAttribute("is", "my-editbox"), this.isResizeByListener = !1, this.controllerSize = 12, this.containerTransform = e, this.bodyRef = this.root.querySelector("#body"), this.rotateRef = this.root.querySelector("#rotate"), this.tlResizeRef = this.root.querySelector("#tl-resize"), this.lmidResizeRef = this.root.querySelector("#lmid-resize"), this.blResizeRef = this.root.querySelector("#bl-resize"), this.bmidResizeRef = this.root.querySelector("#bmid-resize"), this.brResizeRef = this.root.querySelector("#br-resize"), this.rmidResizeRef = this.root.querySelector("#rmid-resize"), this.tmidResizeRef = this.root.querySelector("#tmid-resize"), this.moveListener = new et(this.bodyRef, this), this.rotateListener = new At(this.rotateRef, this), this.rmidResizeListener = new it(this.rmidResizeRef, this), this.bmidResizeListener = new _(this.bmidResizeRef, this), this.brResizeListener = new tt(this.brResizeRef, this), this.initHandler(), this.render();
+    this.setAttribute("is", "my-editbox"), this.isResizeByListener = !1, this.controllerSize = 12, this.containerTransform = e, this.bodyRef = this.root.querySelector("#body"), this.rotateRef = this.root.querySelector("#rotate"), this.tlResizeRef = this.root.querySelector("#tl-resize"), this.lmidResizeRef = this.root.querySelector("#lmid-resize"), this.blResizeRef = this.root.querySelector("#bl-resize"), this.bmidResizeRef = this.root.querySelector("#bmid-resize"), this.brResizeRef = this.root.querySelector("#br-resize"), this.rmidResizeRef = this.root.querySelector("#rmid-resize"), this.tmidResizeRef = this.root.querySelector("#tmid-resize"), this.moveListener = new tt(this.bodyRef, this), this.rotateListener = new it(this.rotateRef, this), this.rmidResizeListener = new et(this.rmidResizeRef, this), this.bmidResizeListener = new $(this.bmidResizeRef, this), this.brResizeListener = new _(this.brResizeRef, this), this.initHandler(), this.render();
   }
   onEditEmit(t, e) {
     const {
@@ -741,14 +730,14 @@ class S extends F {
     this.moveListener.removeListener(), this.rotateListener.removeListener(), this.rmidResizeListener.removeListener(), this.bmidResizeListener.removeListener(), this.brResizeListener.removeListener();
   }
 }
-z = new WeakMap(), h(S, "observedAttributes", [...w, ...st]);
+z = new WeakMap(), h(S, "observedAttributes", [...w, ...At]);
 customElements.define("my-editbox", S, {
   extends: "div"
 });
 export {
   S as EditBox,
   D as Gauge,
-  Z as MyComponent,
+  Q as MyComponent,
   B as Slider
 };
 //# sourceMappingURL=index.js.map

@@ -162,7 +162,8 @@ export declare class Transform {
     rotate: number;
     scaleX: number;
     scaleY: number;
-    constructor(transform: string);
+    element: HTMLElement;
+    constructor(element: HTMLElement);
     get transform(): {
         x: number;
         y: number;

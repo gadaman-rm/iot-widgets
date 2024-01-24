@@ -80,24 +80,24 @@ const u = 1e-14, w = (t, s) => f(t.a * s.x + t.c * s.y + t.e, t.b * s.x + t.d * 
     a: o
   };
 }, U = (t, s) => s.x < t.x + t.width && s.x + s.width > t.x && s.y < t.y + t.height && s.y + s.height > t.y, k = (t, s, e, a, c = 0, n) => {
-  const r = n || f(t + e / 2, s + a / 2), [y, x, o, h] = P([f(t, s), f(t + e, s), f(t + e, s + a), f(t, s + a)], -c, r), l = Math.min(y.x, x.x, h.x, o.x), M = Math.max(y.x, x.x, h.x, o.x), g = Math.min(y.y, x.y, h.y, o.y), E = Math.max(y.y, x.y, h.y, o.y);
+  const r = n || f(t + e / 2, s + a / 2), [y, x, o, h] = P([f(t, s), f(t + e, s), f(t + e, s + a), f(t, s + a)], -c, r), b = Math.min(y.x, x.x, h.x, o.x), d = Math.max(y.x, x.x, h.x, o.x), g = Math.min(y.y, x.y, h.y, o.y), E = Math.max(y.y, x.y, h.y, o.y);
   return {
     tl: y,
     tr: x,
     br: o,
     bl: h,
     aabox: {
-      x: l,
+      x: b,
       y: g,
-      width: M - l,
+      width: d - b,
       height: E - g
     }
   };
 }, D = (t, s = "*") => {
-  const e = t, a = e.getBBox(), c = [a.x, a.y, a.width, a.height].join(" "), n = a.x, r = a.y, y = a.width, x = a.height, o = e.width.baseVal.value, h = e.height.baseVal.value, l = e.x.baseVal.value, M = e.y.baseVal.value;
+  const e = t, a = e.getBBox(), c = [a.x, a.y, a.width, a.height].join(" "), n = a.x, r = a.y, y = a.width, x = a.height, o = e.width.baseVal.value, h = e.height.baseVal.value, b = e.x.baseVal.value, d = e.y.baseVal.value;
   return {
-    x: l,
-    y: M,
+    x: b,
+    y: d,
     width: o,
     height: h,
     viewBox: c,
@@ -107,19 +107,20 @@ const u = 1e-14, w = (t, s) => f(t.a * s.x + t.c * s.y + t.e, t.b * s.x + t.d * 
     vHeight: x
   };
 };
-var b, d;
+var l, M;
 class F {
   constructor(s) {
-    O(this, b);
+    O(this, l);
     i(this, "x");
     i(this, "y");
     i(this, "rotate");
     i(this, "scaleX");
     i(this, "scaleY");
-    this.x = 0, this.y = 0, this.scaleX = 1, this.scaleY = 1, this.rotate = 0, m(this, b, d).call(this, s);
+    i(this, "element");
+    this.x = 0, this.y = 0, this.scaleX = 1, this.scaleY = 1, this.rotate = 0, this.element = s, m(this, l, M).call(this, this.element.style.transform);
   }
   get transform() {
-    return {
+    return m(this, l, M).call(this, this.element.style.transform), {
       x: this.x,
       y: this.y,
       rotate: this.rotate,
@@ -128,10 +129,10 @@ class F {
     };
   }
   set transform(s) {
-    m(this, b, d).call(this, s);
+    m(this, l, M).call(this, s);
   }
 }
-b = new WeakSet(), d = function(s) {
+l = new WeakSet(), M = function(s) {
   if (s) {
     const e = s.replace(/, /g, ",").replace(/px/g, ""), a = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(e), c = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(e), n = /rotate\(\s*([^\s,)]+)/.exec(e);
     if (a && (this.x = +a[1], this.y = +a[2]), c)
@@ -181,4 +182,4 @@ export {
   D as w,
   X as z
 };
-//# sourceMappingURL=geometry-2uHTdEjL.js.map
+//# sourceMappingURL=geometry-H6G3_PsD.js.map

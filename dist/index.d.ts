@@ -119,11 +119,11 @@ export declare class EditBox extends BaseSvg {
     moveListener: MoveListener;
     isResizeByListener: boolean;
     constructor(id: string | undefined, transform: Transform, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
-    mouseCoordInZoomAndPan: (e: MouseEvent) => {
+    mouseCoordInZoomAndPan2: (e: MouseEvent) => {
         x: number;
         y: number;
     };
-    mouseCoordInZoomAndPan2: (e: MouseEvent) => {
+    mouseCoordInZoomAndPan: (e: MouseEvent) => {
         x: number;
         y: number;
     };
@@ -222,7 +222,8 @@ declare class Transform {
     rotate: number;
     scaleX: number;
     scaleY: number;
-    constructor(transform: string);
+    element: HTMLElement;
+    constructor(element: HTMLElement);
     get transform(): {
         x: number;
         y: number;

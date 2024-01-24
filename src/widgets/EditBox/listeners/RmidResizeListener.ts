@@ -2,7 +2,6 @@ import { DragListener } from "../../../event/event"
 import { distancePointFromLine } from "../../../math/geometry"
 import { TransformedBox, toTransformBox } from "../../../math/matrix"
 import { point, roundPoint, subPoint } from "../../../math/point"
-import { logInfo } from "../../../utility/utility"
 import { EditBox } from "../EditBox"
 
 export class RmidResizeListener {
@@ -22,12 +21,6 @@ export class RmidResizeListener {
         this.dragListener.onDragMove = (e, iBox) => {
             if (iBox) {
                 const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
-                logInfo({
-                    points: [{
-                        label: 'm',
-                        point: {x: e.clientX, y: e.clientY}
-                    }]
-                })
                 const { x, y, rotate } = this.edListener.transform
                 const box = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
                 let newWidth = distancePointFromLine(currentMouseCoord, box.tl, box.bl) 

@@ -250,17 +250,20 @@ export class Transform {
     rotate: number
     scaleX: number
     scaleY: number
+    element: HTMLElement
 
-    constructor(transform: string) {
+    constructor(element: HTMLElement) {
         this.x = 0
         this.y = 0
         this.scaleX = 1
         this.scaleY = 1
         this.rotate = 0
-        this.#parse(transform)
+        this.element = element
+        this.#parse(this.element.style.transform)
     }
     
-    public get transform(): {x: number, y: number, rotate: number, scaleX: number, scaleY: number } { 
+    public get transform(): {x: number, y: number, rotate: number, scaleX: number, scaleY: number } {
+        this.#parse(this.element.style.transform)
         return { x: this.x, y: this.y, rotate: this.rotate, scaleX: this.scaleX, scaleY: this.scaleY }
     }
     public set transform(transform: string) { this.#parse(transform) }
