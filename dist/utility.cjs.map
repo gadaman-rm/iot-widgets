@@ -1,0 +1,1 @@
+{"version":3,"file":"utility.cjs","sources":["../src/utility/check.ts"],"sourcesContent":["export const isValue = (value: any) => value !== undefined && value !== null\n"],"names":["isValue","value"],"mappings":"wHAAaA,EAAWC,GAAsCA,GAAU"}

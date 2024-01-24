@@ -1,0 +1,1 @@
+{"version":3,"file":"utility.js","sources":["../src/utility/check.ts"],"sourcesContent":["export const isValue = (value: any) => value !== undefined && value !== null\n"],"names":["isValue","value"],"mappings":";AAAO,MAAMA,IAAUA,CAACC,MAAsCA,KAAU;"}

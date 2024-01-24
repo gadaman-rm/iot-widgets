@@ -27,6 +27,11 @@
       "import": "./dist/mui.js",
       "require": "./dist/mui.cjs",
       "types": "./dist/mui.d.ts"
+    },
+    "./utility": {
+      "import": "./dist/utility.js",
+      "require": "./dist/utility.cjs",
+      "types": "./dist/utility.d.ts"
     }
   },
   "files": [

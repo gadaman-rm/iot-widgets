@@ -17,6 +17,7 @@ export default defineConfig({
         path.resolve(__dirname, "./src/math/math.ts"),
         path.resolve(__dirname, "./src/event/event.ts"),
         path.resolve(__dirname, "./src/mui/mui.ts"),
+        path.resolve(__dirname, "./src/utility/utility.ts"),
       ],
       fileName: (format, name) => {
         if (format === 'es')
