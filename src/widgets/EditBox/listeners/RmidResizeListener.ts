@@ -1,7 +1,7 @@
 import { DragListener } from "../../../event/event"
 import { distancePointFromLine } from "../../../math/geometry"
-import { TransformedBox, toTransformBox } from "../../../math/matrix"
-import { point, roundPoint, subPoint } from "../../../math/point"
+import { TransformedBox } from "../../../math/matrix"
+import { logInfo } from "../../../utility/debug"
 import { EditBox } from "../EditBox"
 
 export class RmidResizeListener {
@@ -13,21 +13,21 @@ export class RmidResizeListener {
 
         this.dragListener.onDragStart = (_e, initFn) => {
             this.edListener.isResizeByListener = true
-            const { x, y, rotate } = this.edListener.transform
-            const initTransformBox = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
+            const initTransformBox = this.edListener.toTransformBoxInZoomAndPan({})
             initFn(initTransformBox)
+            logInfo({ TransformedBox: [{ points: initTransformBox, prefix: 'i' }]})
         }
 
         this.dragListener.onDragMove = (e, iBox) => {
             if (iBox) {
                 const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
-                const { x, y, rotate } = this.edListener.transform
-                const box = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
+                const box = this.edListener.toTransformBoxInZoomAndPan({})
                 let newWidth = distancePointFromLine(currentMouseCoord, box.tl, box.bl) 
-                const nBox = toTransformBox(x, y, newWidth, this.edListener.height, rotate)
+                const nBox = this.edListener.toTransformBoxInZoomAndPan({ width: newWidth })
+                logInfo({ TransformedBox: [{ points: nBox }]})
 
                 if (newWidth > 10) {
-                    const newPosition = this.fixResizePosition(x, y, iBox, nBox)
+                    const newPosition = this.edListener.fixResizePositionInZoomAndPan(iBox, nBox)
                     this.edListener.setAttribute('x', newPosition.x.toString())
                     this.edListener.setAttribute('y', newPosition.y.toString())
                     this.edListener.setAttribute('width', newWidth.toString())
@@ -39,12 +39,6 @@ export class RmidResizeListener {
         this.dragListener.onDragEnd = () => {
             this.edListener.isResizeByListener = false
         }
-    }
-
-    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox) {
-        const dTl = subPoint(newTransformBox.tl, initTransformBox.tl)
-        const newPosition = roundPoint(subPoint(point(x, y), dTl))
-        return newPosition
     }
 
     removeListener() {

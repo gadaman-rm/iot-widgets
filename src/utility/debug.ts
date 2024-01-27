@@ -9,11 +9,12 @@ export interface LogPointStyle {
 
 const logPoint = (
     point: Point,
-    label: string,
+    label?: string,
     style?: LogPointStyle,
     showLabel: boolean = true,
 ) => {
     const pointSize = 15
+    label ??= 'p'
 
     let isPoint = document.getElementById(label.toLowerCase()) as HTMLDivElement
     const pointRef = isPoint ? isPoint : document.createElement('div')
@@ -54,7 +55,7 @@ export const logInfo = (
     data: {
         points?: {
             point: Point
-            label: string
+            label?: string
             color?: string
             showLabel?: boolean
         }[]

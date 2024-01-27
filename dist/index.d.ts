@@ -127,6 +127,16 @@ export declare class EditBox extends BaseSvg {
         x: number;
         y: number;
     };
+    toTransformBoxInZoomAndPan: (box: {
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+    }) => TransformedBox;
+    fixResizePositionInZoomAndPan(initTransformBox: TransformedBox, newTransformBox: TransformedBox): Readonly<{
+        x: number;
+        y: number;
+    }>;
     onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>): void;
     get onEdit(): string;
     set onEdit(fn: (e: EditEvent) => void);
@@ -195,10 +205,6 @@ declare class RmidResizeListener {
     dragListener: DragListener<TransformedBox>;
     edListener: EditBox;
     constructor(svgElement: SVGRectElement, editBoxListener: EditBox);
-    fixResizePosition(x: number, y: number, initTransformBox: TransformedBox, newTransformBox: TransformedBox): Readonly<{
-        x: number;
-        y: number;
-    }>;
     removeListener(): void;
 }
 

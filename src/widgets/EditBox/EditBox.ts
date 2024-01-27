@@ -1,7 +1,7 @@
 import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
 import { randomId } from "../../math/helper"
-import { Transform } from "../../math/matrix"
-import { Point } from "../../math/point"
+import { Transform, TransformedBox, toTransformBox } from "../../math/matrix"
+import { Point, point, roundPoint, subPoint } from "../../math/point"
 import html from './EditBox.html?raw'
 import { BmidResizeListener } from "./listeners/BmidResizeListener"
 import { BrResizeListener } from "./listeners/BrResizeListener"
@@ -82,12 +82,31 @@ export class EditBox extends BaseSvg {
             y: e.clientY - dy,
         }
     }
+    // mouseCoordInZoomAndPan3 = (e: MouseEvent) => {
+    //     const { x, y } = this.containerTransform.transform
+    //     return {
+    //         x: e.clientX - x,
+    //         y: e.clientY - y,
+    //     }
+    // }
     mouseCoordInZoomAndPan = (e: MouseEvent) => {
-        const { x, y, scaleX } = this.containerTransform.transform
-        return {
-            x: (e.clientX - x) * (1 / scaleX),
-            y: (e.clientY - y) * (1 / scaleX),
-        }
+        return { x: e.clientX, y: e.clientY }
+    }
+    
+    toTransformBoxInZoomAndPan = (box: {x?: number, y?: number, width?: number, height?: number}) => {
+        const containerTransform = this.containerTransform.transform
+        const transform = this.transform
+        box.x ??= transform.x + containerTransform.x 
+        box.y ??= transform.y + containerTransform.y
+        box.width ??= this.width * containerTransform.scaleX
+        box.height ??= this.height * containerTransform.scaleX
+        return toTransformBox(box.x, box.y, box.width, box.height, transform.rotate)
+    }
+    fixResizePositionInZoomAndPan(initTransformBox: TransformedBox, newTransformBox: TransformedBox) {
+        const {x, y} = this.transform
+        const dTl = subPoint(newTransformBox.tl, initTransformBox.tl)
+        const newPosition = roundPoint(subPoint(point(x, y), dTl))
+        return newPosition
     }
     onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>) {
         const { x, y, rotate, scaleX, scaleY } = this.transform

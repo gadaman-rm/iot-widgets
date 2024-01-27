@@ -3,7 +3,7 @@ export declare const isValue: (value: any) => boolean;
 export declare const logInfo: (data: {
     points?: {
         point: Point;
-        label: string;
+        label?: string;
         color?: string;
         showLabel?: boolean;
     }[];
