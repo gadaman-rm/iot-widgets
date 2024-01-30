@@ -260,12 +260,12 @@ export class Transform {
     scaleY: number
     element: HTMLElement | SVGElement
 
-    constructor(element: HTMLElement | SVGElement) {
-        this.x = 0
-        this.y = 0
-        this.scaleX = 1
-        this.scaleY = 1
-        this.rotate = 0
+    constructor(element: HTMLElement | SVGElement, x = 0, y = 0, scaleX = 1, scaleY = 1, rotate = 0) {
+        this.x = x
+        this.y = y
+        this.scaleX = scaleX
+        this.scaleY = scaleY
+        this.rotate = rotate
         this.element = element
         if(this.element instanceof HTMLElement) 
             this.#parse(this.element.style.transform)
@@ -288,9 +288,14 @@ export class Transform {
         } else {
             transform = { ...this.transform, ...transform }
             const { x, y, rotate, scaleX, scaleY } = transform
-            const transformStr = `translate(${x},${y}) scale(${scaleX},${scaleY}) rotate(${rotate})`
-            if (this.element instanceof HTMLElement) this.element.style.transform = transformStr
-            else this.element.setAttribute('transform', transformStr)
+            if (this.element instanceof HTMLElement) {
+                const transformStr = `translate(${x}px,${y}px) scale(${scaleX},${scaleY}) rotate(${rotate}deg)`
+                this.element.style.transform = transformStr
+            }
+            else {
+                const transformStr = `translate(${x},${y}) scale(${scaleX},${scaleY}) rotate(${rotate})`
+                this.element.setAttribute('transform', transformStr)
+            }
         }
     }
 
@@ -298,6 +303,7 @@ export class Transform {
         if (transform) {
             const transformTrim = transform.replace(/, /g, ',')
             .replace(/px/g, '')
+            .replace(/deg/g, '')
             const translate = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(transformTrim)
             const scale2d = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(transformTrim)
             const rotate = /rotate\(\s*([^\s,)]+)/.exec(transformTrim)

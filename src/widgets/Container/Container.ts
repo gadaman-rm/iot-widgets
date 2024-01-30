@@ -19,8 +19,7 @@ export class Container extends HTMLDivElement {
         this.root = this.shadowRoot!.querySelector('#root')!
         this.main = this.shadowRoot!.querySelector('#main')!
         this.setAttribute('is', "my-container")
-        this.transform = new Transform(this.main)
-
+        this.transform = new Transform(this.main, pan.x, pan.y, zoom, zoom)
         this.zoom = zoom
         this.setAttribute('zoom', zoom.toString())
         this.pan = pan
@@ -29,7 +28,6 @@ export class Container extends HTMLDivElement {
     }
     public get zoom() { return +this.getAttribute('zoom')! }
     public set zoom(zoom: number) { this.transform.transform = { scaleX: zoom, scaleY: zoom } }
-    
     
     public get pan() {
         const x = +this.getAttribute('panx')!
