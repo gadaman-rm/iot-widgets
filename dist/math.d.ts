@@ -162,8 +162,8 @@ export declare class Transform {
     rotate: number;
     scaleX: number;
     scaleY: number;
-    element: HTMLElement;
-    constructor(element: HTMLElement);
+    element: HTMLElement | SVGElement;
+    constructor(element: HTMLElement | SVGElement);
     get transform(): {
         x: number;
         y: number;
@@ -171,7 +171,7 @@ export declare class Transform {
         scaleX: number;
         scaleY: number;
     };
-    set transform(transform: string);
+    set transform(transform: string | TransformProps);
 }
 
 /**
@@ -217,6 +217,14 @@ export declare const transformPoint: (m: DOMMatrix, p: Point) => Point;
  * @returns {Point[]} Array of point
  */
 export declare const transformPoints: (m: DOMMatrix, points: Point[]) => Point[];
+
+export declare type TransformProps = {
+    x?: number;
+    y?: number;
+    rotate?: number;
+    scaleX?: number;
+    scaleY?: number;
+};
 
 export declare function uniqueId(perfix?: string): Generator<string, string>;
 

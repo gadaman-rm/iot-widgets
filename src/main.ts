@@ -1,19 +1,20 @@
 import { randomId } from './math/helper'
-import { Transform } from './math/matrix'
 import './reset.scss'
-import { logInfo } from './utility/debug'
-import { EditBox, Gauge } from './widgets'
+import { Container, EditBox, Gauge } from './widgets'
+import './widgets'
+
 const app = document.querySelector<HTMLDivElement>('#app')!
 
-const gauge = new Gauge('zero', 200, 200, 200, 200, 45)
-const tstr = 'translate(314px, 290px) scale(1.2)'
-app.style.transform = tstr
-const containerTransform = new Transform(app)
+const containerMain = document.createElement('main')
+const container = new Container({x: 200, y: 200}, 3)
+container.appendChild(containerMain)
+app.appendChild(container)
 
-app.appendChild(gauge)
+const gauge = new Gauge('zero', 200, 200, 400, 150, 0)
+containerMain.appendChild(gauge)
 const editBox = new EditBox(
     randomId(),
-    containerTransform,
+    container,
     gauge.width, gauge.height, gauge.x, gauge.y, gauge.rotate)
 editBox.onEdit = (e) => {
     gauge.setAttribute('width', e.width.toString())
@@ -23,18 +24,5 @@ editBox.onEdit = (e) => {
     gauge.setAttribute('x', e.x.toString())
     gauge.setAttribute('y', e.y.toString())
 }
-app.appendChild(editBox)
 
-document.addEventListener('mousemove', (e) => {
-    logInfo({
-        points: [
-            {
-                label: 'm',
-                point: {
-                    x: e.clientX + 10,
-                    y: e.clientY + 10,
-                }
-            }
-        ]
-    })
-})
+containerMain.appendChild(editBox)

@@ -85,12 +85,40 @@ declare class BrResizeListener {
     removeListener(): void;
 }
 
+export declare class Circle extends HTMLDivElement {
+    constructor();
+}
+
+export declare class Container extends HTMLDivElement {
+    root: SVGSVGElement;
+    main: SVGGElement;
+    transform: Transform;
+    static get observedAttributes(): readonly ["panx", "pany", "zoom"];
+    constructor(pan?: Point, zoom?: number);
+    get zoom(): number;
+    set zoom(zoom: number);
+    get pan(): Point;
+    set pan(pan: Point);
+    get matrix(): DOMMatrix;
+    toContainerXY(point: Point): Point;
+    mouseCoordInContainer(e: MouseEvent): {
+        x: number;
+        y: number;
+    };
+    zoomUpdate(oldZoom: number, newZoom: number): void;
+    panXUpdate(oldPanX: number, newPanX: number): void;
+    panYUpdate(oldPanY: number, newPanY: number): void;
+    attributeChangedCallback(attributeName: typeof CONTAINER_ATTRIBUTES[number], oldValue: string, newValue: string): void;
+}
+
+export declare const CONTAINER_ATTRIBUTES: readonly ["panx", "pany", "zoom"];
+
 declare class DragListener<Init = undefined> {
     #private;
-    element: HTMLElement;
+    element: HTMLElement | SVGElement;
     active: boolean;
     init?: Init;
-    constructor(element: HTMLElement);
+    constructor(element: HTMLElement | SVGElement, container?: HTMLElement);
     set onDragStart(onDragStart: (e: MouseEvent, initFn: (init: Init) => Init) => void);
     set onDragMove(onDragMove: (e: MouseEvent, init?: Init) => void);
     set onDragEnd(onDragEnd: (e: MouseEvent, init?: Init) => void);
@@ -100,9 +128,9 @@ declare class DragListener<Init = undefined> {
 
 export declare class EditBox extends BaseSvg {
     #private;
-    static observedAttributes: ("x" | "y" | "width" | "height" | "id" | "rotate" | "scalex" | "scaley" | "origin")[];
+    static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "id" | "scalex" | "scaley" | "origin")[];
     controllerSize: number;
-    containerTransform: Transform;
+    container: Container;
     bodyRef: SVGRectElement;
     rotateRef: SVGCircleElement;
     tlResizeRef: SVGRectElement;
@@ -118,21 +146,28 @@ export declare class EditBox extends BaseSvg {
     rotateListener: RotateListener;
     moveListener: MoveListener;
     isResizeByListener: boolean;
-    constructor(id: string | undefined, transform: Transform, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
-    mouseCoordInZoomAndPan2: (e: MouseEvent) => {
-        x: number;
-        y: number;
-    };
+    constructor(id: string | undefined, container: Container, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
     mouseCoordInZoomAndPan: (e: MouseEvent) => {
         x: number;
         y: number;
     };
-    toTransformBoxInZoomAndPan: (box: {
+    toTransformBox: (box: {
         x?: number;
         y?: number;
         width?: number;
         height?: number;
-    }) => TransformedBox;
+    }) => {
+        tl: Point;
+        tr: Point;
+        br: Point;
+        bl: Point;
+        aabox: {
+            x: number;
+            y: number;
+            width: number;
+            height: number;
+        };
+    };
     fixResizePositionInZoomAndPan(initTransformBox: TransformedBox, newTransformBox: TransformedBox): Readonly<{
         x: number;
         y: number;
@@ -161,7 +196,7 @@ export declare type EditEvent = {
 };
 
 export declare class Gauge extends BaseSvg {
-    static observedAttributes: ("x" | "y" | "width" | "height" | "id" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
+    static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "id" | "scalex" | "scaley" | "origin" | "zero")[];
     constructor(id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
     attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string): void;
 }
@@ -216,7 +251,7 @@ declare class RotateListener {
 }
 
 export declare class Slider extends BaseSvg {
-    static observedAttributes: ("x" | "y" | "width" | "height" | "id" | "rotate" | "scalex" | "scaley" | "origin" | "zero")[];
+    static observedAttributes: ("x" | "y" | "width" | "height" | "rotate" | "id" | "scalex" | "scaley" | "origin" | "zero")[];
     constructor(id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
     attributeUpdate(attributeName: typeof ATTRIBUTES_2[number], _oldValue: string, _newValue: string): void;
 }
@@ -228,8 +263,8 @@ declare class Transform {
     rotate: number;
     scaleX: number;
     scaleY: number;
-    element: HTMLElement;
-    constructor(element: HTMLElement);
+    element: HTMLElement | SVGElement;
+    constructor(element: HTMLElement | SVGElement);
     get transform(): {
         x: number;
         y: number;
@@ -237,7 +272,7 @@ declare class Transform {
         scaleX: number;
         scaleY: number;
     };
-    set transform(transform: string);
+    set transform(transform: string | TransformProps);
 }
 
 /**
@@ -264,5 +299,13 @@ declare interface TransformedBox {
         height: number;
     };
 }
+
+declare type TransformProps = {
+    x?: number;
+    y?: number;
+    rotate?: number;
+    scaleX?: number;
+    scaleY?: number;
+};
 
 export { }

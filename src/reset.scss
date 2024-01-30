@@ -91,17 +91,10 @@ input, select {
     vertical-align:middle;
 }
 
-body {
-    width: 100%;
-    margin-inline: auto;
-    overflow: hidden;
-    touch-action: manipulation;
-    user-select: none;
-}
-
-#app {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    background-color: gray;
-}
+// body {
+//     width: 100%;
+//     margin-inline: auto;
+//     overflow: hidden;
+//     touch-action: manipulation;
+//     user-select: none;
+// }

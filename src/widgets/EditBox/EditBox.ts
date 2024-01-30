@@ -1,7 +1,8 @@
+import { Container } from ".."
 import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
 import { randomId } from "../../math/helper"
-import { Transform, TransformedBox, toTransformBox } from "../../math/matrix"
-import { Point, point, roundPoint, subPoint } from "../../math/point"
+import { TransformedBox, toTransformBox } from "../../math/matrix"
+import { Point, roundPoint, subPoint } from "../../math/point"
 import html from './EditBox.html?raw'
 import { BmidResizeListener } from "./listeners/BmidResizeListener"
 import { BrResizeListener } from "./listeners/BrResizeListener"
@@ -27,7 +28,7 @@ export type EditEvent = {
 export class EditBox extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
     controllerSize: number
-    containerTransform: Transform
+    container: Container
     bodyRef: SVGRectElement
     rotateRef: SVGCircleElement
     tlResizeRef: SVGRectElement
@@ -44,12 +45,12 @@ export class EditBox extends BaseSvg {
     moveListener: MoveListener
     isResizeByListener: boolean
     #onEdit?: (e: EditEvent) => void
-    constructor(id = randomId(), transform: Transform, width = 100, height = 100, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
+    constructor(id = randomId(), container: Container, width = 0, height = 0, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
         super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
         this.setAttribute('is', "my-editbox")
         this.isResizeByListener = false
         this.controllerSize = 12
-        this.containerTransform = transform
+        this.container = container
         this.bodyRef = this.root.querySelector('#body')!
         this.rotateRef = this.root.querySelector('#rotate')!
         this.tlResizeRef = this.root.querySelector('#tl-resize')!
@@ -68,44 +69,57 @@ export class EditBox extends BaseSvg {
         this.initHandler()
         this.render()
     }
-    mouseCoordInZoomAndPan2 = (e: MouseEvent) => {
-        // var rect = (e.target as any).getBoundingClientRect() as DOMRect
-        // var bodyRect = document.body.getBoundingClientRect()
-        // const offsetX1 = e.clientX - rect.left
-        // const offsetX2 = e.clientX - bodyRect.left
-        // const offsetX3 = e.pageX - (rect.left - bodyRect.left)
-        const dx = e.clientX - e.offsetX
-        const dy = e.clientY - e.offsetY
-
-        return {
-            x: e.clientX - dx,
-            y: e.clientY - dy,
-        }
-    }
-    // mouseCoordInZoomAndPan3 = (e: MouseEvent) => {
-    //     const { x, y } = this.containerTransform.transform
-    //     return {
-    //         x: e.clientX - x,
-    //         y: e.clientY - y,
-    //     }
-    // }
     mouseCoordInZoomAndPan = (e: MouseEvent) => {
-        return { x: e.clientX, y: e.clientY }
+        return this.container.mouseCoordInContainer(e)
     }
-    
-    toTransformBoxInZoomAndPan = (box: {x?: number, y?: number, width?: number, height?: number}) => {
-        const containerTransform = this.containerTransform.transform
+    // toTransformBox = (box: {x?: number, y?: number, width?: number, height?: number}, panAndZoom = false) => {
+    //     const {pan, zoom} = this.container
+    //     const transform = this.transform
+
+    //     const dxZoom = panAndZoom ? (transform.x * zoom) - transform.x : 0
+    //     const dyZoom = panAndZoom ? (transform.y * zoom) - transform.y : 0
+    //     const dxPan = panAndZoom ? pan.x : 0
+    //     const dyPan = panAndZoom ? pan.y : 0
+        
+    //     box.x ??= transform.x + dxZoom + dxPan
+    //     box.y ??= transform.y + dyZoom + dyPan
+    //     box.width ??= this.width * (panAndZoom ? zoom : 1)
+    //     box.height ??= this.height * (panAndZoom ? zoom : 1)
+    //     const {tl, tr, br, bl, aabox} = toTransformBox(box.x, box.y, box.width, box.height, transform.rotate)
+
+    //     return {tl, tr, br, bl, aabox}
+    // }
+
+    toTransformBox = (box: {x?: number, y?: number, width?: number, height?: number}) => {
         const transform = this.transform
-        box.x ??= transform.x + containerTransform.x 
-        box.y ??= transform.y + containerTransform.y
-        box.width ??= this.width * containerTransform.scaleX
-        box.height ??= this.height * containerTransform.scaleX
-        return toTransformBox(box.x, box.y, box.width, box.height, transform.rotate)
+        box.x ??= transform.x
+        box.y ??= transform.y
+        box.width ??= this.width
+        box.height ??= this.height
+        const {tl, tr, br, bl, aabox} = toTransformBox(box.x, box.y, box.width, box.height, transform.rotate)
+
+        return {tl, tr, br, bl, aabox}
     }
+
+    // fixResizePositionInZoomAndPan(initTransformBox: TransformedBox, newTransformBox: TransformedBox) {
+    //     const transform = this.transform
+    //     const { pan, zoom } = this.container
+    //     const dxZoom = (transform.x * zoom) - transform.x
+    //     const dyZoom = (transform.y * zoom) - transform.y
+    //     const dxPan = pan.x
+    //     const dyPan = pan.y
+
+    //     const dTl = subPoint(newTransformBox.tl, initTransformBox.tl)
+    //     const newPosition = roundPoint(subPoint(
+    //         point(transform.x + dxZoom + dxPan, transform.y + dyZoom + dyPan), dTl)
+    //     )
+
+    //     return { x: newPosition.x + dxZoom + dxPan, y: newPosition.y + dyZoom + dyPan }
+    // }
     fixResizePositionInZoomAndPan(initTransformBox: TransformedBox, newTransformBox: TransformedBox) {
-        const {x, y} = this.transform
+        const transform = this.transform
         const dTl = subPoint(newTransformBox.tl, initTransformBox.tl)
-        const newPosition = roundPoint(subPoint(point(x, y), dTl))
+        const newPosition = roundPoint(subPoint(transform, dTl))
         return newPosition
     }
     onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>) {

@@ -8,8 +8,8 @@ export class BrResizeListener {
     dragListener: DragListener<TransformedBox>
     edListener: EditBox
     constructor(svgElement: SVGRectElement, editBoxListener: EditBox) {
-        this.dragListener = new DragListener<TransformedBox>(svgElement as any)
         this.edListener = editBoxListener
+        this.dragListener = new DragListener<TransformedBox>(svgElement)
 
         this.dragListener.onDragStart = (_e, initFn) => {
             this.edListener.isResizeByListener = true

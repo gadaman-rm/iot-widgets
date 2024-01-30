@@ -1,11 +1,13 @@
 export class KeyShortcatListener {
     keyCode: string
+    #container: HTMLElement
     #onKeyDown?: (e: KeyboardEvent) => void
     #onKeyUp?: (e: KeyboardEvent) => void
-    constructor(keyCode: string) {
+    constructor(keyCode: string, container?: HTMLElement) {
         this.keyCode = keyCode
-        document.addEventListener('keydown', this.#keyDown)
-        document.addEventListener('keyup', this.#keyUp)
+        this.#container = container ? container : document as any
+        this.#container.addEventListener('keydown', this.#keyDown)
+        this.#container.addEventListener('keyup', this.#keyUp)
     }
 
     public set onKeyDown(onKeyDown: (e: KeyboardEvent) => void) {
@@ -25,7 +27,7 @@ export class KeyShortcatListener {
     }
 
     removeEvent = () => {
-        document.removeEventListener('keydown', this.#keyDown)
-        document.removeEventListener('keyup', this.#keyUp)
+        this.#container.removeEventListener('keydown', this.#keyDown)
+        this.#container.removeEventListener('keyup', this.#keyUp)
     }
 }

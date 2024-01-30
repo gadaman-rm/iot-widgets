@@ -1,18 +1,20 @@
 export class DragListener<Init = undefined>{
-    element: HTMLElement
+    #container: HTMLElement
+    element: HTMLElement | SVGElement
     active: boolean
     init?: Init
     #onDragStart?: (e: MouseEvent, initFn: (init: Init) => Init) => void
     #onDragMove?: (e: MouseEvent, init?: Init) => void
     #onDragEnd?: (e: MouseEvent, init?: Init) => void
     #onDragLeave?: (e: MouseEvent, init?: Init) => void
-    constructor(element: HTMLElement) {
+    constructor(element: HTMLElement | SVGElement, container?: HTMLElement) {
         this.active = false
         this.element = element
-        this.element.addEventListener('mousedown', this.#start)
-        document.addEventListener('mousemove', this.#move)
-        document.addEventListener('mouseup', this.#end)
-        document.addEventListener('mouseleave', this.#leave)
+        this.#container = container ? container : document as any
+        this.element.addEventListener('mousedown', this.#start as any)
+        this.#container.addEventListener('mousemove', this.#move)
+        this.#container.addEventListener('mouseup', this.#end)
+        this.#container.addEventListener('mouseleave', this.#leave)
     }
 
     public set onDragStart(onDragStart: (e: MouseEvent, initFn: (init: Init) => Init) => void) {
@@ -31,10 +33,9 @@ export class DragListener<Init = undefined>{
         this.#onDragLeave = onDragLeave
     }
 
-    #start = (e: MouseEvent, init?: Init) => {
+    #start = (e: MouseEvent) => {
         if (!this.active) {
             this.active = true
-            this.init = init
             if (this.#onDragStart) this.#onDragStart(e, (init) => this.init = init)
         }
     }
@@ -56,9 +57,9 @@ export class DragListener<Init = undefined>{
         }
     }
     removeEvent = () => {
-        this.element.removeEventListener('mousedown', this.#start)
-        document.removeEventListener('mousemove', this.#move)
-        document.removeEventListener('mouseup', this.#end)
-        document.removeEventListener('mouseleave', this.#leave)
+        this.element.removeEventListener('mousedown', this.#start as any)
+        this.#container.removeEventListener('mousemove', this.#move)
+        this.#container.removeEventListener('mouseup', this.#end)
+        this.#container.removeEventListener('mouseleave', this.#leave)
     }
 }

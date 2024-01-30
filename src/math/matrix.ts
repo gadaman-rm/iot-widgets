@@ -244,29 +244,55 @@ export const svgInfo = (
     }
 }
 
+export type TransformProps = {
+    x?: number
+    y?: number
+    rotate?: number
+    scaleX?: number
+    scaleY?: number
+}
+
 export class Transform {
     x: number
     y: number
     rotate: number
     scaleX: number
     scaleY: number
-    element: HTMLElement
+    element: HTMLElement | SVGElement
 
-    constructor(element: HTMLElement) {
+    constructor(element: HTMLElement | SVGElement) {
         this.x = 0
         this.y = 0
         this.scaleX = 1
         this.scaleY = 1
         this.rotate = 0
         this.element = element
-        this.#parse(this.element.style.transform)
+        if(this.element instanceof HTMLElement) 
+            this.#parse(this.element.style.transform)
+        else
+            this.#parse(this.element.getAttribute('transform')!)
     }
     
-    public get transform(): {x: number, y: number, rotate: number, scaleX: number, scaleY: number } {
-        this.#parse(this.element.style.transform)
+    public get transform(): { x: number, y: number, rotate: number, scaleX: number, scaleY: number } {
+        if (this.element instanceof HTMLElement)
+            this.#parse(this.element.style.transform)
+        else
+            this.#parse(this.element.getAttribute('transform')!)
         return { x: this.x, y: this.y, rotate: this.rotate, scaleX: this.scaleX, scaleY: this.scaleY }
     }
-    public set transform(transform: string) { this.#parse(transform) }
+    public set transform(transform: string | TransformProps) {
+        if (typeof transform === 'string') {
+            if (this.element instanceof HTMLElement) this.element.style.transform = transform
+            else this.element.setAttribute('transform', transform)
+            this.#parse(transform)
+        } else {
+            transform = { ...this.transform, ...transform }
+            const { x, y, rotate, scaleX, scaleY } = transform
+            const transformStr = `translate(${x},${y}) scale(${scaleX},${scaleY}) rotate(${rotate})`
+            if (this.element instanceof HTMLElement) this.element.style.transform = transformStr
+            else this.element.setAttribute('transform', transformStr)
+        }
+    }
 
     #parse(transform: string) {
         if (transform) {

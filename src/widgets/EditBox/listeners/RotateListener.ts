@@ -6,8 +6,8 @@ export class RotateListener {
     dragListener: DragListener
     edListener: EditBox
     constructor(svgElement: SVGCircleElement, editBoxListener: EditBox) {
-        this.dragListener = new DragListener(svgElement as any)
         this.edListener = editBoxListener
+        this.dragListener = new DragListener(svgElement)
 
         this.dragListener.onDragMove = (e) => {
                 const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
