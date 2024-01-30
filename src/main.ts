@@ -6,7 +6,7 @@ import './widgets'
 const app = document.querySelector<HTMLDivElement>('#app')!
 
 const containerMain = document.createElement('main')
-const container = new Container({x: 200, y: 200}, 3)
+const container = new Container({x: 200, y: 200}, 1.4)
 container.appendChild(containerMain)
 app.appendChild(container)
 
@@ -26,3 +26,14 @@ editBox.onEdit = (e) => {
 }
 
 containerMain.appendChild(editBox)
+
+
+// const h1 = document.createElement('h1')
+// h1.style.color = 'red'
+// h1.style.position = 'absolute'
+// h1.style.insetInlineStart = '100px'
+// h1.style.insetBlockStart = '100px'
+// h1.innerHTML = `
+// zero
+// `
+// containerMain.appendChild(h1)

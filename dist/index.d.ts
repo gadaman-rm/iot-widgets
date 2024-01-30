@@ -99,8 +99,6 @@ export declare class Container extends HTMLDivElement {
     set zoom(zoom: number);
     get pan(): Point;
     set pan(pan: Point);
-    get matrix(): DOMMatrix;
-    toContainerXY(point: Point): Point;
     mouseCoordInContainer(e: MouseEvent): {
         x: number;
         y: number;
@@ -264,7 +262,7 @@ declare class Transform {
     scaleX: number;
     scaleY: number;
     element: HTMLElement | SVGElement;
-    constructor(element: HTMLElement | SVGElement);
+    constructor(element: HTMLElement | SVGElement, x?: number, y?: number, scaleX?: number, scaleY?: number, rotate?: number);
     get transform(): {
         x: number;
         y: number;

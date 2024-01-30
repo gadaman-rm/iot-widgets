@@ -1,4 +1,4 @@
-import { Transform, transformPoint } from '../../math/matrix'
+import { Transform } from '../../math/matrix'
 import { Point } from '../../math/point'
 import html from './Container.html?raw'
 import style from './Container.scss?inline'
@@ -35,11 +35,11 @@ export class Container extends HTMLDivElement {
         return { x, y }
     }
     public set pan(pan: Point) { this.transform.transform = { ...pan } }
-    public get matrix() { return this.root.getScreenCTM()! }
-    toContainerXY(point: Point) { 
-        // return new DOMPoint(e.clientX, e.clientY).matrixTransform(this.matrix)
-        return transformPoint(this.matrix, point) 
-    }
+    // public get matrix() { return this.root.getScreenCTM()! }
+    // toContainerXY(point: Point) { 
+    //     // return new DOMPoint(e.clientX, e.clientY).matrixTransform(this.matrix)
+    //     return transformPoint(this.matrix, point) 
+    // }
     mouseCoordInContainer(e: MouseEvent) { 
         const pan = this.pan
         const zoom = this.zoom

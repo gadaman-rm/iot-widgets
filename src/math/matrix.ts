@@ -289,7 +289,7 @@ export class Transform {
             transform = { ...this.transform, ...transform }
             const { x, y, rotate, scaleX, scaleY } = transform
             if (this.element instanceof HTMLElement) {
-                const transformStr = `translate(${x}px,${y}px) scale(${scaleX},${scaleY}) rotate(${rotate}deg)`
+                const transformStr = `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY}) rotate(${rotate}deg)`
                 this.element.style.transform = transformStr
             }
             else {
