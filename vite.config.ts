@@ -10,7 +10,7 @@ export default defineConfig({
     sourcemap: true,
     emptyOutDir: false,
     lib: {
-      name: 'iot-widgets',
+      name: '@gadaman-rm/iot-widgets',
       entry: [
         path.resolve(__dirname, "./src/widgets/index.ts"),
         path.resolve(__dirname, "./src/math/math.ts"),
