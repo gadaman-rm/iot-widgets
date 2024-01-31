@@ -2,7 +2,7 @@ import { Container } from ".."
 import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
 import { randomId } from "../../math/helper"
 import { TransformedBox, toTransformBox } from "../../math/matrix"
-import { Point, roundPoint, subPoint } from "../../math/point"
+import { Point, point, roundPoint, subPoint } from "../../math/point"
 import html from './EditBox.html?raw'
 import { BmidResizeListener } from "./listeners/BmidResizeListener"
 import { BrResizeListener } from "./listeners/BrResizeListener"
@@ -91,12 +91,11 @@ export class EditBox extends BaseSvg {
     // }
 
     toTransformBox = (box: {x?: number, y?: number, width?: number, height?: number}) => {
-        const transform = this.transform
-        box.x ??= transform.x
-        box.y ??= transform.y
+        box.x ??= this.x
+        box.y ??= this.y
         box.width ??= this.width
         box.height ??= this.height
-        const {tl, tr, br, bl, aabox} = toTransformBox(box.x, box.y, box.width, box.height, transform.rotate)
+        const {tl, tr, br, bl, aabox} = toTransformBox(box.x, box.y, box.width, box.height, this.rotate)
 
         return {tl, tr, br, bl, aabox}
     }
@@ -117,23 +116,21 @@ export class EditBox extends BaseSvg {
     //     return { x: newPosition.x + dxZoom + dxPan, y: newPosition.y + dyZoom + dyPan }
     // }
     fixResizePositionInZoomAndPan(initTransformBox: TransformedBox, newTransformBox: TransformedBox) {
-        const transform = this.transform
         const dTl = subPoint(newTransformBox.tl, initTransformBox.tl)
-        const newPosition = roundPoint(subPoint(transform, dTl))
+        const newPosition = roundPoint(subPoint(point(this.x, this.y), dTl))
         return newPosition
     }
     onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>) {
-        const { x, y, rotate, scaleX, scaleY } = this.transform
         if (this.#onEdit) {
             this.#onEdit({
                 type,
                 width: this.width,
                 height: this.height,
-                x: x,
-                y: y,
-                rotate: -rotate,
-                scaleX: scaleX,
-                scaleY: scaleY,
+                x: this.x,
+                y: this.y,
+                rotate: this.rotate,
+                scaleX: this.scaleX,
+                scaleY: this.scaleY,
                 originStr: this.originStr,
                 origin: this.origin,
                 ...e

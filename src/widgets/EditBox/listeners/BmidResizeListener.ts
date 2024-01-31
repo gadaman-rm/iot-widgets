@@ -13,7 +13,7 @@ export class BmidResizeListener {
 
         this.dragListener.onDragStart = (_e, initFn) => {
             this.edListener.isResizeByListener = true
-            const { x, y, rotate } = this.edListener.transform
+            const { x, y, rotate } = this.edListener
             const initTransformBox = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
             initFn(initTransformBox)
         }
@@ -21,7 +21,7 @@ export class BmidResizeListener {
         this.dragListener.onDragMove = (e, iBox) => {
             if (iBox) {
                 const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
-                const { x, y, rotate } = this.edListener.transform
+                const { x, y, rotate } = this.edListener
 
                 const box = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
                 let newHeight = distancePointFromLine(currentMouseCoord, box.tr, box.tl)

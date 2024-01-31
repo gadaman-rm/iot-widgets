@@ -16,7 +16,7 @@ export class MoveListener {
         this.edListener = editBoxListener
         this.dragListener = new DragListener<MouseInit>(svgElement)
         this.dragListener.onDragStart = (e, initFn) => {
-            const { x, y } = this.edListener.transform
+            const { x, y } = this.edListener
             const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
             initFn({ x, y, clientX: currentMouseCoord.x, clientY: currentMouseCoord.y })
         }

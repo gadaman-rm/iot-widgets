@@ -8,32 +8,18 @@ declare class BaseSvg extends HTMLDivElement {
     #private;
     root: SVGSVGElement;
     constructor(template: HTMLTemplateElement, id?: string, width?: number, height?: number, x?: number, y?: number, rotate?: number, origin?: string, scaleX?: number, scaleY?: number);
-    get transform(): {
-        x: number;
-        y: number;
-        scaleX: number;
-        scaleY: number;
-        rotate: number;
-    };
-    set transform(v: {
-        x?: number;
-        y?: number;
-        scaleX?: number;
-        scaleY?: number;
-        rotate?: number;
-    });
     get id(): string;
     set id(id: string);
     get x(): number;
     set x(x: number);
     get y(): number;
     set y(y: number);
+    get rotate(): number;
+    set rotate(rotate: number);
     get scaleX(): number;
     set scaleX(scaleX: number);
     get scaleY(): number;
     set scaleY(scaleY: number);
-    get rotate(): number;
-    set rotate(rotate: number);
     get width(): number;
     set width(width: number | undefined);
     get height(): number;
@@ -50,10 +36,10 @@ declare class BaseSvg extends HTMLDivElement {
     connectedCallback(): void;
     disconnectedCallback(): void;
     idUpdate(oldId: string, newId: string): void;
-    xUpdate(oldX: number, newX: number): void;
-    yUpdate(oldY: number, newY: number): void;
     widthUpdate(oldWidth: number, newWidth: number): void;
     heightUpdate(oldHeight: number, newHeight: number): void;
+    xUpdate(oldX: number, newX: number): void;
+    yUpdate(oldY: number, newY: number): void;
     rotateUpdate(oldRotate: number, newRotate: number): void;
     scaleXUpdate(oldScaleX: number, newScaleX: number): void;
     scaleYUpdate(oldScaleY: number, newScaleY: number): void;

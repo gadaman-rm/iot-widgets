@@ -21,20 +21,15 @@ export class Container extends HTMLDivElement {
         this.setAttribute('is', "my-container")
         this.transform = new Transform(this.main, pan.x, pan.y, zoom, zoom)
         this.zoom = zoom
-        this.setAttribute('zoom', zoom.toString())
         this.pan = pan
-        this.setAttribute('panx', pan.x.toString())
-        this.setAttribute('pany', pan.y.toString())
     }
     public get zoom() { return +this.getAttribute('zoom')! }
-    public set zoom(zoom: number) { this.transform.transform = { scaleX: zoom, scaleY: zoom } }
-    
-    public get pan() {
-        const x = +this.getAttribute('panx')!
-        const y = +this.getAttribute('pany')!
-        return { x, y }
+    public set zoom(zoom: number) { this.setAttribute('zoom', zoom.toString()) }
+    public get pan() { return { x: +this.getAttribute('panx')!, y: +this.getAttribute('pany')! } }
+    public set pan(pan: Point) { 
+        this.setAttribute('panx', pan.x.toString())!
+        this.setAttribute('pany', pan.y.toString())!
     }
-    public set pan(pan: Point) { this.transform.transform = { ...pan } }
     // public get matrix() { return this.root.getScreenCTM()! }
     // toContainerXY(point: Point) { 
     //     // return new DOMPoint(e.clientX, e.clientY).matrixTransform(this.matrix)
@@ -46,9 +41,9 @@ export class Container extends HTMLDivElement {
         return { x: (e.clientX - pan.x) / zoom, y: (e.clientY - pan.y) / zoom}
     }
 
-    zoomUpdate(oldZoom: number, newZoom: number) { this.zoom = newZoom }
-    panXUpdate(oldPanX: number, newPanX: number) { this.pan = {...this.pan, x: newPanX} }
-    panYUpdate(oldPanY: number, newPanY: number) { this.pan = {...this.pan, y: newPanY} }
+    zoomUpdate(oldZoom: number, newZoom: number) { this.transform.transform = { scaleX: newZoom, scaleY: newZoom } }
+    panXUpdate(oldPanX: number, newPanX: number) { this.transform.transform = {...this.pan, x: newPanX} }
+    panYUpdate(oldPanY: number, newPanY: number) { this.transform.transform = {...this.pan, y: newPanY} }
 
     attributeChangedCallback(attributeName: typeof CONTAINER_ATTRIBUTES[number], oldValue: string, newValue: string) {
         switch (attributeName) {
