@@ -293,6 +293,8 @@ export class Transform {
                 this.element.style.transform = transformStr
             }
             else {
+                const transformStr2 = `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY}) rotate(${rotate}deg)`
+                this.element.style.transform = transformStr2
                 const transformStr = `translate(${x},${y}) scale(${scaleX},${scaleY}) rotate(${rotate})`
                 this.element.setAttribute('transform', transformStr)
             }

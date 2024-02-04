@@ -95,7 +95,7 @@ export class EditBox extends BaseSvg {
         box.y ??= this.y
         box.width ??= this.width
         box.height ??= this.height
-        const {tl, tr, br, bl, aabox} = toTransformBox(box.x, box.y, box.width, box.height, this.rotate)
+        const {tl, tr, br, bl, aabox} = toTransformBox(box.x, box.y, box.width, box.height, -this.rotate)
 
         return {tl, tr, br, bl, aabox}
     }
@@ -199,17 +199,15 @@ export class EditBox extends BaseSvg {
     }
 
     widthUpdate(oldWidth: number, newWidth: number): void {
-        this.width = newWidth
         this.setOriginCenter()
         if (!this.isResizeByListener)
-            this.fixResizePosition(oldWidth, newWidth, this.height, this.height)
+            this.fixXyInResize(oldWidth, newWidth, this.height, this.height)
         this.render()
     }
     heightUpdate(oldHeight: number, newHeight: number): void {
-        this.height = newHeight
         this.setOriginCenter()
         if (!this.isResizeByListener)
-            this.fixResizePosition(this.width, this.width, oldHeight, newHeight)
+            this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
         this.render()
     }
 

@@ -10,7 +10,7 @@ const container = new Container({x: 200, y: 200}, 1.4)
 container.appendChild(containerMain)
 app.appendChild(container)
 
-const gauge = new Gauge('zero', 200, 200, 400, 150, 0)
+const gauge = new Gauge('zero', 200, 200, 400, 150, 45)
 containerMain.appendChild(gauge)
 const editBox = new EditBox(
     randomId(),

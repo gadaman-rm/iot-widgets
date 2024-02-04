@@ -1,6 +1,6 @@
 import { DragListener } from "../../../event/event"
 import { distancePointFromLine } from "../../../math/geometry"
-import { TransformedBox, toTransformBox } from "../../../math/matrix"
+import { TransformedBox } from "../../../math/matrix"
 import { point, roundPoint, subPoint } from "../../../math/point"
 import { EditBox } from "../EditBox"
 
@@ -13,23 +13,21 @@ export class BrResizeListener {
 
         this.dragListener.onDragStart = (_e, initFn) => {
             this.edListener.isResizeByListener = true
-            const { x, y, rotate } = this.edListener
-            const initTransformBox = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
+            const initTransformBox = this.edListener.toTransformBox({})
             initFn(initTransformBox)
         }
 
         this.dragListener.onDragMove = (e, iBox) => {
             if (iBox) {
                 const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
-                const { x, y, rotate } = this.edListener
 
-                const box = toTransformBox(x, y, this.edListener.width, this.edListener.height, rotate)
+                const box = this.edListener.toTransformBox({})
                 let newWidth = distancePointFromLine(currentMouseCoord, box.tl, box.bl)
                 let newHeight = distancePointFromLine(currentMouseCoord, box.tr, box.tl)
-                const nBox = toTransformBox(x, y, newWidth, newHeight, rotate)
+                const nBox = this.edListener.toTransformBox({ width: newWidth, height: newHeight})
                 
                 if (newWidth > 10 && newHeight > 10) {
-                    const newPosition = this.fixResizePosition(x, y, iBox, nBox)
+                    const newPosition = this.edListener.fixResizePositionInZoomAndPan(iBox, nBox)
                     this.edListener.setAttribute('x', newPosition.x.toString())
                     this.edListener.setAttribute('y', newPosition.y.toString())
                     this.edListener.setAttribute('width', newWidth.toString())

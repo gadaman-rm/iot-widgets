@@ -30,17 +30,15 @@ export class Container extends HTMLDivElement {
         this.setAttribute('panx', pan.x.toString())!
         this.setAttribute('pany', pan.y.toString())!
     }
-    // public get matrix() { return this.root.getScreenCTM()! }
-    // toContainerXY(point: Point) { 
-    //     // return new DOMPoint(e.clientX, e.clientY).matrixTransform(this.matrix)
-    //     return transformPoint(this.matrix, point) 
-    // }
+    public get matrix() { return this.root.getScreenCTM()! }
+    mouseCoordInContainerMatrix = (e: MouseEvent) => { 
+        return new DOMPoint(e.clientX, e.clientY).matrixTransform(this.matrix)
+    }
     mouseCoordInContainer(e: MouseEvent) { 
         const pan = this.pan
         const zoom = this.zoom
         return { x: (e.clientX - pan.x) / zoom, y: (e.clientY - pan.y) / zoom}
     }
-
     zoomUpdate(oldZoom: number, newZoom: number) { this.transform.transform = { scaleX: newZoom, scaleY: newZoom } }
     panXUpdate(oldPanX: number, newPanX: number) { this.transform.transform = {...this.pan, x: newPanX} }
     panYUpdate(oldPanY: number, newPanY: number) { this.transform.transform = {...this.pan, y: newPanY} }
