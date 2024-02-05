@@ -15,8 +15,8 @@ export class Circle extends HTMLDivElement {
         super()
         this.attachShadow({ mode: 'open' })
         this.shadowRoot!.appendChild(template.content.cloneNode(true))
-        this.setAttribute('is', "my-circle")
+        this.setAttribute('is', "g-circle")
     }
 }
 
-customElements.define('my-circle', Circle, { extends: 'div' })
+customElements.define('g-circle', Circle, { extends: 'div' })

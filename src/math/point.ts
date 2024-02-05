@@ -1,11 +1,17 @@
 export interface Point { x: number, y: number }
+export function point(e: MouseEvent): Point
 export function point(value: [number, number]): Point
 export function point(value: Point): Point
 export function point(x: number, y: number): Point
 export function point() {
     return arguments.length === 1 ?
-        Array.isArray(arguments[0]) ? Object.freeze({ x: arguments[0][0], y: arguments[0][1] })
-            : Object.freeze({ x: arguments[0].x, y: arguments[0].y })
+        arguments[0].hasOwnProperty('clientX') ?
+            Object.freeze({ x: arguments[0].clientX, y: arguments[0].clientY })
+            :
+            Array.isArray(arguments[0]) ?
+                Object.freeze({ x: arguments[0][0], y: arguments[0][1] })
+                :
+                Object.freeze({ x: arguments[0].x, y: arguments[0].y })
         :
         Object.freeze({ x: arguments[0], y: arguments[1] })
 }

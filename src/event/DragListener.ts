@@ -1,5 +1,5 @@
 export class DragListener<Init = undefined>{
-    #container: HTMLElement
+    #container: HTMLElement | Document
     element: HTMLElement | SVGElement
     active: boolean
     init?: Init
@@ -7,14 +7,14 @@ export class DragListener<Init = undefined>{
     #onDragMove?: (e: MouseEvent, init?: Init) => void
     #onDragEnd?: (e: MouseEvent, init?: Init) => void
     #onDragLeave?: (e: MouseEvent, init?: Init) => void
-    constructor(element: HTMLElement | SVGElement, container?: HTMLElement) {
+    constructor(element: HTMLElement | SVGElement, container?: HTMLElement | Document) {
         this.active = false
         this.element = element
-        this.#container = container ? container : document as any
+        this.#container = container ? container : document
         this.element.addEventListener('mousedown', this.#start as any)
-        this.#container.addEventListener('mousemove', this.#move)
-        this.#container.addEventListener('mouseup', this.#end)
-        this.#container.addEventListener('mouseleave', this.#leave)
+        this.#container.addEventListener('mousemove', this.#move as any)
+        this.#container.addEventListener('mouseup', this.#end as any)
+        this.#container.addEventListener('mouseleave', this.#leave as any)
     }
 
     public set onDragStart(onDragStart: (e: MouseEvent, initFn: (init: Init) => Init) => void) {
@@ -58,8 +58,8 @@ export class DragListener<Init = undefined>{
     }
     removeEvent = () => {
         this.element.removeEventListener('mousedown', this.#start as any)
-        this.#container.removeEventListener('mousemove', this.#move)
-        this.#container.removeEventListener('mouseup', this.#end)
-        this.#container.removeEventListener('mouseleave', this.#leave)
+        this.#container.removeEventListener('mousemove', this.#move as any)
+        this.#container.removeEventListener('mouseup', this.#end as any)
+        this.#container.removeEventListener('mouseleave', this.#leave as any)
     }
 }

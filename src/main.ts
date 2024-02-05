@@ -1,21 +1,17 @@
 import { randomId } from './math/helper'
 import './reset.scss'
-import { Container, EditBox, Gauge } from './widgets'
+import { SvgContainer, EditBox, Gauge } from './widgets'
 import './widgets'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
-const containerMain = document.createElement('main')
-const container = new Container({x: 200, y: 200}, 1.4)
-container.appendChild(containerMain)
+const container = new SvgContainer([], {x: 200, y: 200}, 1.4)
 app.appendChild(container)
 
 const gauge = new Gauge('zero', 200, 200, 400, 150, 45)
-containerMain.appendChild(gauge)
-const editBox = new EditBox(
-    randomId(),
-    container,
-    gauge.width, gauge.height, gauge.x, gauge.y, gauge.rotate)
+container.addWidget(gauge)
+
+const editBox = new EditBox(randomId(), container, gauge.width, gauge.height, gauge.x, gauge.y, gauge.rotate)
 editBox.onEdit = (e) => {
     gauge.setAttribute('width', e.width.toString())
     gauge.setAttribute('height', e.height.toString())
@@ -24,9 +20,7 @@ editBox.onEdit = (e) => {
     gauge.setAttribute('x', e.x.toString())
     gauge.setAttribute('y', e.y.toString())
 }
-
-containerMain.appendChild(editBox)
-
+container.addWidgetEditBox(gauge, editBox)
 
 // const h1 = document.createElement('h1')
 // h1.style.color = 'red'
@@ -36,4 +30,4 @@ containerMain.appendChild(editBox)
 // h1.innerHTML = `
 // zero
 // `
-// containerMain.appendChild(h1)
+// container.push(h1)

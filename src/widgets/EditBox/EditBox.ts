@@ -1,4 +1,4 @@
-import { Container } from ".."
+import { SvgContainer } from ".."
 import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
 import { randomId } from "../../math/helper"
 import { TransformedBox, toTransformBox } from "../../math/matrix"
@@ -28,7 +28,7 @@ export type EditEvent = {
 export class EditBox extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
     controllerSize: number
-    container: Container
+    svgContainer: SvgContainer
     bodyRef: SVGRectElement
     rotateRef: SVGCircleElement
     tlResizeRef: SVGRectElement
@@ -45,12 +45,12 @@ export class EditBox extends BaseSvg {
     moveListener: MoveListener
     isResizeByListener: boolean
     #onEdit?: (e: EditEvent) => void
-    constructor(id = randomId(), container: Container, width = 0, height = 0, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
+    constructor(id = randomId(), svgContainer: SvgContainer, width = 0, height = 0, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
         super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
-        this.setAttribute('is', "my-editbox")
+        this.setAttribute('is', "g-editbox")
         this.isResizeByListener = false
         this.controllerSize = 12
-        this.container = container
+        this.svgContainer = svgContainer
         this.bodyRef = this.root.querySelector('#body')!
         this.rotateRef = this.root.querySelector('#rotate')!
         this.tlResizeRef = this.root.querySelector('#tl-resize')!
@@ -70,7 +70,7 @@ export class EditBox extends BaseSvg {
         this.render()
     }
     mouseCoordInZoomAndPan = (e: MouseEvent) => {
-        return this.container.mouseCoordInContainer(e)
+        return this.svgContainer.mouseCoordInContainer(e)
     }
     // toTransformBox = (box: {x?: number, y?: number, width?: number, height?: number}, panAndZoom = false) => {
     //     const {pan, zoom} = this.container
@@ -154,6 +154,8 @@ export class EditBox extends BaseSvg {
             this.blResizeRef && this.rotateRef && this.bmidResizeRef &&
             this.brResizeRef && this.rmidResizeRef && this.tmidResizeRef
         ) {
+            this.root.setAttribute('width', this.width.toString())
+            this.root.setAttribute('height', this.height.toString())
             this.bodyRef.setAttribute('width', this.width.toString())
             this.bodyRef.setAttribute('height', this.height.toString())
 
@@ -221,9 +223,9 @@ export class EditBox extends BaseSvg {
 }
 
 // setTimeout(() => {
-//     const edit = document.querySelector('div[is="my-editbox"]')!
+//     const edit = document.querySelector('div[is="g-editbox"]')!
 //     edit.setAttribute('x', '100')
 
 // }, 1000);
 
-customElements.define('my-editbox', EditBox, { extends: 'div' })
+customElements.define('g-editbox', EditBox, { extends: 'div' })

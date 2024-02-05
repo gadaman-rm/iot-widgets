@@ -1,18 +1,18 @@
 export class PanListener<Init = undefined>{
-    #container: HTMLElement
+    #container: HTMLElement | Document
     active: boolean
     init?: Init
     #onPanStart?: (e: MouseEvent, initFn: (init: Init) => Init) => void
     #onPanMove?: (e: MouseEvent, init?: Init) => void
     #onPanEnd?: (e: MouseEvent, init?: Init) => void
     #onPanLeave?: (e: MouseEvent, init?: Init) => void
-    constructor(container?: HTMLElement) {
+    constructor(container?: HTMLElement | Document) {
         this.active = false
-        this.#container = container ? container : document as any
-        this.#container.addEventListener('mousedown', this.#start)
-        this.#container.addEventListener('mousemove', this.#move)
-        this.#container.addEventListener('mouseup', this.#end)
-        this.#container.addEventListener('mouseleave', this.#leave)
+        this.#container = container ? container : document
+        this.#container.addEventListener('mousedown', this.#start as any)
+        this.#container.addEventListener('mousemove', this.#move as any)
+        this.#container.addEventListener('mouseup', this.#end as any)
+        this.#container.addEventListener('mouseleave', this.#leave as any)
     }
 
     public set onPanStart(onPanStart : (e: MouseEvent, initFn: (init: Init) => Init) => void) {
@@ -56,9 +56,9 @@ export class PanListener<Init = undefined>{
         }
     }
     removeEvent = () => {
-        this.#container.removeEventListener('mousedown', this.#start)
-        this.#container.removeEventListener('mousemove', this.#move)
-        this.#container.removeEventListener('mouseup', this.#end)
-        this.#container.removeEventListener('mouseleave', this.#leave)
+        this.#container.removeEventListener('mousedown', this.#start as any)
+        this.#container.removeEventListener('mousemove', this.#move as any)
+        this.#container.removeEventListener('mouseup', this.#end as any)
+        this.#container.removeEventListener('mouseleave', this.#leave as any)
     }
 }

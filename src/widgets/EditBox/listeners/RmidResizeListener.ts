@@ -18,7 +18,7 @@ export class RmidResizeListener {
 
         this.dragListener.onDragMove = (e, iBox) => {
             if (iBox) {
-                const currentMouseCoord = this.edListener.container.mouseCoordInContainer(e)
+                const currentMouseCoord = this.edListener.svgContainer.mouseCoordInContainer(e)
                 const box = this.edListener.toTransformBox({})
                 let newWidth = distancePointFromLine(currentMouseCoord, box.tl, box.bl) 
                 const nBox = this.edListener.toTransformBox({ width: newWidth })

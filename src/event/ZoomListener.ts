@@ -1,11 +1,11 @@
 export class ZoomListener {
     active: boolean
-    #container: HTMLElement
+    #container: HTMLElement | Document
     #onZoom?: (e: WheelEvent) => void
-    constructor(container?: HTMLElement) {
+    constructor(container?: HTMLElement | Document) {
         this.active = false
-        this.#container = container ? container : document as any
-        this.#container.addEventListener('wheel', this.#wheel, { passive: false })
+        this.#container = container ? container : document
+        this.#container.addEventListener('wheel', this.#wheel as any, { passive: false })
     }
 
     public set onZoom(onZoom: (e: WheelEvent) => void) {
@@ -24,6 +24,6 @@ export class ZoomListener {
     }
 
     removeEvent = () => {
-        this.#container.removeEventListener('wheel', this.#wheel)
+        this.#container.removeEventListener('wheel', this.#wheel as any)
     }
 }
