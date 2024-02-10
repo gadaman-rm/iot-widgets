@@ -8,6 +8,7 @@ export interface LogPointStyle {
 }
 
 const logPoint = (
+    container: HTMLElement | SVGSVGElement,
     point: Point,
     label?: string,
     style?: LogPointStyle,
@@ -45,13 +46,14 @@ const logPoint = (
         }px)`
         labelRef.style.color = style?.color ? style?.color : 'green'
         labelRef.innerHTML = `${label}{${point.x}, ${point.y}}`
-        document.body.appendChild(labelRef)
+        container.appendChild(labelRef)
     }
 
-    document.body.appendChild(pointRef)
+    container.appendChild(pointRef)
 }
 
 export const logInfo = (
+    container: HTMLElement | SVGSVGElement,
     data: {
         points?: {
             point: Point
@@ -70,14 +72,14 @@ export const logInfo = (
 ) => {
     if (data.points)
         data.points.forEach(item => {
-            logPoint(item.point, item.label, { labelOffsetX: -8, labelOffsetY: -8, color: item.color }, item.showLabel)
+            logPoint(container, item.point, item.label, { labelOffsetX: -8, labelOffsetY: -8, color: item.color }, item.showLabel)
         })
     if (data.TransformedBox)
         data.TransformedBox.forEach(item => {
             const currentResizelogStyle: LogPointStyle = { labelOffsetX: -8, labelOffsetY: -8, color: item.color }
-            logPoint(item.points.tl, `${item.prefix || ''}tl`, currentResizelogStyle, item.showLabel)
-            logPoint(item.points.tr, `${item.prefix || ''}tr`, currentResizelogStyle)
-            logPoint(item.points.bl, `${item.prefix || ''}bl`, currentResizelogStyle, item.showLabel)
-            logPoint(item.points.br, `${item.prefix || ''}br`, currentResizelogStyle, item.showLabel)
+            logPoint(container, item.points.tl, `${item.prefix || ''}tl`, currentResizelogStyle, item.showLabel)
+            logPoint(container, item.points.tr, `${item.prefix || ''}tr`, currentResizelogStyle)
+            logPoint(container, item.points.bl, `${item.prefix || ''}bl`, currentResizelogStyle, item.showLabel)
+            logPoint(container, item.points.br, `${item.prefix || ''}br`, currentResizelogStyle, item.showLabel)
         })
 }

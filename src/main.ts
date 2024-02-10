@@ -20,6 +20,15 @@ editBox.onEdit = (e) => {
     gauge.setAttribute('x', e.x.toString())
     gauge.setAttribute('y', e.y.toString())
 }
+editBox.onEditStart = (t) => { console.log('start', t) }
+editBox.onEditEnd = (t) => { console.log('end', t) }
+
+// document.addEventListener('mousemove', (e) => {
+//     const m = editBox.mouseCoordInZoomAndPan(e)
+//     editBox.moveListener.emitMove(m, m)
+//     editBox.style.visibility = 'hidden'
+// })
+
 container.addWidgetEditBox(gauge, editBox)
 
 // const h1 = document.createElement('h1')

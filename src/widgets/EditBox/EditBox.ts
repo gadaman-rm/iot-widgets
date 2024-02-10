@@ -44,7 +44,9 @@ export class EditBox extends BaseSvg {
     rotateListener: RotateListener
     moveListener: MoveListener
     isResizeByListener: boolean
+    #onEditStart?: (type: EditEvent['type']) => void
     #onEdit?: (e: EditEvent) => void
+    #onEditEnd?: (type: EditEvent['type']) => void
     constructor(id = randomId(), svgContainer: SvgContainer, width = 0, height = 0, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
         super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
         this.setAttribute('is', "g-editbox")
@@ -69,6 +71,43 @@ export class EditBox extends BaseSvg {
         this.initHandler()
         this.render()
     }
+    public get onEditStart(): string { return this.getAttribute('oneditStart')! }
+    public set onEditStart(fn: (type: EditEvent['type']) => void) { this.#onEditStart = fn }
+
+    public get onEdit(): string { return this.getAttribute('onedit')! }
+    public set onEdit(fn: (e: EditEvent) => void) { this.#onEdit = fn }
+
+    public get onEditEnd(): string { return this.getAttribute('oneditEnd')! }
+    public set onEditEnd(fn: (type: EditEvent['type']) => void) { this.#onEditEnd = fn }
+
+    editStartEmit(type: EditEvent['type']) { if (this.#onEditStart) this.#onEditStart(type) }
+    editEmit(type: EditEvent['type'], e: Partial<EditEvent>) {
+        if (this.#onEdit)
+            this.#onEdit({
+                type,
+                width: this.width,
+                height: this.height,
+                x: this.x,
+                y: this.y,
+                rotate: this.rotate,
+                scaleX: this.scaleX,
+                scaleY: this.scaleY,
+                originStr: this.originStr,
+                origin: this.origin,
+                ...e
+            })
+    }
+    editEndEmit(type: EditEvent['type']) { if (this.#onEditEnd) this.#onEditEnd(type) }
+
+    initHandler() {
+        // @ts-ignore
+        if (this.onEditStart && typeof window[this.onEditStart] === 'function') this.#onEditStart = window[this.onEditStart]
+        // @ts-ignore
+        if (this.onEdit && typeof window[this.onEdit] === 'function') this.#onEdit = window[this.onEdit]
+        // @ts-ignore
+        if (this.onEditEnd && typeof window[this.onEditEnd] === 'function') this.#onEditEnd = window[this.onEditEnd]
+    }
+
     mouseCoordInZoomAndPan = (e: MouseEvent) => {
         return this.svgContainer.mouseCoordInContainer(e)
     }
@@ -120,34 +159,6 @@ export class EditBox extends BaseSvg {
         const newPosition = roundPoint(subPoint(point(this.x, this.y), dTl))
         return newPosition
     }
-    onEditEmit(type: 'rmid-resize' | 'bmid-resize' | 'br-resize' | 'move' | 'rotate', e: Partial<EditEvent>) {
-        if (this.#onEdit) {
-            this.#onEdit({
-                type,
-                width: this.width,
-                height: this.height,
-                x: this.x,
-                y: this.y,
-                rotate: this.rotate,
-                scaleX: this.scaleX,
-                scaleY: this.scaleY,
-                originStr: this.originStr,
-                origin: this.origin,
-                ...e
-            })
-        }
-    }
-    public get onEdit(): string { return this.getAttribute('onedit')! }
-    public set onEdit(fn: (e: EditEvent) => void) { this.#onEdit = fn }
-    initHandler() {
-        if (this.onEdit && typeof window[this.onEdit as any] === 'function')
-            this.#onEdit = window[this.onEdit as any] as any
-    }
-
-    // attributeUpdate(attributeName: typeof ATTRIBUTES[number], oldValue: string, newValue: string) {
-    //     switch (attributeName) {
-    //     }
-    // }
 
     render() {
         if (this.bodyRef && this.tlResizeRef && this.lmidResizeRef &&
@@ -221,11 +232,5 @@ export class EditBox extends BaseSvg {
         this.brResizeListener.removeListener()
     }
 }
-
-// setTimeout(() => {
-//     const edit = document.querySelector('div[is="g-editbox"]')!
-//     edit.setAttribute('x', '100')
-
-// }, 1000);
 
 customElements.define('g-editbox', EditBox, { extends: 'div' })

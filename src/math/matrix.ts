@@ -132,10 +132,10 @@ export interface TransformedBox {
     br: Point,
     bl: Point,
     aabox: {
-        x: number,
-        y: number,
-        width: number,
-        height: number
+        minx: number,
+        miny: number,
+        maxx: number,
+        maxy: number
     }
 }
 
@@ -207,10 +207,10 @@ export const toTransformBox = (
         br,
         bl,
         aabox: {
-            x: minx,
-            y: miny,
-            width: maxx - minx,
-            height: maxy - miny
+            minx,
+            miny,
+            maxx,
+            maxy
         }
     }
 }

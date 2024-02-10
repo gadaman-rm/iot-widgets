@@ -1,12 +1,19 @@
+export interface DragMouseEvent<Init = undefined> extends MouseEvent {
+    param: {
+        initFn: (init: Init) => Init
+        init?: Init
+    }
+}
+
 export class DragListener<Init = undefined>{
     #container: HTMLElement | Document
     element: HTMLElement | SVGElement
     active: boolean
     init?: Init
-    #onDragStart?: (e: MouseEvent, initFn: (init: Init) => Init) => void
-    #onDragMove?: (e: MouseEvent, init?: Init) => void
-    #onDragEnd?: (e: MouseEvent, init?: Init) => void
-    #onDragLeave?: (e: MouseEvent, init?: Init) => void
+    #onDragStart?: (e: DragMouseEvent<Init>) => void
+    #onDragMove?: (e: DragMouseEvent<Init>) => void
+    #onDragEnd?: (e: DragMouseEvent<Init>) => void
+    #onDragLeave?: (e: DragMouseEvent<Init>) => void
     constructor(element: HTMLElement | SVGElement, container?: HTMLElement | Document) {
         this.active = false
         this.element = element
@@ -17,43 +24,47 @@ export class DragListener<Init = undefined>{
         this.#container.addEventListener('mouseleave', this.#leave as any)
     }
 
-    public set onDragStart(onDragStart: (e: MouseEvent, initFn: (init: Init) => Init) => void) {
+    public set onDragStart(onDragStart: (e: DragMouseEvent<Init>) => void) {
         this.#onDragStart = onDragStart
     }
 
-    public set onDragMove(onDragMove: (e: MouseEvent, init?: Init) => void) {
+    public set onDragMove(onDragMove: (e: DragMouseEvent<Init>) => void) {
         this.#onDragMove = onDragMove
     }
 
-    public set onDragEnd(onDragEnd: (e: MouseEvent, init?: Init) => void) {
+    public set onDragEnd(onDragEnd: (e: DragMouseEvent<Init>) => void) {
         this.#onDragEnd = onDragEnd
     }
 
-    public set onDragLeave(onDragLeave: (e: MouseEvent, init?: Init) => void) {
+    public set onDragLeave(onDragLeave: (e: DragMouseEvent<Init>) => void) {
         this.#onDragLeave = onDragLeave
     }
 
-    #start = (e: MouseEvent) => {
+    #start = (e: DragMouseEvent<Init>) => {
         if (!this.active) {
             this.active = true
-            if (this.#onDragStart) this.#onDragStart(e, (init) => this.init = init)
+            e.param = { init: this.init, initFn: (init: Init) => this.init = init }
+            if (this.#onDragStart) this.#onDragStart(e)
         }
     }
-    #move = (e: MouseEvent) => {
+    #move = (e: DragMouseEvent<Init>) => {
         if (this.active) {
-            if (this.#onDragMove) this.#onDragMove(e, this.init)
+            e.param = { init: this.init, initFn: (init: Init) => this.init = init }
+            if (this.#onDragMove) this.#onDragMove(e)
         }
     }
-    #end = (e: MouseEvent) => {
+    #end = (e: DragMouseEvent<Init>) => {
         if (this.active) {
             this.active = false
-            if (this.#onDragEnd) this.#onDragEnd(e, this.init)
+            e.param = { init: this.init, initFn: (init: Init) => this.init = init }
+            if (this.#onDragEnd) this.#onDragEnd(e)
         }
     }
-    #leave = (e: MouseEvent) => {
+    #leave = (e: DragMouseEvent<Init>) => {
         if (this.active) {
             // this.active = false
-            if (this.#onDragLeave) this.#onDragLeave(e, this.init)
+            e.param = { init: this.init, initFn: (init: Init) => this.init = init }
+            if (this.#onDragLeave) this.#onDragLeave(e)
         }
     }
     removeEvent = () => {

@@ -1,5 +1,5 @@
 import { DragListener } from "../../../event/event"
-import { point } from "../../../math/point"
+import { Point, point } from "../../../math/point"
 import { EditBox } from "../EditBox"
 
 interface MouseInit {
@@ -10,36 +10,43 @@ interface MouseInit {
 }
 
 export class MoveListener {
-    dragListener: DragListener<MouseInit>
-    edListener: EditBox
+    #dragListener: DragListener<MouseInit>
+    #edListener: EditBox
     constructor(svgElement: SVGRectElement, editBoxListener: EditBox) {
-        this.edListener = editBoxListener
-        this.dragListener = new DragListener<MouseInit>(svgElement)
-        this.dragListener.onDragStart = (e, initFn) => {
-            const { x, y } = this.edListener
-            const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
-            initFn({ x, y, clientX: currentMouseCoord.x, clientY: currentMouseCoord.y })
-        }
-
-        this.dragListener.onDragMove = (e, init) => {
-            if(init) {
-                const initMouseCoord = point(init.clientX, init.clientY)
-                const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
-
-                const dx = initMouseCoord.x - init.x
-                const dy = initMouseCoord.y - init.y
-    
-                const x = currentMouseCoord.x - dx
-                const y = currentMouseCoord.y - dy
-
-                this.edListener.setAttribute('x', x.toString())
-                this.edListener.setAttribute('y', y.toString())
-                this.edListener.onEditEmit('move', { x, y })
-            }
-        }
+        this.#edListener = editBoxListener
+        this.#dragListener = new DragListener<MouseInit>(svgElement)
+        this.#initHandler()
     }
 
-    removeListener() {
-        this.dragListener.removeEvent()
+    #initHandler() {
+        this.#dragListener.onDragStart = (e) => {
+            const { initFn } = e.param
+            initFn({ ...this.emitMoveStart(this.#edListener.mouseCoordInZoomAndPan(e), point(this.#edListener)) })
+        }
+        this.#dragListener.onDragMove = (e) => {
+            const { init } = e.param
+            if (init) { this.emitMove(this.#edListener.mouseCoordInZoomAndPan(e), init) }
+        }
+        this.#dragListener.onDragEnd = (e) => { this.emitMoveEnd() }
     }
+    removeListener() { this.#dragListener.removeEvent() }
+
+    emitMoveStart = (currentMouseCoord: Point, initXY: Point) => { 
+        this.#edListener.editStartEmit('move') 
+        return { x: initXY.x, y: initXY.y, clientX: currentMouseCoord.x, clientY: currentMouseCoord.y }
+    }
+    emitMove = (currentMouseCoord: Point, init: MouseInit) => {
+        const initMouseCoord = point(init.clientX, init.clientY)
+
+        const dx = initMouseCoord.x - init.x
+        const dy = initMouseCoord.y - init.y
+
+        const x = currentMouseCoord.x - dx
+        const y = currentMouseCoord.y - dy
+
+        this.#edListener.setAttribute('x', x.toString())
+        this.#edListener.setAttribute('y', y.toString())
+        this.#edListener.editEmit('move', { x, y })
+    }
+    emitMoveEnd = () => { this.#edListener.editEndEmit('move') }
 }

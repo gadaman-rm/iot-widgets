@@ -11,13 +11,16 @@ export class BmidResizeListener {
         this.edListener = editBoxListener
         this.dragListener = new DragListener<TransformedBox>(svgElement)
 
-        this.dragListener.onDragStart = (_e, initFn) => {
+        this.dragListener.onDragStart = (e) => {
+            const { initFn } = e.param
             this.edListener.isResizeByListener = true
             const initTransformBox = this.edListener.toTransformBox({})
             initFn(initTransformBox)
+            this.edListener.editStartEmit('bmid-resize')
         }
 
-        this.dragListener.onDragMove = (e, iBox) => {
+        this.dragListener.onDragMove = (e) => {
+            const { init: iBox } = e.param
             if (iBox) {
                 const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
                 const box = this.edListener.toTransformBox({})
@@ -29,13 +32,14 @@ export class BmidResizeListener {
                     this.edListener.setAttribute('x', newPosition.x.toString())
                     this.edListener.setAttribute('y', newPosition.y.toString())
                     this.edListener.setAttribute('height', newHeight.toString())
-                    this.edListener.onEditEmit('bmid-resize', { height: newHeight, x: newPosition.x, y: newPosition.y })
+                    this.edListener.editEmit('bmid-resize', { height: newHeight, x: newPosition.x, y: newPosition.y })
                 }
             }
         }
 
         this.dragListener.onDragEnd = () => {
             this.edListener.isResizeByListener = false
+            this.edListener.editEndEmit('bmid-resize')
         }
     }
 

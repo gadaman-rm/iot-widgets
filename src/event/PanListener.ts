@@ -1,11 +1,18 @@
+export interface PanMouseEvent<Init = undefined> extends MouseEvent {
+    param: {
+        initFn: (init: Init) => Init
+        init?: Init
+    }
+}
+
 export class PanListener<Init = undefined>{
     #container: HTMLElement | Document
     active: boolean
     init?: Init
-    #onPanStart?: (e: MouseEvent, initFn: (init: Init) => Init) => void
-    #onPanMove?: (e: MouseEvent, init?: Init) => void
-    #onPanEnd?: (e: MouseEvent, init?: Init) => void
-    #onPanLeave?: (e: MouseEvent, init?: Init) => void
+    #onPanStart?: (e: PanMouseEvent<Init>) => void
+    #onPanMove?: (e: PanMouseEvent<Init>) => void
+    #onPanEnd?: (e: PanMouseEvent<Init>) => void
+    #onPanLeave?: (e: PanMouseEvent<Init>) => void
     constructor(container?: HTMLElement | Document) {
         this.active = false
         this.#container = container ? container : document
@@ -15,44 +22,46 @@ export class PanListener<Init = undefined>{
         this.#container.addEventListener('mouseleave', this.#leave as any)
     }
 
-    public set onPanStart(onPanStart : (e: MouseEvent, initFn: (init: Init) => Init) => void) {
+    public set onPanStart(onPanStart : (e: PanMouseEvent<Init>) => void) {
         this.#onPanStart = onPanStart
     }
 
-    public set onPanMove(onPanMove : (e: MouseEvent, init?: Init) => void) {
+    public set onPanMove(onPanMove : (e: PanMouseEvent<Init>) => void) {
         this.#onPanMove = onPanMove
     }
 
-    public set onPanEnd(onPanEnd : (e: MouseEvent, init?: Init) => void) {
+    public set onPanEnd(onPanEnd : (e: PanMouseEvent<Init>) => void) {
         this.#onPanEnd = onPanEnd
     }
 
-    public set onPanLeave(onPanLeave : (e: MouseEvent, init?: Init) => void) {
+    public set onPanLeave(onPanLeave : (e: PanMouseEvent<Init>) => void) {
         this.#onPanLeave = onPanLeave
     }
     
-    #start = (e: MouseEvent, init?: Init) => {
+    #start = (e: PanMouseEvent<Init>) => {
         if(e.button === 1 && !this.active) {
             this.active = true
-            this.init = init
-            if (this.#onPanStart) this.#onPanStart(e, (init) => this.init = init)
+            e.param = { init: this.init, initFn: (init: Init) => this.init = init }
+            if (this.#onPanStart) this.#onPanStart(e)
         }
     }
-    #move = (e: MouseEvent) => {
+    #move = (e: PanMouseEvent<Init>) => {
         if (this.active) {
-            if (this.#onPanMove) this.#onPanMove(e, this.init)
+            e.param = { init: this.init, initFn: (init: Init) => this.init = init }
+            if (this.#onPanMove) this.#onPanMove(e)
         }
     }
-    #end = (e: MouseEvent) => {
+    #end = (e: PanMouseEvent<Init>) => {
         if (e.button === 1 && this.active) {
             this.active = false
-            if (this.#onPanEnd) this.#onPanEnd(e, this.init)
+            e.param = { init: this.init, initFn: (init: Init) => this.init = init }
+            if (this.#onPanEnd) this.#onPanEnd(e)
         }
     }
-    #leave = (e: MouseEvent) => {
+    #leave = (e: PanMouseEvent<Init>) => {
         if (e.button === 1 && this.active) {
             // this.active = false
-            if (this.#onPanLeave) this.#onPanLeave(e, this.init)
+            if (this.#onPanLeave) this.#onPanLeave(e)
         }
     }
     removeEvent = () => {

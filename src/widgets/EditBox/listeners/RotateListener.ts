@@ -9,6 +9,7 @@ export class RotateListener {
         this.edListener = editBoxListener
         this.dragListener = new DragListener(svgElement)
 
+        this.dragListener.onDragStart = () => { this.edListener.editStartEmit('rotate') }
         this.dragListener.onDragMove = (e) => {
                 const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
                 const { x, y } = this.edListener
@@ -19,7 +20,11 @@ export class RotateListener {
                 const rotate = -Math.floor((R - initR))
 
                 this.edListener.rotate = rotate
-                this.edListener.onEditEmit('rotate', { rotate })
+                this.edListener.editEmit('rotate', { rotate })
+        }
+
+        this.dragListener.onDragEnd = () => {
+            this.edListener.editEndEmit('rotate')
         }
     }
 
