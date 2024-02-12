@@ -1,6 +1,6 @@
 import { randomId } from "../math/helper"
 import { Transform, toTransformBox } from "../math/matrix"
-import { Point, roundPoint, subPoint } from "../math/point"
+import { Point, point, roundPoint, subPoint } from "../math/point"
 
 export const BASE_SVG_ATTRIBUTES = ['id', 'x', 'y', 'width', 'height', 'rotate', 'scalex', 'scaley', 'origin'] as const
 export class BaseSvg extends HTMLDivElement {
@@ -66,11 +66,11 @@ export class BaseSvg extends HTMLDivElement {
             this.origin = { x: this.width / 2, y: this.height / 2 }
     }
     fixXyInResize(oldWidth: number, newWidth: number, oldHeight: number, newHeight: number) {
-        const { x, y, rotate } = this.#transform
+        const { x, y, rotate } = this.#transform.transform
         const iBox = toTransformBox(x, y, oldWidth, oldHeight, rotate)
         const nBox = toTransformBox(x, y, newWidth, newHeight, rotate)
         const dTl = subPoint(nBox.tl, iBox.tl)
-        const newPosition = roundPoint(subPoint({x, y}, dTl))
+        const newPosition = roundPoint(subPoint(point(this.x, this.y), dTl))
         if (!isNaN(newPosition.x) && !isNaN(newPosition.y)) {
             this.x = newPosition.x
             this.y = newPosition.y
