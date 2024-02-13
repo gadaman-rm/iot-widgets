@@ -1,0 +1,98 @@
+:host {
+    --drawer-color: white;
+    --drawer-offset: 0px;
+    --resizer-size: 10px;
+}
+
+.drawer {
+    position: absolute;
+    background-color: var(--drawer-color);
+
+    &--dir-left {
+        height: 100%;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        transform-origin: top left;
+        transform: scaleX(0) translateX(0px);
+    }
+
+    &--dir-right {
+        height: 100%;
+        inset-block-start: 0;
+        inset-inline-end: 0;
+        transform-origin: top right;
+        transform: scaleX(0) translateX(0px);
+    }
+
+    &--dir-top {
+        width: 100%;
+        inset-block-start: 0;
+        inset-inline-end: 0;
+        transform-origin: top right;
+        transform: scaleY(0) translateY(0px);
+    }
+
+    &--dir-bottom {
+        width: 100%;
+        inset-block-end: 0;
+        inset-inline-end: 0;
+        transform-origin: bottom right;
+        transform: scaleY(0) translateY(0px);
+    }
+
+    &--animation {
+        transition: all 450ms ease-in-out;
+    }
+}
+
+.resizer {
+    position: absolute;
+}
+
+.drawer--dir-left.drawer--open {
+    transform: scaleX(1) translateX(var(--drawer-offset));
+}
+
+.drawer--dir-right.drawer--open {
+    transform: scaleX(1) translateX(calc(0px - var(--drawer-offset)));
+}
+
+.drawer--dir-top.drawer--open {
+    transform: scaleY(1) translateY(calc(var(--drawer-offset)));
+}
+
+.drawer--dir-bottom.drawer--open {
+    transform: scaleY(1) translateY(calc(0px - var(--drawer-offset)));
+}
+
+.drawer--dir-left .resizer {
+    width: var(--resizer-size);
+    height: 100%;
+    inset-inline-end: calc(0px - var(--resizer-size));
+    inset-block-end: 0px;
+    cursor: col-resize;
+}
+
+.drawer--dir-right .resizer {
+    width: var(--resizer-size);
+    height: 100%;
+    inset-inline-start: 0px;
+    inset-block-start: calc(0px - var(--resizer-size));
+    cursor: col-resize;
+}
+
+.drawer--dir-bottom .resizer {
+    width: 100%;
+    height: var(--resizer-size);
+    inset-inline-start: 0px;
+    inset-block-start: calc(0px - var(--resizer-size));
+    cursor: row-resize;
+}
+
+.drawer--dir-top .resizer {
+    width: 100%;
+    height: var(--resizer-size);
+    inset-inline-end: 0px;
+    inset-block-end: calc(0px - var(--resizer-size));
+    cursor: row-resize;
+}

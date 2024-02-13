@@ -13,6 +13,7 @@ export default defineConfig({
       name: '@gadaman-rm/iot-widgets',
       entry: [
         path.resolve(__dirname, "./src/widgets/index.ts"),
+        path.resolve(__dirname, "./src/components/components.ts"),
         path.resolve(__dirname, "./src/math/math.ts"),
         path.resolve(__dirname, "./src/event/event.ts"),
         path.resolve(__dirname, "./src/utility/utility.ts"),

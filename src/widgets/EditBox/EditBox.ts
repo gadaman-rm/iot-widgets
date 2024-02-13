@@ -212,13 +212,13 @@ export class EditBox extends BaseSvg {
     }
 
     widthUpdate(oldWidth: number, newWidth: number): void {
-        this.setOriginCenter()
         if (!this.isResizeByListener) this.fixXyInResize(oldWidth, newWidth, this.height, this.height)
+        this.setOriginCenter()
         this.render()
     }
     heightUpdate(oldHeight: number, newHeight: number): void {
-        this.setOriginCenter()
         if (!this.isResizeByListener) this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
+        this.setOriginCenter()
         this.render()
     }
 

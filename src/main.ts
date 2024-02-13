@@ -1,9 +1,14 @@
+import './components/components'
 import { randomId } from './math/helper'
 import './reset.scss'
 import { SvgContainer, EditBox, Gauge } from './widgets'
 import './widgets'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
+
+const div = document.createElement('div')
+div.innerHTML = '<div is="g-drawer" anchor="left" size="200" open="true"><h1>zero</h1></div>'
+app.appendChild(div)
 
 const container = new SvgContainer([], {x: 200, y: 200}, 1.4)
 app.appendChild(container)
