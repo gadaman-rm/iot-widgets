@@ -1,1 +1,5 @@
+export * from './Tab/Tab'
+export * from './Tabs/Tabs'
 export * from './Drawer/Drawer'
+export * from './Sidebar/Sidebar'
+export * from './SidebarItem/SidebarItem'

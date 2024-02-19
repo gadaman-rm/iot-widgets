@@ -1,0 +1,140 @@
+@use "sass:math";
+@use 'sass:list';
+@use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+
+// @debug 3px * 3px;
+// @debug 5px * math.div(math.div(30deg, 3s), 24em);
+// @debug list.nth(10px 12px 16px, 2); // 12px
+// @debug list.nth([line1, line2, line3], -1); // line3
+// @debug append(10px 12px 16px, 25px); // 10px 12px 16px 25px
+// @debug append([col1-line1], col1-line2); // [col1-line1, col1-line2]
+
+// @debug list.index(1px solid red, 1px); // 1
+// @debug list.index(1px solid red, solid); // 2
+// @debug list.index(1px solid red, dashed); // null
+
+$transition-speed: math.div(1s, 50px);
+$sizes: 40px, 50px, 80px;
+$valid-sides: top, bottom, left, right;
+
+@mixin attach($side) {
+  @if not list.index($valid-sides, $side) {
+    @error "#{$side} is not a valid side. Expected one of #{$valid-sides}.";
+  }
+}
+
+@mixin move($left-start, $left-stop) {
+  position: absolute;
+  left: $left-start;
+  transition: left ($left-stop - $left-start) * $transition-speed;
+
+  &:hover {
+    left: $left-stop;
+  }
+}
+
+.move {
+  @include move(10px, 120px);
+}
+
+
+@each $size in $sizes {
+  .icon-#{$size} {
+    font-size: $size;
+    height: $size;
+    width: $size;
+  }
+}
+
+$prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
+
+@function prefixes-for-browsers($browsers) {
+  $prefixes: ();
+  @each $browser in $browsers {
+    $prefixes: list.append($prefixes, map.get($prefixes-by-browser, $browser));
+  }
+  @return $prefixes;
+}
+
+// @debug prefixes-for-browsers("firefox" "ie"); // moz ms
+
+
+@mixin syntax-colors($args...) {
+  // @debug meta.keywords($args);
+  // (string: #080, comment: #800, variable: #60b)
+
+  @each $name, $color in meta.keywords($args) {
+    pre span.stx-#{$name} {
+      color: $color;
+    }
+  }
+}
+
+@include syntax-colors(
+  $string: #080,
+  $comment: #800,
+  $variable: #60b,
+);
+
+$font-weights: ("regular": 400, "medium": 500, "bold": 700);
+// @debug map.get($font-weights, "medium"); // 500
+// @debug map.get($font-weights, "extra-bold"); // null
+
+
+$icons: ("eye": "\f112", "start": "\f12e", "stop": "\f12f");
+
+@each $name, $glyph in $icons {
+  .icon-#{$name}:before {
+    display: inline-block;
+    font-family: "Icon Font";
+    content: $glyph;
+  }
+}
+
+
+$font-weights: ("regular": 400, "medium": 500, "bold": 700);
+
+// @debug map.set($font-weights, "extra-bold", 900);
+// ("regular": 400, "medium": 500, "bold": 700, "extra-bold": 900)
+// @debug map.set($font-weights, "bold", 900);
+// ("regular": 400, "medium": 500, "bold": 900)
+
+$light-weights: ("lightest": 100, "light": 300);
+$heavy-weights: ("medium": 500, "bold": 700);
+
+// @debug map.merge($light-weights, $heavy-weights);
+
+$prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
+
+@mixin add-browser-prefix($browser, $prefix) {
+  $prefixes-by-browser: map.merge($prefixes-by-browser, ($browser: $prefix)) !global;
+}
+
+@include add-browser-prefix("opera", o);
+// @debug $prefixes-by-browser;
+
+
+
+/// Return a copy of $list with all elements for which $condition returns `true`
+/// removed.
+@function remove-where($list, $condition) {
+  $new-list: ();
+  $separator: list.separator($list);
+  @each $element in $list {
+    @if not meta.call($condition, $element) {
+      $new-list: list.append($new-list, $element, $separator: $separator);
+    }
+  }
+  @return $new-list;
+}
+
+$fonts: Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+.content {
+  @function contains-helvetica($string) {
+    @return string.index($string, "Helvetica");
+  }
+  font-family: remove-where($fonts, meta.get-function("contains-helvetica"));
+}

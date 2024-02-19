@@ -1,3 +1,5 @@
+@use 'base';
+
 .class {
     &-one {
         font-size: 2rem;
@@ -12,7 +14,7 @@
 
 :host {
     display: block;
-    background-color: yellow ;
+    background-color: yellow;
 }
 
 :host-context(main){

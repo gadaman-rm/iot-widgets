@@ -1,0 +1,44 @@
+:host {
+    --click-x: 50%;
+    --click-y: 50%;
+    --primary-color: #0d6efd;
+    --on-primary-color: #fff;
+    --primary-font: 1.5rem;
+}
+
+.tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    font-size: var(--primary-font);
+    color: var(--primary-color);
+    background-color: var(--on-primary-color);
+
+    &--selected {
+        color: var(--on-primary-color);
+        background-color: var(--primary-color);
+    }
+
+    // &::after {
+    //     content: "";
+    //     background: rgba(70, 70, 70, 0.5);
+    //     display: block;
+    //     border-radius: 50%;
+    //     position: absolute;
+    //     inset-inline-start: var(--click-x);
+    //     inset-block-start: var(--click-y);
+    //     transform: scale(3);
+    //     padding: 100%;
+    //     opacity: 0;
+    //     transition: all 0.8s
+    // }
+
+    // &:active:after {
+    //     padding: 0;
+    //     margin: 0;
+    //     opacity: 1;
+    //     transition: 0s
+    // }
+}

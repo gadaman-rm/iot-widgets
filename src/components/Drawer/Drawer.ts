@@ -6,17 +6,17 @@ import style from './Drawer.scss?inline'
 const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
-export const BASE_SVG_ATTRIBUTES = ['id', 'open', 'anchor', 'min', 'max', 'size', 'offset'] as const
+export const DRAWER_ATTRIBUTES = ['id', 'open', 'anchor', 'min', 'max', 'size', 'offset'] as const
 export class Drawer extends HTMLDivElement {
     static get observedAttributes() {
-        return BASE_SVG_ATTRIBUTES
+        return DRAWER_ATTRIBUTES
     }
 
     #onClose?: () => void
     rootRef: HTMLDivElement
     resizerRef: HTMLDivElement
     dragListener!: DragListener
-    constructor(anchor: 'left' | 'top' | 'right' | 'bottom' = 'left', initSize = 200, minSize?: number, maxSize?: number) {
+    constructor(anchor: 'left' | 'top' | 'right' | 'bottom' = 'left', open: boolean, initSize = 200, minSize?: number, maxSize?: number) {
         super()
         this.attachShadow({ mode: 'open' })
         this.shadowRoot!.appendChild(template.content.cloneNode(true))
@@ -30,7 +30,7 @@ export class Drawer extends HTMLDivElement {
         this.max = (maxSize === undefined) && (this.anchor === 'left' || this.anchor === 'right') ? vwToPX(50) : vhToPX(50)
         this.initHandler()
         this.rootRef.classList.add('drawer--animation')
-        this.open = true
+        this.open = open
         // this.style.setProperty("--drawer-color", "green")
     }
 
@@ -55,7 +55,7 @@ export class Drawer extends HTMLDivElement {
     public get onClose(): string { return this.getAttribute('onclose')! }
     public set onClose(fn: () => void) { this.#onClose = fn }
 
-    attributeChangedCallback(attrName: typeof BASE_SVG_ATTRIBUTES[number], oldValue: string, newValue: string) {
+    attributeChangedCallback(attrName: typeof DRAWER_ATTRIBUTES[number], oldValue: string, newValue: string) {
         switch (attrName) {
             case 'id': this.idUpdate(oldValue, newValue)
                 break
