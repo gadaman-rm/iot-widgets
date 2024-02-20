@@ -27,6 +27,9 @@ export class Tab extends HTMLDivElement {
     public get id() { return this.getAttribute('id')! }
     public set id(id: string) { this.setAttribute('id', id) }
 
+    public get role() { return this.getAttribute('role')! }
+    public set role(role: string) { this.setAttribute('role', role) }
+
     public get width() { return this.getAttribute('width')! }
     public set width(width: number | string) {
         if (typeof width === 'number') this.setAttribute('width', `${width}px`)

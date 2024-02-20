@@ -90,10 +90,17 @@ const app = document.querySelector<HTMLDivElement>('#app')!
 
 const TestMyComponent = document.createElement('div')
 TestMyComponent.innerHTML = `
-<div is="g-tabs" tab="1" orientation="horizontal" width="100dvw" height="45px">
-    <div is="g-tab" width="230px" height="100%">1</div>
-    <div is="g-tab" width="230px" height="100%">2</div>
-    <div is="g-tab" width="230px" height="100%">3</div>
+<div is="g-sidebar">
+    <div slot="menu" data-children="true">
+        <div is="g-tab" width="100%" height="40px" role="video">video</div>
+        <div is="g-tab" width="100%" height="40px" role="photo">photo</div>
+    </div>
+    <div slot="panel" data-role="video">
+        <h1>video</h1>
+    </div>
+    <div slot="panel" data-role="photo">
+        <h1>photo</h1>
+    </div>
 </div>
 `
 app.appendChild(TestMyComponent)

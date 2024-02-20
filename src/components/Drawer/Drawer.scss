@@ -1,14 +1,17 @@
 :host {
-    --drawer-color: white;
+    --drawer-color: #fff;
     --drawer-offset: 0px;
-    --resizer-size: 10px;
+    --drawe-resizer-size: 10px;
+    --drawe-z-index: 0;
 }
 
 .drawer {
     position: absolute;
     background-color: var(--drawer-color);
+    z-index: var(--drawe-z-index);
 
     &--dir-left {
+        width: 0px;
         height: 100%;
         inset-block-start: 0;
         inset-inline-start: 0;
@@ -17,6 +20,7 @@
     }
 
     &--dir-right {
+        width: 0px;
         height: 100%;
         inset-block-start: 0;
         inset-inline-end: 0;
@@ -26,6 +30,7 @@
 
     &--dir-top {
         width: 100%;
+        height: 0px;
         inset-block-start: 0;
         inset-inline-end: 0;
         transform-origin: top right;
@@ -34,6 +39,7 @@
 
     &--dir-bottom {
         width: 100%;
+        height: 0px;
         inset-block-end: 0;
         inset-inline-end: 0;
         transform-origin: bottom right;

@@ -5,6 +5,13 @@ import style from './Tabs.scss?inline'
 const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
+export interface TabsOnChangeEvent extends MouseEvent {
+    param: {
+        role: string,
+        index: number,
+    }
+}
+
 export const TABS_ATTRIBUTES = ['id', 'width', 'height', 'orientation', 'tab'] as const
 export class Tabs extends HTMLDivElement {
     static get observedAttributes() {
@@ -12,21 +19,19 @@ export class Tabs extends HTMLDivElement {
     }
     rootRef: HTMLDivElement
     slotRef: HTMLSlotElement
-    constructor() {
+    #onChange?: (e: TabsOnChangeEvent) => void
+    constructor(tab?: number) {
         super()
         this.attachShadow({ mode: 'open' })
         this.shadowRoot!.appendChild(template.content.cloneNode(true))
         this.setAttribute('is', "g-tabs")
         this.rootRef = this.shadowRoot!.querySelector('#root')!
         this.slotRef = this.shadowRoot!.querySelector('#slot')!
+        this.tab = tab ? tab : -1
         // this.style.setProperty("--tab-color", "green")
-
-        this.addEventListener('click', (e) => {
-            const itemIndex = flatSlot(this.slotRef).findIndex(i => i === e.target)
-            if(itemIndex !== -1) this.tab = itemIndex
-        })
     }
 
+    public set onChange(fn: (e: TabsOnChangeEvent) => void) { this.#onChange = fn }
     public get width() { return this.getAttribute('width')! }
     public set width(width: number | string) {
         if (typeof width === 'number') this.setAttribute('width', `${width}px`)
@@ -72,8 +77,21 @@ export class Tabs extends HTMLDivElement {
                 break
         }
     }
-
-    initHandler() {
+    connectedCallback() {
+        this.addEventListener('click', this.handleChange as any)
+    }
+    disconnectedCallback() {
+        this.removeEventListener('click', this.handleChange as any)
+    }
+    handleChange(e: TabsOnChangeEvent) {
+        const list = flatSlot(this.slotRef)
+        const index = list.findIndex(i => i === e.target)
+        if(index !== -1) {
+            this.tab = index
+            const role = list[index].role!
+            e.param = { index: index, role }
+            if (this.#onChange) this.#onChange(e)
+        }
     }
 
     idUpdate(oldId: string, newId: string) { }
