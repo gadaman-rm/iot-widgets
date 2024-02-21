@@ -1,12 +1,6 @@
 import './components/components'
-import './md-v2/md-v2'
 import './reset.scss'
 import './widgets'
-import '@material/web/button/elevated-button'
-import '@material/web/tabs/tabs'
-import '@material/web/tabs/primary-tab'
-import '@material/web/tabs/secondary-tab'
-import '@material/web/icon/icon'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
@@ -88,19 +82,26 @@ const app = document.querySelector<HTMLDivElement>('#app')!
 
 // container.addWidgetEditBox(gauge, editBox)
 
-const TestMyComponent = document.createElement('div')
-TestMyComponent.innerHTML = `
-<div is="g-sidebar">
-    <div slot="menu" data-children="true">
-        <div is="g-tab" width="100%" height="40px" role="video">video</div>
-        <div is="g-tab" width="100%" height="40px" role="photo">photo</div>
+const slTest = document.createElement('div')
+slTest.innerHTML =`
+<div is='g-sidebar'>
+    <div name="video">
+        <div name="menu">video</div>
+        <div name="panel">video detail</div>
     </div>
-    <div slot="panel" data-role="video">
-        <h1>video</h1>
-    </div>
-    <div slot="panel" data-role="photo">
-        <h1>photo</h1>
+
+    <div name="photo">
+        <div name="menu">photo</div>
+        <div name="panel">photo detail</div>
     </div>
 </div>
 `
-app.appendChild(TestMyComponent)
+
+// slTest.innerHTML = `
+// <div is='g-ntab' id="ze">
+//     <div name="video" aria-selected="false">Item1</div>
+//     <div name="photo" aria-selected="false">Item2</div>
+//     <div name="3" aria-selected="false">3</div>
+// </div>
+// `
+app.appendChild(slTest)

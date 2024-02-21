@@ -1,78 +1,92 @@
+import '@material/web/ripple/ripple'
+import { BASE_CHILDREN_ATTRIBUTES, BaseChildren } from '../../_helper/BaseChildren'
 import html from './Tab.html?raw'
 import style from './Tab.scss?inline'
+import { DOM_READY_TIME } from '../../config'
+
+
+export interface NTabOnSelectEvent extends MouseEvent {
+    param: {
+        role: string
+    }
+}
 
 const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
-export const TAB_ATTRIBUTES = ['id', 'width', 'height', 'aria-selected'] as const
-export class Tab extends HTMLDivElement {
-    static get observedAttributes() {
-        return TAB_ATTRIBUTES
-    }
+const TAG_NAME = `g-tab`
+const ATTRIBUTES = ['tab', 'size'] as const
+const CHILDREN_ATTRIBUTES = ['aria-selected'] as const
+export class Tab extends BaseChildren {
+    item?: HTMLDivElement[]
     rootRef: HTMLDivElement
-    slotRef: HTMLSlotElement
-    constructor() {
-        super()
-        this.attachShadow({ mode: 'open' })
-        this.shadowRoot!.appendChild(template.content.cloneNode(true))
-        this.setAttribute('is', "g-tab")
+    #onChange?: (e: NTabOnSelectEvent) => void
+    static get observedAttributes() { return [...BASE_CHILDREN_ATTRIBUTES, ...ATTRIBUTES] }
+    static get observedChildrenAttributes() { return [...CHILDREN_ATTRIBUTES] }
+    constructor() { 
+        super(template, TAG_NAME)
         this.rootRef = this.shadowRoot!.querySelector('#root')!
-        this.slotRef = this.shadowRoot!.querySelector('#slot')!
-        // this.style.setProperty("--tab-color", "green")
-        // this.addEventListener('click', (e) => {
-        //     // let rect = (e.target as HTMLElement).getBoundingClientRect()
-        // })
     }
 
-    public get id() { return this.getAttribute('id')! }
-    public set id(id: string) { this.setAttribute('id', id) }
-
-    public get role() { return this.getAttribute('role')! }
-    public set role(role: string) { this.setAttribute('role', role) }
-
-    public get width() { return this.getAttribute('width')! }
-    public set width(width: number | string) {
-        if (typeof width === 'number') this.setAttribute('width', `${width}px`)
-        else this.setAttribute('width', width)
+    public get tab() { return +this.getAttribute('tab')! }
+    public set tab(tab: number | undefined) { 
+        // if(tab !== undefined) this.setAttribute('tab', tab.toString()) 
+        // else this.deSelectAll()
     }
 
-    public get height() { return this.getAttribute('height')! }
-    public set height(height: number | string) {
-        if (typeof height === 'number') this.setAttribute('height', `${height}px`)
-        else this.setAttribute('height', height)
+    public set onChange(fn: (e: NTabOnSelectEvent) => void) { this.#onChange = fn }
+
+    onChildernChange(): void {
+        this.render()
+        this.handler()
     }
 
-    public get selected() { return this.getAttribute('aria-selected')! === 'true' }
-    public set selected(selected: boolean) { this.setAttribute('aria-selected', selected ? "true" : 'false') }
+    handler = () => { setTimeout(() => { this.handleChange() }, DOM_READY_TIME) }
 
-    attributeChangedCallback(attrName: typeof TAB_ATTRIBUTES[number], oldValue: string, newValue: string) {
-        switch (attrName) {
-            case 'id': this.idUpdate(oldValue, newValue)
-                break
-            case 'aria-selected': this.selectedUpdate(oldValue === 'true', newValue === 'true')
-                break
-            case 'width': this.widthUpdate(oldValue, newValue)
-                break
-            case 'height': this.heightUpdate(oldValue, newValue)
-                break
+    render() {
+        this.rootRef.replaceChildren()
+
+        for (let item of this.children) {
+            const role = item.getAttribute('name')
+            const selected = item.getAttribute('aria-selected') === 'true'
+            const menu = item.innerHTML
+
+            if(role && menu) {
+                const div = document.createElement('div')
+                div.setAttribute('name', role)
+                div.setAttribute('aria-selected', selected ? 'true' : 'false')
+                div.innerHTML = `<md-ripple></md-ripple>${menu}`
+                div.classList.add('item')
+                this.rootRef.appendChild(div)
+            }
         }
     }
 
-    idUpdate(oldId: string, newId: string) { }
-    widthUpdate(oldWidth: string, newWidth: string) {
-        this.rootRef.style.width = newWidth
-    }
-    heightUpdate(oldHeight: string, newHeight: string) { 
-        this.rootRef.style.height = newHeight
-    }
-    selectedUpdate(oldSelected: boolean, newSelected: boolean) { 
-        if(newSelected) {
-            this.rootRef.classList.add('tab--selected')
-        } else {
-            this.rootRef.classList.remove('tab--selected')
+    handleChange() { for (const item of this.rootRef.children) { (item as HTMLDivElement).addEventListener('click', this.handleSelect as any) } }
 
+    handleSelect = (e: NTabOnSelectEvent) => {
+        const role = (e.target as HTMLDivElement).getAttribute('name')
+        if(role) {
+            e.param = { role }
+            this.select(role)
+            if (this.#onChange) this.#onChange(e)
+        }
+    }
+
+    select(role: string) {
+        for (const item of this.children) {
+            if(item.getAttribute('name') === role) item.setAttribute('aria-selected', 'true')
+            else item.setAttribute('aria-selected', 'false')
+        }
+    }
+
+    onChildernAttrChange(target: HTMLElement, attributeName: string, oldValue: string, newValue: string): void {
+        const name = target.getAttribute('name')
+        if(name) {
+            const item  = this.rootRef.children.namedItem(name)
+            if(item) item.setAttribute(attributeName, newValue)
         }
     }
 }
 
-customElements.define('g-tab', Tab, { extends: 'div' })
+customElements.define(TAG_NAME, Tab, { extends: 'div' })

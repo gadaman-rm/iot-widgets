@@ -1,8 +1,4 @@
 <div id="root">
-    <div id="tabs" is="g-tabs" orientation="vertical" width="100px" height="100dvw">
-        <slot id="tabs-children" name="menu" data-children="true"></slot>
-    </div>
-    <div id="drawer" is="g-drawer" anchor="left" open="false" size="200" offset="100">
-        <slot id="drawer-children" name="panel" data-children="true"></slot>
-    </div>
+    <div id="menu" is="g-tab"></div>
+    <div id="panel" is="g-drawer" anchor="left" open="false" size="300" min="0" max="800" offset="200"></div>
 </div>

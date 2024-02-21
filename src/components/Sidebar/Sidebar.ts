@@ -1,72 +1,79 @@
-import { flatSlot } from '../../_helper'
-import { DOM_READY_TIME } from '../../config'
-import '../Tab/Tab'
-import '../Tabs/Tabs'
-import { Tabs } from '../Tabs/Tabs'
-import { Drawer } from '../components'
+import { BASE_CHILDREN_ATTRIBUTES, BaseChildren } from '../../_helper/BaseChildren'
 import html from './Sidebar.html?raw'
 import style from './Sidebar.scss?inline'
+import { Drawer, Tab } from '../components'
+import { DOM_READY_TIME } from '../../config'
 
 const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
 const TAG_NAME = `g-sidebar`
-const ATTRIBUTES = ['id', 'open', 'anchor', 'min', 'max', 'size', 'offset'] as const
-export class Sidebar extends HTMLDivElement {
-    rootRef: HTMLDivElement
-    tabsRef: Tabs
-    drawerRef: Drawer
-    tabsChildrenRef: HTMLSlotElement
-    drawerChildrenRef: HTMLSlotElement
-    static get observedAttributes() {
-        return ATTRIBUTES
-    }
-    constructor() {
-        super()
-        this.attachShadow({ mode: 'open' })
-        this.shadowRoot!.appendChild(template.content.cloneNode(true))
-        this.setAttribute('is', TAG_NAME)
-        this.rootRef = this.shadowRoot!.querySelector('#root')!
-        this.tabsRef = this.shadowRoot!.querySelector('#tabs')!
-        this.drawerRef = this.shadowRoot!.querySelector('#drawer')!
-        this.tabsChildrenRef = this.shadowRoot!.querySelector('#tabs-children')!
-        this.drawerChildrenRef = this.shadowRoot!.querySelector('#drawer-children')!
+const ATTRIBUTES = ['open'] as const
+export class Sidebar extends BaseChildren {
+    menuRef: Tab
+    panelRef: Drawer
+    item?: HTMLDivElement[]
+    static get observedAttributes() { return [...BASE_CHILDREN_ATTRIBUTES, ...ATTRIBUTES] }
+    constructor() { 
+        super(template, TAG_NAME)
+        this.menuRef = this.shadowRoot!.querySelector('#menu')!
+        this.panelRef = this.shadowRoot!.querySelector('#panel')!      
     }
 
-    public get id() { return this.getAttribute('id')! }
-    public set id(id: string) { this.setAttribute('id', id) }
+    onChildernChange(): void {
+        this.render()
+        this.handler()
+    }
 
-    attributeChangedCallback(attrName: typeof ATTRIBUTES[number], oldValue: string, newValue: string) {
-        switch (attrName) {
-            case 'id': this.idUpdate(oldValue, newValue)
-                break
+    handler = () => { setTimeout(() => { this.handleChange() }, DOM_READY_TIME) }
+
+    render() {
+        this.menuRef.replaceChildren()
+        this.panelRef.replaceChildren()
+
+        for (let item of this.children) {
+            const role = item.getAttribute('name')
+            const menu = item.querySelector('[name="menu"]')?.innerHTML
+            const panel = item.querySelector('[name="panel"]')?.innerHTML
+
+            if (role && menu && panel) {
+                const tab = document.createElement('div')
+                tab.setAttribute('name', role)
+                tab.setAttribute('aria-selected', 'false')
+                tab.innerHTML = menu
+                this.menuRef.appendChild(tab)
+                // console.log(this.menuRef);
+                
+
+                const div = document.createElement('div')
+                div.setAttribute('name', role)
+                div.innerHTML = panel
+                div.style.display = 'none'
+
+                this.panelRef.appendChild(div)
+            }
         }
     }
-    connectedCallback() {
-        setTimeout(() => {
-            this.tabsRef.onChange = (e) => {
-                if(e.param.index !== -1) {
-                    const panels = flatSlot(this.drawerChildrenRef) as HTMLElement[]
-                    panels.forEach(item => {
-                        if(item.getAttribute('data-role') !== e.param.role)
-                            item.style.display = 'none'
-                        else
-                            item.style.display = 'block'
-                    })
-                    this.drawerRef.open = true
 
-                    setTimeout(() => {this.closeTabs()}, 2000)
-                }
+    handleChange() {
+        this.menuRef.onChange = (e) => {
+            if (e.param.role) {
+                    for (const item of this.panelRef.children) {
+                        if (item.getAttribute('name') !== e.param.role)
+                            (item as HTMLElement).style.display = 'none'
+                        else
+                            (item as HTMLElement).style.display = 'block'
+                    }
+                this.panelRef.open = true
             }
-        }, DOM_READY_TIME)
+            // setTimeout(() => { this.closeTabs() }, 4000)
+        }
     }
 
     closeTabs() {
-        this.tabsRef.tab = -1
-        this.drawerRef.open = false
+        this.menuRef.tab = -1
+        this.panelRef.open = false
     }
-
-    idUpdate(oldId: string, newId: string) { }
 }
 
 customElements.define(TAG_NAME, Sidebar, { extends: 'div' })

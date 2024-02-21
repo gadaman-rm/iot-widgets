@@ -1,2 +1,2 @@
 export * from './BaseSvg'
-export * from './slotFix'
+export * from './dom'

@@ -1,14 +1,14 @@
 :host {
     --drawer-color: #fff;
     --drawer-offset: 0px;
-    --drawe-resizer-size: 10px;
-    --drawe-z-index: 0;
+    --drawer-resizer-size: 10px;
+    --drawer-z-index: 0;
 }
 
 .drawer {
     position: absolute;
     background-color: var(--drawer-color);
-    z-index: var(--drawe-z-index);
+    z-index: var(--drawer-z-index);
 
     &--dir-left {
         width: 0px;
@@ -72,33 +72,33 @@
 }
 
 .drawer--dir-left .resizer {
-    width: var(--resizer-size);
+    width: var(--drawer-resizer-size);
     height: 100%;
-    inset-inline-end: calc(0px - var(--resizer-size));
+    inset-inline-end: calc(0px - var(--drawer-resizer-size));
     inset-block-end: 0px;
     cursor: col-resize;
 }
 
 .drawer--dir-right .resizer {
-    width: var(--resizer-size);
+    width: var(--drawer-resizer-size);
     height: 100%;
     inset-inline-start: 0px;
-    inset-block-start: calc(0px - var(--resizer-size));
+    inset-block-start: calc(0px - var(--drawer-resizer-size));
     cursor: col-resize;
 }
 
 .drawer--dir-bottom .resizer {
     width: 100%;
-    height: var(--resizer-size);
+    height: var(--drawer-resizer-size);
     inset-inline-start: 0px;
-    inset-block-start: calc(0px - var(--resizer-size));
+    inset-block-start: calc(0px - var(--drawer-resizer-size));
     cursor: row-resize;
 }
 
 .drawer--dir-top .resizer {
     width: 100%;
-    height: var(--resizer-size);
+    height: var(--drawer-resizer-size);
     inset-inline-end: 0px;
-    inset-block-end: calc(0px - var(--resizer-size));
+    inset-block-end: calc(0px - var(--drawer-resizer-size));
     cursor: row-resize;
 }

@@ -1,13 +1,11 @@
-import { DOM_READY_TIME } from '../../config'
 import { DragListener } from '../../event/DragListener'
-import { vhToPX, vwToPX } from '../../math/units'
 import html from './Drawer.html?raw'
 import style from './Drawer.scss?inline'
 
 const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
-export const DRAWER_ATTRIBUTES = ['id', 'open', 'anchor', 'min', 'max', 'size', 'offset'] as const
+export const DRAWER_ATTRIBUTES = ['id', 'open', 'anchor', 'min', 'max', 'size', 'offset', 'animation'] as const
 export class Drawer extends HTMLDivElement {
     static get observedAttributes() {
         return DRAWER_ATTRIBUTES
@@ -16,7 +14,7 @@ export class Drawer extends HTMLDivElement {
     #onClose?: () => void
     rootRef: HTMLDivElement
     resizerRef: HTMLDivElement
-    dragListener!: DragListener
+    dragListener!: DragListener<{ animation: boolean }>
     constructor(minSize?: number, maxSize?: number) {
         super()
         this.attachShadow({ mode: 'open' })
@@ -24,10 +22,9 @@ export class Drawer extends HTMLDivElement {
         this.setAttribute('is', "g-drawer")
         this.rootRef = this.shadowRoot!.querySelector('#root')!
         this.resizerRef = this.shadowRoot!.querySelector('#resizer')!
-        this.min = (minSize === undefined) && (this.anchor === 'left' || this.anchor === 'right') ? vwToPX(10) : vhToPX(10)
-        this.max = (maxSize === undefined) && (this.anchor === 'left' || this.anchor === 'right') ? vwToPX(50) : vhToPX(50)
+        // this.min = (minSize === undefined) && (this.anchor === 'left' || this.anchor === 'right') ? vwToPX(10) : vhToPX(10)
+        // this.max = (maxSize === undefined) && (this.anchor === 'left' || this.anchor === 'right') ? vwToPX(50) : vhToPX(50)
         this.initHandler()
-        setTimeout(() => this.rootRef.classList.add('drawer--animation'), DOM_READY_TIME)
         // this.style.setProperty("--drawer-color", "green")
     }
 
@@ -52,6 +49,9 @@ export class Drawer extends HTMLDivElement {
     public get offset() { return +this.getAttribute('offset')! }
     public set offset(offset: number) { this.setAttribute('offset', offset.toString()) }
 
+    public get animation() { return this.getAttribute('animation')! === 'true' }
+    public set animation(animation: boolean) { this.setAttribute('animation', animation ? 'true' : 'false') }
+
     public get onClose(): string { return this.getAttribute('onclose')! }
     public set onClose(fn: () => void) { this.#onClose = fn }
 
@@ -71,7 +71,12 @@ export class Drawer extends HTMLDivElement {
                 break
             case 'anchor': this.anchorUpdate(oldValue, newValue)
                 break
+            case 'animation': this.animationUpdate(oldValue === 'true', newValue === 'true')
+                break
         }
+    }
+    connectedCallback() { 
+        // this.animation = true
     }
 
     validateAndSetSize = (size: number) => {
@@ -91,7 +96,10 @@ export class Drawer extends HTMLDivElement {
         if (this.onClose && typeof window[this.onClose as any] === 'function')
             this.#onClose = window[this.onClose as any] as any
 
-        this.dragListener.onDragStart = () => { this.rootRef.classList.remove('drawer--animation') }
+        this.dragListener.onDragStart = (e) => { 
+            e.param.initFn({ animation: this.animation })
+            this.animation = false 
+        }
         this.dragListener.onDragMove = (e) => {
             switch (this.anchor) {
                 case 'right': {
@@ -118,7 +126,7 @@ export class Drawer extends HTMLDivElement {
                 }
             }
         }
-        this.dragListener.onDragEnd = () => { this.rootRef.classList.add('drawer--animation') }
+        this.dragListener.onDragEnd = (e) => { this.animation = e.param.init!.animation }
     }
 
     idUpdate(oldId: string, newId: string) { }
@@ -140,7 +148,7 @@ export class Drawer extends HTMLDivElement {
             this.rootRef.style.height = `${newSize}px`
         }
 
-        if (oldsize && newSize && !this.validateAndSetSize(newSize)) this.size = oldsize
+        if (oldsize && newSize && oldsize !== newSize && !this.validateAndSetSize(newSize)) this.size = oldsize
     }
     minUpdate(oldMin: number, newMin: number) { }
     maxUpdate(oldMax: number, newMax: number) { }
@@ -160,6 +168,11 @@ export class Drawer extends HTMLDivElement {
                 break
         }
         this.size = this.size
+    }
+
+    animationUpdate(oldAnimation: boolean, newAnimation: boolean) {
+        if(newAnimation) this.rootRef.classList.add('drawer--animation')
+        else this.rootRef.classList.remove('drawer--animation')
     }
 }
 
