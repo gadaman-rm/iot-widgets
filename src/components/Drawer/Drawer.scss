@@ -1,4 +1,5 @@
 :host {
+    --drawer-animation: var(--g-drawer-animation, show);
     --drawer-width: var(--g-drawer-width, 100%);
     --drawer-height: var(--g-drawer-height, 283px);
     --drawer-min: var(--g-drawer-min, 50px);
