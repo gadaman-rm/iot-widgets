@@ -1,3 +1,4 @@
+import { getCssVar } from '../../_helper'
 import { DragListener } from '../../event/DragListener'
 import html from './Drawer.html?raw'
 import style from './Drawer.scss?inline'
@@ -5,7 +6,7 @@ import style from './Drawer.scss?inline'
 const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
-export const DRAWER_ATTRIBUTES = ['id', 'open', 'anchor', 'min', 'max', 'size', 'offset', 'animation'] as const
+export const DRAWER_ATTRIBUTES = ['id', 'open', 'anchor', 'size', 'offset', 'animation'] as const
 export class Drawer extends HTMLDivElement {
     static get observedAttributes() {
         return DRAWER_ATTRIBUTES
@@ -15,17 +16,14 @@ export class Drawer extends HTMLDivElement {
     rootRef: HTMLDivElement
     resizerRef: HTMLDivElement
     dragListener!: DragListener<{ animation: boolean }>
-    constructor(minSize?: number, maxSize?: number) {
+    constructor() {
         super()
         this.attachShadow({ mode: 'open' })
         this.shadowRoot!.appendChild(template.content.cloneNode(true))
         this.setAttribute('is', "g-drawer")
         this.rootRef = this.shadowRoot!.querySelector('#root')!
         this.resizerRef = this.shadowRoot!.querySelector('#resizer')!
-        // this.min = (minSize === undefined) && (this.anchor === 'left' || this.anchor === 'right') ? vwToPX(10) : vhToPX(10)
-        // this.max = (maxSize === undefined) && (this.anchor === 'left' || this.anchor === 'right') ? vwToPX(50) : vhToPX(50)
         this.initHandler()
-        // this.style.setProperty("--drawer-color", "green")
     }
 
     public get id() { return this.getAttribute('id')! }
@@ -36,12 +34,6 @@ export class Drawer extends HTMLDivElement {
 
     public get anchor() { return this.getAttribute('anchor')! as any }
     public set anchor(anchor: 'left' | 'top' | 'right' | 'bottom') { this.setAttribute('anchor', anchor) }
-
-    public get min() { return +this.getAttribute('min')! }
-    public set min(min: number) { this.setAttribute('min', min.toString()) }
-
-    public get max() { return +this.getAttribute('max')! }
-    public set max(max: number) { this.setAttribute('max', max.toString()) }
 
     public get size() { return +this.getAttribute('size')! }
     public set size(size: number) { this.setAttribute('size', size.toString()) }
@@ -65,22 +57,17 @@ export class Drawer extends HTMLDivElement {
                 break
             case 'offset': this.offsetUpdate(+oldValue, +newValue)
                 break
-            case 'min': this.minUpdate(+oldValue, +newValue)
-                break
-            case 'max': this.maxUpdate(+oldValue, +newValue)
-                break
             case 'anchor': this.anchorUpdate(oldValue, newValue)
                 break
             case 'animation': this.animationUpdate(oldValue === 'true', newValue === 'true')
                 break
         }
     }
-    connectedCallback() {
-        // this.animation = true
-    }
 
     validateAndSetSize = (size: number) => {
-        if (size > this.min && size < this.max) return true
+        const min = parseFloat(getCssVar('--drawer-min', this))
+        const max = parseFloat(getCssVar('--drawer-max', this))
+        if (size > min && size < max) return true
         else return false
     }
 
@@ -149,8 +136,6 @@ export class Drawer extends HTMLDivElement {
 
         if (oldsize && newSize && oldsize !== newSize && !this.validateAndSetSize(newSize)) this.size = oldsize
     }
-    minUpdate(oldMin: number, newMin: number) { }
-    maxUpdate(oldMax: number, newMax: number) { }
     anchorUpdate(oldAnchor: string, newAnchor: string) {
         switch (newAnchor) {
             case "left":

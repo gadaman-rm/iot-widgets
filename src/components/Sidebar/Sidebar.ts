@@ -8,7 +8,7 @@ const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
 const TAG_NAME = `g-sidebar`
-const ATTRIBUTES = ['tab', 'panel-min', 'panel-max', 'anchor'] as const
+const ATTRIBUTES = ['tab', 'anchor'] as const
 export class Sidebar extends BaseChildren {
     menuRef: Tab
     panelRef: Drawer
@@ -39,21 +39,6 @@ export class Sidebar extends BaseChildren {
 
     public get tab() { return this.getAttribute('tab')! }
     public set tab(tab: string) { this.setAttribute('tab', tab.toString()) }
-
-    public get tabSize() { return this.getAttribute('tab-size')! }
-    public set tabSize(tabSize: string) { this.setAttribute('tab-size', tabSize.toString()) }
-
-    public get tabItemSize() { return this.getAttribute('tab-item-size')! }
-    public set tabItemSize(tabItemSize: string) { this.setAttribute('tab-item-size', tabItemSize.toString()) }
-
-    public get panelSize() { return this.getAttribute('panel-size')! }
-    public set panelSize(panelSize: string) { this.setAttribute('panel-size', panelSize.toString()) }
-
-    public get panelMin() { return this.getAttribute('panel-min')! }
-    public set panelMin(panelMin: string) { this.setAttribute('panel-min', panelMin.toString()) }
-
-    public get panelMax() { return this.getAttribute('panel-max')! }
-    public set panelMax(panelMax: string) { this.setAttribute('panel-max', panelMax.toString()) }
 
     public get anchor() { return this.getAttribute('anchor')! as any }
     public set anchor(anchor: 'left' | 'top' | 'right' | 'bottom') { this.setAttribute('anchor', anchor) }
@@ -95,10 +80,6 @@ export class Sidebar extends BaseChildren {
         switch (attributeName) {
             case 'tab': this.tabUpdate(oldValue, newValue)
             break
-            case 'panel-min': this.panelMinUpdate(+oldValue, +newValue)
-            break
-            case 'panel-max': this.panelMaxUpdate(+oldValue, +newValue)
-            break
             case 'anchor': this.anchorUpdate(oldValue, newValue)
             break
         }
@@ -110,14 +91,6 @@ export class Sidebar extends BaseChildren {
             if(this.select(newTab)) this.panelRef.setAttribute('open', 'true')
             else this.panelRef.setAttribute('open', 'false')
         }, DOM_READY_TIME)
-    }
-
-    panelMinUpdate(oldPanelMin: number, newPanelMin: number) { 
-        this.panelRef.setAttribute('min', newPanelMin.toString())
-    }
-
-    panelMaxUpdate(oldPanelMax: number, newPanelMax: number) { 
-        this.panelRef.setAttribute('max', newPanelMax.toString())
     }
 
     anchorUpdate(oldAnchor: string, newAnchor: string) {

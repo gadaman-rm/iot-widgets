@@ -1,3 +1,2 @@
-export const init = (value: NamedNodeMap, defaultValue: any) => {
+export const getCssVar = (cssVar: string, elem: Element = document.documentElement) => window.getComputedStyle(elem).getPropertyValue(cssVar)
 
-}
