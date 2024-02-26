@@ -1,6 +1,7 @@
 import './components/components'
 import './reset.scss'
 import './widgets'
+import '@material/web/button/elevated-button'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
@@ -84,7 +85,7 @@ const app = document.querySelector<HTMLDivElement>('#app')!
 
 const slTest = document.createElement('div')
 slTest.innerHTML =`
-<div is='g-sidebar'>
+<div is='g-sidebar' tab="video">
     <div name="video">
         <div name="menu">video</div>
         <div name="panel">video detail</div>
@@ -98,10 +99,9 @@ slTest.innerHTML =`
 `
 
 // slTest.innerHTML = `
-// <div is='g-ntab' id="ze">
-//     <div name="video" aria-selected="false">Item1</div>
-//     <div name="photo" aria-selected="false">Item2</div>
-//     <div name="3" aria-selected="false">3</div>
+// <div id="menu" is="g-tab">
+//     <div name="video" aria-selected="false">video</div>
+//     <div name="photo" aria-selected="false">photo</div>
 // </div>
 // `
 app.appendChild(slTest)

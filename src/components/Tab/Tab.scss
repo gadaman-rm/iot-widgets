@@ -1,6 +1,8 @@
 :host {
     --tab-color: #fff;
-    --tab-size: 200px;
+    --tab-select-color: #782890;
+    --tab-size: 50px;
+    --tab-item-size: 130px;
     --tab-offset: 0px;
     --tab-z-index: 0;
 }
@@ -11,6 +13,8 @@
     z-index: var(--tab-z-index);
 
     &--dir-left {
+        display: flex;
+        flex-direction: column;
         width: var(--tab-size);
         height: 100%;
         inset-block-start: 0;
@@ -20,6 +24,8 @@
     }
 
     &--dir-right {
+        display: flex;
+        flex-direction: column;
         width: var(--tab-size);
         height: 100%;
         inset-block-start: 0;
@@ -29,6 +35,8 @@
     }
 
     &--dir-top {
+        display: flex;
+        flex-direction: row;
         width: 100%;
         height: var(--tab-size);
         inset-block-start: 0;
@@ -38,6 +46,8 @@
     }
 
     &--dir-bottom {
+        display: flex;
+        flex-direction: row;
         width: 100%;
         height: var(--tab-size);
         inset-block-end: 0;
@@ -56,10 +66,28 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: var(--tab-size);
-    height: 100px;
+}
+
+.tab--dir-left .item {
+    width: 100%;
+    height: var(--tab-item-size);
+}
+
+.tab--dir-top .item {
+    height: 100%;
+    width: var(--tab-item-size);
+}
+
+.tab--dir-right .item {
+    width: 100%;
+    height: var(--tab-item-size);
+}
+
+.tab--dir-bottom .item {
+    height: 100%;
+    width: var(--tab-item-size);
 }
 
 .tab div[aria-selected='true'] {
-    background-color: #782890;
+    background-color: var(--tab-select-color);
 }

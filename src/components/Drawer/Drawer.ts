@@ -75,7 +75,7 @@ export class Drawer extends HTMLDivElement {
                 break
         }
     }
-    connectedCallback() { 
+    connectedCallback() {
         // this.animation = true
     }
 
@@ -96,31 +96,30 @@ export class Drawer extends HTMLDivElement {
         if (this.onClose && typeof window[this.onClose as any] === 'function')
             this.#onClose = window[this.onClose as any] as any
 
-        this.dragListener.onDragStart = (e) => { 
+        this.dragListener.onDragStart = (e) => {
             e.param.initFn({ animation: this.animation })
-            this.animation = false 
+            this.animation = false
         }
         this.dragListener.onDragMove = (e) => {
+            const rootBounds = this.rootRef.getBoundingClientRect()
             switch (this.anchor) {
                 case 'right': {
-                    const screenWidth = (window.innerWidth || document.body.offsetWidth)
-                    const mouseResize = screenWidth - (e.clientX - document.body.offsetLeft)
+                    const mouseResize = rootBounds.right - e.clientX
                     if (this.validateAndSetSize(mouseResize)) this.size = mouseResize
                     break
                 }
                 case 'left': {
-                    const mouseResize = e.clientX
+                    const mouseResize = e.clientX - rootBounds.left
                     if (this.validateAndSetSize(mouseResize)) this.size = mouseResize
                     break
                 }
                 case 'top': {
-                    const mouseResize = e.clientY
+                    const mouseResize = e.clientY - rootBounds.top
                     if (this.validateAndSetSize(mouseResize)) this.size = mouseResize
                     break
                 }
                 case 'bottom': {
-                    const screenHeight = (window.innerHeight || document.body.offsetHeight)
-                    const mouseResize = screenHeight - (e.clientY - document.body.offsetTop)
+                    const mouseResize = rootBounds.bottom - e.clientY
                     if (this.validateAndSetSize(mouseResize)) this.size = mouseResize
                     break
                 }
@@ -140,12 +139,12 @@ export class Drawer extends HTMLDivElement {
     }
     sizeUpdate(oldsize: number, newSize: number) {
         if (this.anchor === 'left' || this.anchor === 'right') {
-            this.rootRef.style.height = `100%`
-            this.rootRef.style.width = `${newSize}px`
+            this.style.setProperty("--drawer-width", `${newSize}px`)
+            this.style.setProperty("--drawer-height", "100%")
         }
         if (this.anchor === 'top' || this.anchor === 'bottom') {
-            this.rootRef.style.width = `100%`
-            this.rootRef.style.height = `${newSize}px`
+            this.style.setProperty("--drawer-height", `${newSize}px`)
+            this.style.setProperty("--drawer-width", "100%")
         }
 
         if (oldsize && newSize && oldsize !== newSize && !this.validateAndSetSize(newSize)) this.size = oldsize
@@ -167,11 +166,11 @@ export class Drawer extends HTMLDivElement {
                 this.#dir('drawer--dir-bottom')
                 break
         }
-        this.size = this.size
+        if(this.size) this.size = this.size
     }
 
     animationUpdate(oldAnimation: boolean, newAnimation: boolean) {
-        if(newAnimation) this.rootRef.classList.add('drawer--animation')
+        if (newAnimation) this.rootRef.classList.add('drawer--animation')
         else this.rootRef.classList.remove('drawer--animation')
     }
 }

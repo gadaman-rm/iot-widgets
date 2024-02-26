@@ -1,3 +1,33 @@
+:host {
+    --sidebar-tab-size: var(--g-sidebar-tab-size, 30px); //sync with --g-sidebar-tab-size
+    --sidebar-tab-item-size: var(--g-sidebar-tab-item-size,250px);
+    --sidebar-tab-offset: var(--g-sidebar-tab-offset, 0px);
+    --sidebar-tab-color: var(--g-sidebar-tab-color, #fff);
+    --sidebar-tab-select-color: var(--g-sidebar-tab-select-color, #782890);
+    --sidebar-tab-z-index: var(--g-sidebar-tab-z-index, 0);
+
+    --sidebar-panel-offset: var(--g-sidebar-tab-size, 30px); //sync with --g-sidebar-tab-size
+    --sidebar-panel-width: var(--g-sidebar-panel-width, 100%);
+    --sidebar-panel-height: var(--g-sidebar-panel-height, 100px);
+    --sidebar-panel-color: var(--g-sidebar-panel-color, #fff);
+    --sidebar-panel-resizer-size: var(--g-sidebar-panel-resizer-size, 10px);
+    --sidebar-panel-z-index: var(--g-sidebar-panel-z-index, -999);
+}
+
+#menu {
+    --tab-size: var(--sidebar-tab-size);
+    --tab-color: var(--sidebar-tab-color);
+    --tab-select-color: var(--sidebar-tab-select-color);
+    --tab-item-size: var(--sidebar-tab-item-size);
+    --tab-offset: var(--sidebar-tab-offset);
+    --tab-z-index: var(--sidebar-tab-z-index);
+}
+
 #panel {
-    --drawe-z-index: -999;
+    --g-drawer-width: var(--sidebar-panel-width);
+    --g-drawer-height: var(--sidebar-panel-height);
+    --g-drawer-offset: var(--sidebar-panel-offset);
+    --g-drawer-color: var(--sidebar-panel-color);
+    --g-drawer-resizer-size: var(--sidebar-panel-resizer-size);
+    --g-drawer-z-index: var(--sidebar-panel-z-index);
 }

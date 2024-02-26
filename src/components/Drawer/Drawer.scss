@@ -1,8 +1,10 @@
 :host {
-    --drawer-color: #fff;
-    --drawer-offset: 0px;
-    --drawer-resizer-size: 10px;
-    --drawer-z-index: 0;
+    --drawer-width: var(--g-drawer-width, 100%);
+    --drawer-height: var(--g-drawer-height, 283px);
+    --drawer-offset: var(--g-drawer-offset, 0px);
+    --drawer-color: var(--g-drawer-color, #fff);
+    --drawer-resizer-size: var(--g-drawer-resizer-size, 10px);
+    --drawer-z-index: var(--g-drawer-z-index, 0);
 }
 
 .drawer {
@@ -11,8 +13,8 @@
     z-index: var(--drawer-z-index);
 
     &--dir-left {
-        width: 0px;
-        height: 100%;
+        width: var(--drawer-width);
+        height: var(--drawer-height);
         inset-block-start: 0;
         inset-inline-start: 0;
         transform-origin: top left;
@@ -20,8 +22,8 @@
     }
 
     &--dir-right {
-        width: 0px;
-        height: 100%;
+        width: var(--drawer-width);
+        height: var(--drawer-height);
         inset-block-start: 0;
         inset-inline-end: 0;
         transform-origin: top right;
@@ -29,8 +31,8 @@
     }
 
     &--dir-top {
-        width: 100%;
-        height: 0px;
+        width: var(--drawer-width);
+        height: var(--drawer-height);
         inset-block-start: 0;
         inset-inline-end: 0;
         transform-origin: top right;
@@ -38,8 +40,8 @@
     }
 
     &--dir-bottom {
-        width: 100%;
-        height: 0px;
+        width: var(--drawer-width);
+        height: var(--drawer-height);
         inset-block-end: 0;
         inset-inline-end: 0;
         transform-origin: bottom right;
