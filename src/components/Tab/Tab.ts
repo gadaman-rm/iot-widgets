@@ -1,16 +1,17 @@
 import '@material/web/ripple/ripple'
 import { BASE_CHILDREN_ATTRIBUTES, BaseChildren } from '../../_helper/BaseChildren'
-import html from './Tab.html?raw'
-import style from './Tab.scss?inline'
+import htmlText from './Tab.html?raw'
+import cssText from './Tab.scss?inline'
+import { htmlRoot } from '../../_helper'
 
-export interface NTabOnSelectEvent extends MouseEvent {
+export interface TabOnSelectEvent extends MouseEvent {
     param: {
         role: string
     }
 }
 
 const template = document.createElement('template')
-template.innerHTML = `<style>${style}</style>${html}`
+template.innerHTML = `<style>${cssText}</style>${htmlText}`
 
 const TAG_NAME = `g-tab`
 const ATTRIBUTES = ['tab', 'size', 'item-size', 'anchor'] as const
@@ -18,20 +19,13 @@ const CHILDREN_ATTRIBUTES = ['aria-selected'] as const
 export class Tab extends BaseChildren {
     item?: HTMLDivElement[]
     rootRef: HTMLDivElement
-    #onChange?: (e: NTabOnSelectEvent) => void
+    slotRefs: Map<string, HTMLSlotElement> = new Map()
+    #onChange?: (e: TabOnSelectEvent) => void
     static get observedAttributes() { return [...BASE_CHILDREN_ATTRIBUTES, ...ATTRIBUTES] }
     static get observedChildrenAttributes() { return [...CHILDREN_ATTRIBUTES] }
     constructor() { 
         super(template, TAG_NAME)
         this.rootRef = this.shadowRoot!.querySelector('#root')!
-    }
-
-    mount() {
-        this.init()
-    }
-
-    init() {
-        // if(!this.attributes.getNamedItem('anchor')) this.anchor="left"
     }
 
     public get tab() { return this.getAttribute('tab')! }
@@ -46,42 +40,27 @@ export class Tab extends BaseChildren {
     public get anchor() { return this.getAttribute('anchor')! as any }
     public set anchor(anchor: 'left' | 'top' | 'right' | 'bottom') { this.setAttribute('anchor', anchor) }
 
-    public set onChange(fn: (e: NTabOnSelectEvent) => void) { this.#onChange = fn }
+    public set onChange(fn: (e: TabOnSelectEvent) => void) { this.#onChange = fn }
 
-    onChildernChange(): void {
-        this.render()
-        this.handler()
-    }
-
-    handler = () => { this.handleChange() }
-
-    render() {
+    onChildernChange() {
+        this.slotRefs = new Map()
         this.rootRef.replaceChildren()
-
         for (let item of this.children) {
             const role = item.getAttribute('name')
-            const selected = item.getAttribute('aria-selected') === 'true'
-            const menu = item.innerHTML
-
-            if(role && menu) {
-                const div = document.createElement('div')
-                div.setAttribute('name', role)
-                div.setAttribute('aria-selected', selected ? 'true' : 'false')
-                div.innerHTML = `<md-ripple></md-ripple>${menu}`
-                div.classList.add('item')
-                this.rootRef.appendChild(div)
+            if(item.getAttribute('aria-selected') === null) item.setAttribute('aria-selected', 'false')
+            if (role) {
+                this.rootRef.appendChild(htmlRoot`<div class="item" key="${role}"><md-ripple></md-ripple><slot id="${role}" name="${role}"></slot></div>`)
+                const slotRef = this.shadowRoot!.querySelector<HTMLSlotElement>(`#${role}`)!
+                slotRef.assign(item)
+                item.addEventListener('click', ((e: TabOnSelectEvent) => {
+                    if (role) {
+                        e.param = { role }
+                        this.tab = role
+                        if (this.#onChange) this.#onChange(e)
+                    }
+                }) as any)
+                this.slotRefs.set(role, slotRef)
             }
-        }
-    }
-
-    handleChange() { for (const item of this.rootRef.children) { (item as HTMLDivElement).addEventListener('click', this.handleSelect as any) } }
-
-    handleSelect = (e: NTabOnSelectEvent) => {
-        const role = (e.target as HTMLDivElement).getAttribute('name')
-        if(role) {
-            e.param = { role }
-            this.tab = role
-            if (this.#onChange) this.#onChange(e)
         }
     }
 

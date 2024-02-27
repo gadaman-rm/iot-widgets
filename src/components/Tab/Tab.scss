@@ -1,8 +1,8 @@
 :host {
     --tab-color: #fff;
     --tab-select-color: #782890;
-    --tab-size: 50px;
-    --tab-item-size: 130px;
+    --tab-size: 3rem;
+    --tab-item-size: 3rem;
     --tab-offset: 0px;
     --tab-z-index: 0;
 }
@@ -63,7 +63,6 @@
 
 .item {
     position: relative;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -88,6 +87,7 @@
     width: var(--tab-item-size);
 }
 
-.tab div[aria-selected='true'] {
-    background-color: var(--tab-select-color);
+::slotted([aria-selected="true"]) {
+    fill: var(--tab-color) !important;
+    background-color: var(--tab-select-color) !important;
 }
