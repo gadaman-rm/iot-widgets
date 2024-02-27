@@ -84,24 +84,28 @@ const app = document.querySelector<HTMLDivElement>('#app')!
 // container.addWidgetEditBox(gauge, editBox)
 
 const slTest = document.createElement('div')
-slTest.innerHTML =`
-<div is='g-sidebar' tab="video">
-    <div name="video">
-        <div name="menu">video</div>
-        <div name="panel">video detail</div>
-    </div>
+// slTest.innerHTML =`
+// <div is='g-sidebar' tab="video">
+//     <div name="video" aria-selected="false">
+//         <div name="menu">
+//             <svg style="width: 2rem; height: 2rem; font-weight: normal;" viewBox="0 0 24 24" data-testid="EditNoteIcon"><path d="M3 10h11v2H3v-2zm0-2h11V6H3v2zm0 8h7v-2H3v2zm15.01-3.13.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41l-.71.71-2.12-2.12zm-.71.71-5.3 5.3V21h2.12l5.3-5.3-2.12-2.12z"></path></svg>
+//         </div>
+//         <div name="panel">video detail</div>
+//     </div>
 
-    <div name="photo">
-        <div name="menu">photo</div>
-        <div name="panel">photo detail</div>
-    </div>
-</div>
-`
-
-// slTest.innerHTML = `
-// <div id="menu" is="g-tab">
-//     <div name="video" aria-selected="false">video</div>
-//     <div name="photo" aria-selected="false">photo</div>
+//     <div name="photo" aria-selected="false">
+//         <div name="menu">
+//             <svg style="width: 1.8rem; height: 1.8rem; font-weight: normal;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="HandymanIcon"><path d="m21.67 18.17-5.3-5.3h-.99l-2.54 2.54v.99l5.3 5.3c.39.39 1.02.39 1.41 0l2.12-2.12c.39-.38.39-1.02 0-1.41z"></path><path d="m17.34 10.19 1.41-1.41 2.12 2.12c1.17-1.17 1.17-3.07 0-4.24l-3.54-3.54-1.41 1.41V1.71l-.7-.71-3.54 3.54.71.71h2.83l-1.41 1.41 1.06 1.06-2.89 2.89-4.13-4.13V5.06L4.83 2.04 2 4.87 5.03 7.9h1.41l4.13 4.13-.85.85H7.6l-5.3 5.3c-.39.39-.39 1.02 0 1.41l2.12 2.12c.39.39 1.02.39 1.41 0l5.3-5.3v-2.12l5.15-5.15 1.06 1.05z"></path></svg>
+//         </div>
+//         <div name="panel">photo detail</div>
+//     </div>
 // </div>
 // `
+
+slTest.innerHTML = `
+<div id="sample-list" is="g-sample-list">
+    <div name="video" type="menu" is="g-sample-item">video</div>
+    <div name="photo" type="panel" is="g-sample-item">video details</div>
+</div>
+`
 app.appendChild(slTest)

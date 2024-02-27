@@ -21,7 +21,7 @@ export class Sidebar extends BaseChildren {
         
         const anchor = this.attributes.getNamedItem('anchor')?.value
         if(!anchor) {
-            const defultAnchor = "top"
+            const defultAnchor = "right"
             this.setAttribute('anchor', defultAnchor)
             this.menuRef.setAttribute('anchor', defultAnchor)
             this.panelRef.setAttribute('anchor', defultAnchor)
