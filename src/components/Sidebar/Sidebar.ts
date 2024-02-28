@@ -112,7 +112,7 @@ export class Sidebar extends BaseChildren {
             if(name && type === 'panel') {
                 if(name === role) {
                     selected = item as HTMLElement
-                    selected.style.display = 'block'
+                    selected.style.display = 'flex'
                 } else 
                     (item as HTMLElement).style.display = 'none'
             }
@@ -121,9 +121,9 @@ export class Sidebar extends BaseChildren {
     }
 
     close() {
-        this.menuRef.close()
-        this.removeAttribute('tab')
         this.panelRef.open = false
+        // this.removeAttribute('tab')
+        // this.menuRef.close()
     }
 }
 

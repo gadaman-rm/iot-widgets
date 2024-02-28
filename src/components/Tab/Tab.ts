@@ -1,4 +1,4 @@
-import '@material/web/ripple/ripple'
+// import '@material/web/ripple/ripple'
 import { BASE_CHILDREN_ATTRIBUTES, BaseChildren } from '../../_helper/BaseChildren'
 import htmlText from './Tab.html?raw'
 import cssText from './Tab.scss?inline'
