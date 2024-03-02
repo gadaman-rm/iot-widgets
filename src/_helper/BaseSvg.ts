@@ -2,7 +2,7 @@ import { randomId } from "../math/helper"
 import { Transform, toTransformBox } from "../math/matrix"
 import { Point, point, roundPoint, subPoint } from "../math/point"
 
-export const BASE_SVG_ATTRIBUTES = ['id', 'x', 'y', 'width', 'height', 'rotate', 'scalex', 'scaley', 'origin'] as const
+export const BASE_SVG_ATTRIBUTES = ['id', 'x', 'y', 'width', 'h-ratio', 'height', 'rotate', 'scalex', 'scaley', 'origin'] as const
 export class BaseSvg extends HTMLDivElement {
     root: SVGSVGElement
     #transform: Transform
@@ -37,6 +37,8 @@ export class BaseSvg extends HTMLDivElement {
     public set id(id: string) { this.setAttribute('id', id) }
     public get width(): number { return +this.getAttribute('width')! }
     public set width(width: number | undefined) { if (width !== undefined) this.setAttribute('width', width.toString()) }
+    public get hRatio() { return +this.getAttribute('h-ratio')! }
+    public set hRatio(hRatio: number) { this.setAttribute('h-ratio', hRatio.toString()) }
     public get height(): number { return +this.getAttribute('height')! }
     public set height(height: number | undefined) { if (height !== undefined) this.setAttribute('height', height.toString()) }
     public get x() { return +this.getAttribute('x')! }
@@ -107,12 +109,16 @@ export class BaseSvg extends HTMLDivElement {
     widthUpdate(oldWidth: number, newWidth: number) {
         this.fixXyInResize(oldWidth, newWidth, this.height, this.height)
         this.root.setAttribute('width', newWidth.toString())
+        if(this.hRatio) this.height = this.width * this.hRatio
         this.setOriginCenter()
     }
     heightUpdate(oldHeight: number, newHeight: number) {
-        this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
-        this.root.setAttribute('height', newHeight.toString())
-        this.setOriginCenter()
+        if(oldHeight !== newHeight && this.hRatio && this.width) this.height = this.width * this.hRatio
+        else {
+            this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
+            this.root.setAttribute('height', newHeight.toString())
+            this.setOriginCenter()
+        }
     }
     xUpdate(oldX: number, newX: number) { this.#transform.transform = { x: newX } }
     yUpdate(oldY: number, newY: number) { this.#transform.transform = { y: newY } }

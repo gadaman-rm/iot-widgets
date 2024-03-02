@@ -22,6 +22,7 @@ export class BaseChildren extends HTMLDivElement {
         
         this.observer?.observe(this, { childList: true, subtree: true, attributeOldValue: true, attributeFilter: (this.constructor as any).observedChildrenAttributes })
     }
+
     public get id() { return this.getAttribute('id')! }
     public set id(id: string) { this.setAttribute('id', id) }
 

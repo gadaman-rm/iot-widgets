@@ -68,16 +68,12 @@ export class EditBox extends BaseSvg {
         this.rmidResizeListener = new RmidResizeListener(this.rmidResizeRef, this)
         this.bmidResizeListener = new BmidResizeListener(this.bmidResizeRef, this)
         this.brResizeListener = new BrResizeListener(this.brResizeRef, this)
-        this.initHandler()
         this.render()
     }
-    public get onEditStart(): string { return this.getAttribute('oneditStart')! }
     public set onEditStart(fn: (type: EditEvent['type']) => void) { this.#onEditStart = fn }
 
-    public get onEdit(): string { return this.getAttribute('onedit')! }
     public set onEdit(fn: (e: EditEvent) => void) { this.#onEdit = fn }
 
-    public get onEditEnd(): string { return this.getAttribute('oneditEnd')! }
     public set onEditEnd(fn: (type: EditEvent['type']) => void) { this.#onEditEnd = fn }
 
     editStartEmit(type: EditEvent['type']) { if (this.#onEditStart) this.#onEditStart(type) }
@@ -99,15 +95,6 @@ export class EditBox extends BaseSvg {
     }
     editEndEmit(type: EditEvent['type']) { if (this.#onEditEnd) this.#onEditEnd(type) }
 
-    initHandler() {
-        // @ts-ignore
-        if (this.onEditStart && typeof window[this.onEditStart] === 'function') this.#onEditStart = window[this.onEditStart]
-        // @ts-ignore
-        if (this.onEdit && typeof window[this.onEdit] === 'function') this.#onEdit = window[this.onEdit]
-        // @ts-ignore
-        if (this.onEditEnd && typeof window[this.onEditEnd] === 'function') this.#onEditEnd = window[this.onEditEnd]
-    }
-
     mouseCoordInZoomAndPan = (e: MouseEvent) => {
         return this.svgContainer.mouseCoordInContainer(e)
     }
@@ -119,7 +106,7 @@ export class EditBox extends BaseSvg {
     //     const dyZoom = panAndZoom ? (transform.y * zoom) - transform.y : 0
     //     const dxPan = panAndZoom ? pan.x : 0
     //     const dyPan = panAndZoom ? pan.y : 0
-        
+
     //     box.x ??= transform.x + dxZoom + dxPan
     //     box.y ??= transform.y + dyZoom + dyPan
     //     box.width ??= this.width * (panAndZoom ? zoom : 1)
@@ -129,31 +116,16 @@ export class EditBox extends BaseSvg {
     //     return {tl, tr, br, bl, aabox}
     // }
 
-    toTransformBox = (box: {x?: number, y?: number, width?: number, height?: number}) => {
+    toTransformBox = (box: { x?: number, y?: number, width?: number, height?: number }) => {
         box.x ??= this.x
         box.y ??= this.y
         box.width ??= this.width
         box.height ??= this.height
-        const {tl, tr, br, bl, aabox} = toTransformBox(box.x, box.y, box.width, box.height, -this.rotate)
+        const { tl, tr, br, bl, aabox } = toTransformBox(box.x, box.y, box.width, box.height, -this.rotate)
 
-        return {tl, tr, br, bl, aabox}
+        return { tl, tr, br, bl, aabox }
     }
 
-    // fixResizePositionInZoomAndPan(initTransformBox: TransformedBox, newTransformBox: TransformedBox) {
-    //     const transform = this.transform
-    //     const { pan, zoom } = this.container
-    //     const dxZoom = (transform.x * zoom) - transform.x
-    //     const dyZoom = (transform.y * zoom) - transform.y
-    //     const dxPan = pan.x
-    //     const dyPan = pan.y
-
-    //     const dTl = subPoint(newTransformBox.tl, initTransformBox.tl)
-    //     const newPosition = roundPoint(subPoint(
-    //         point(transform.x + dxZoom + dxPan, transform.y + dyZoom + dyPan), dTl)
-    //     )
-
-    //     return { x: newPosition.x + dxZoom + dxPan, y: newPosition.y + dyZoom + dyPan }
-    // }
     fixResizePositionInZoomAndPan(initTransformBox: TransformedBox, newTransformBox: TransformedBox) {
         const dTl = subPoint(newTransformBox.tl, initTransformBox.tl)
         const newPosition = roundPoint(subPoint(point(this.x, this.y), dTl))
@@ -213,13 +185,18 @@ export class EditBox extends BaseSvg {
 
     widthUpdate(oldWidth: number, newWidth: number): void {
         if (!this.isResizeByListener) this.fixXyInResize(oldWidth, newWidth, this.height, this.height)
+        // if(this.hRatio) this.height = this.width * this.hRatio
         this.setOriginCenter()
         this.render()
     }
+
     heightUpdate(oldHeight: number, newHeight: number): void {
+        // if(oldHeight !== newHeight && this.hRatio && this.width) this.height = this.width * this.hRatio
+        // else {
         if (!this.isResizeByListener) this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
         this.setOriginCenter()
         this.render()
+        // }
     }
 
     unmount() {
