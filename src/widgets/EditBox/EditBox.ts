@@ -1,6 +1,5 @@
 import { SvgContainer } from ".."
 import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
-import { randomId } from "../../math/helper"
 import { TransformedBox, toTransformBox } from "../../math/matrix"
 import { Point, point, roundPoint, subPoint } from "../../math/point"
 import html from './EditBox.html?raw'
@@ -28,7 +27,7 @@ export type EditEvent = {
 export class EditBox extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
     controllerSize: number
-    svgContainer: SvgContainer
+    #svgContainer?: SvgContainer
     bodyRef: SVGRectElement
     rotateRef: SVGCircleElement
     tlResizeRef: SVGRectElement
@@ -47,12 +46,12 @@ export class EditBox extends BaseSvg {
     #onEditStart?: (type: EditEvent['type']) => void
     #onEdit?: (e: EditEvent) => void
     #onEditEnd?: (type: EditEvent['type']) => void
-    constructor(id = randomId(), svgContainer: SvgContainer, width = 0, height = 0, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
-        super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
+    constructor(svgContainer: SvgContainer | undefined = undefined) {
+        super({ template })
         this.setAttribute('is', "g-editbox")
         this.isResizeByListener = false
         this.controllerSize = 12
-        this.svgContainer = svgContainer
+        this.#svgContainer = svgContainer
         this.bodyRef = this.root.querySelector('#body')!
         this.rotateRef = this.root.querySelector('#rotate')!
         this.tlResizeRef = this.root.querySelector('#tl-resize')!
@@ -70,10 +69,11 @@ export class EditBox extends BaseSvg {
         this.brResizeListener = new BrResizeListener(this.brResizeRef, this)
         this.render()
     }
+
+    public set svgContainer(svgContainer: SvgContainer) { this.#svgContainer = svgContainer }
+    public get svgContainer(): SvgContainer | undefined { return this.#svgContainer }
     public set onEditStart(fn: (type: EditEvent['type']) => void) { this.#onEditStart = fn }
-
     public set onEdit(fn: (e: EditEvent) => void) { this.#onEdit = fn }
-
     public set onEditEnd(fn: (type: EditEvent['type']) => void) { this.#onEditEnd = fn }
 
     editStartEmit(type: EditEvent['type']) { if (this.#onEditStart) this.#onEditStart(type) }
@@ -95,9 +95,7 @@ export class EditBox extends BaseSvg {
     }
     editEndEmit(type: EditEvent['type']) { if (this.#onEditEnd) this.#onEditEnd(type) }
 
-    mouseCoordInZoomAndPan = (e: MouseEvent) => {
-        return this.svgContainer.mouseCoordInContainer(e)
-    }
+    mouseCoordInZoomAndPan = (e: MouseEvent) => { return this.svgContainer?.mouseCoordInContainer(e) }
     // toTransformBox = (box: {x?: number, y?: number, width?: number, height?: number}, panAndZoom = false) => {
     //     const {pan, zoom} = this.container
     //     const transform = this.transform
@@ -184,31 +182,27 @@ export class EditBox extends BaseSvg {
     }
 
     widthUpdate(oldWidth: number, newWidth: number): void {
-        if (this.isMounted) {
-            if (!this.isResizeByListener) this.fixXyInResize(oldWidth, newWidth, this.height, this.height)
-            this.setOriginCenter()
-            if (!this.isDimUpdate && this.ratio) {
-                this.isDimUpdate = true
-                this.height = +(newWidth * this.ratio).toFixed(3)
-            } else {
-                this.isDimUpdate = false
-            }
-            this.render()
+        if (!this.isResizeByListener) this.fixXyInResize(oldWidth, newWidth, this.height, this.height)
+        this.setOriginCenter()
+        if (!this.isDimUpdate && this.ratio) {
+            this.isDimUpdate = true
+            this.height = +(newWidth * this.ratio).toFixed(3)
+        } else {
+            this.isDimUpdate = false
         }
+        this.render()
     }
 
     heightUpdate(oldHeight: number, newHeight: number): void {
-        if (this.isMounted) {
-            if (!this.isResizeByListener) this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
-            this.setOriginCenter()
-            if (!this.isDimUpdate && this.ratio) {
-                this.isDimUpdate = true
-                this.width = +(newHeight * 1 / this.ratio).toFixed(3)
-            } else {
-                this.isDimUpdate = false
-            }
-            this.render()
+        if (!this.isResizeByListener) this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
+        this.setOriginCenter()
+        if (!this.isDimUpdate && this.ratio) {
+            this.isDimUpdate = true
+            this.width = +(newHeight * 1 / this.ratio).toFixed(3)
+        } else {
+            this.isDimUpdate = false
         }
+        this.render()
     }
 
     ratioUpdate(oldRatio: number, newRatio: number): void {

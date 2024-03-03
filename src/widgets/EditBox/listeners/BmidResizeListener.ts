@@ -23,6 +23,7 @@ export class BmidResizeListener {
             const { init: iBox } = e.param
             if (iBox) {
                 const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
+                if(!currentMouseCoord) throw new Error("EditBox svgContainer property is null")
                 const box = this.edListener.toTransformBox({})
                 let newHeight = distancePointFromLine(currentMouseCoord, box.tr, box.tl)
                 const nBox = this.edListener.toTransformBox({ height: newHeight })

@@ -3,23 +3,36 @@ import { Transform, toTransformBox } from "../math/matrix"
 import { Point, point, roundPoint, subPoint } from "../math/point"
 
 export const BASE_SVG_ATTRIBUTES = ['id', 'x', 'y', 'width', 'ratio', 'height', 'rotate', 'scalex', 'scaley', 'origin'] as const
+export interface BaseSvgProps {
+    template: HTMLTemplateElement
+    id?: string,
+    width?: number,
+    height?: number,
+    x?: number,
+    y?: number,
+    rotate?: number,
+    origin?: string,
+    scaleX?: number,
+    scaleY?: number
+}
 export class BaseSvg extends HTMLDivElement {
-    initAttribute(name: string, defaultValue: string) { if(!this.attributes.getNamedItem(name)) this.setAttribute(name, defaultValue) }
+    initAttribute(name: string, defaultValue: string) { if (!this.attributes.getNamedItem(name)) this.setAttribute(name, defaultValue) }
     root: SVGSVGElement
     #transform: Transform
     isMounted = false
     isDimUpdate = false
-    constructor(template: HTMLTemplateElement,
+    constructor({
+        template,
+        width,
+        height,
+        origin,
         id = randomId(),
-        width?: number,
-        height?: number,
         x = 0,
         y = 0,
         rotate = 0,
-        origin?: string,
         scaleX = 1,
         scaleY = 1,
-    ) {
+    }: BaseSvgProps) {
         super()
         this.attachShadow({ mode: 'open' })
         this.shadowRoot!.appendChild(template.content.cloneNode(true))
@@ -28,8 +41,8 @@ export class BaseSvg extends HTMLDivElement {
         this.initAttribute('id', id)
         this.initAttribute('x', x.toString())
         this.initAttribute('y', y.toString())
-        if(width) this.initAttribute('width', width.toString())
-        if(height) this.initAttribute('height', height.toString())
+        if (width) this.initAttribute('width', width.toString())
+        if (height) this.initAttribute('height', height.toString())
         this.initAttribute('rotate', rotate.toString())
         this.initAttribute('scalex', scaleX.toString())
         this.initAttribute('scaley', scaleY.toString())
@@ -38,7 +51,7 @@ export class BaseSvg extends HTMLDivElement {
 
     public get id() { return this.getAttribute('id')! }
     public set id(id: string) { this.setAttribute('id', id) }
-    public set transform(transform: Transform) { this.#transform = transform}
+    public set transform(transform: Transform) { this.#transform = transform }
     public get transform(): Transform | undefined { return this.#transform }
     public get width(): number { return +this.getAttribute('width')! }
     public set width(width: number | undefined) { if (width !== undefined) this.setAttribute('width', width.toString()) }
@@ -50,7 +63,7 @@ export class BaseSvg extends HTMLDivElement {
     public set x(x: number) { this.setAttribute('x', x.toString()) }
     public get y() { return +this.getAttribute('y')! }
     public set y(y: number) { this.setAttribute('y', y.toString()) }
-    public get rotate() { return (+this.getAttribute('rotate')!)}
+    public get rotate() { return (+this.getAttribute('rotate')!) }
     public set rotate(rotate: number) { this.setAttribute('rotate', (rotate).toString()) }
     public get scaleX() { return +this.getAttribute('scaleX')! }
     public set scaleX(scaleX: number) { this.setAttribute('scaleX', scaleX.toString()) }
@@ -111,9 +124,9 @@ export class BaseSvg extends HTMLDivElement {
             default: this.attributeUpdate(attributeName, oldValue, newValue)
         }
     }
-    connectedCallback() { 
+    connectedCallback() {
         this.isMounted = true
-        this.mount() 
+        this.mount()
     }
     disconnectedCallback() { this.unmount() }
 
@@ -141,11 +154,11 @@ export class BaseSvg extends HTMLDivElement {
             this.isDimUpdate = false
         }
     }
-    xUpdate(oldX: number, newX: number) { if(this.#transform) this.#transform.transform = { x: newX } }
-    yUpdate(oldY: number, newY: number) { if(this.#transform) this.#transform.transform = { y: newY } }
-    rotateUpdate(oldRotate: number, newRotate: number) { if(this.#transform) this.#transform.transform = { rotate: -newRotate } }
-    scaleXUpdate(oldScaleX: number, newScaleX: number) { if(this.#transform) this.#transform.transform = { scaleX: newScaleX } }
-    scaleYUpdate(oldScaleY: number, newScaleY: number) { if(this.#transform) this.#transform.transform = { scaleY: newScaleY } }
+    xUpdate(oldX: number, newX: number) { if (this.#transform) this.#transform.transform = { x: newX } }
+    yUpdate(oldY: number, newY: number) { if (this.#transform) this.#transform.transform = { y: newY } }
+    rotateUpdate(oldRotate: number, newRotate: number) { if (this.#transform) this.#transform.transform = { rotate: -newRotate } }
+    scaleXUpdate(oldScaleX: number, newScaleX: number) { if (this.#transform) this.#transform.transform = { scaleX: newScaleX } }
+    scaleYUpdate(oldScaleY: number, newScaleY: number) { if (this.#transform) this.#transform.transform = { scaleY: newScaleY } }
     originUpdate(oldOrigin: string, newOrigin: string) { this.root.setAttribute('transform-origin', newOrigin) }
     attributeUpdate(attributeName: any, oldValue: string, newValue: string) { }
     mount() { }

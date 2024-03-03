@@ -12,6 +12,7 @@ export class RotateListener {
         this.dragListener.onDragStart = () => { this.edListener.editStartEmit('rotate') }
         this.dragListener.onDragMove = (e) => {
                 const currentMouseCoord = this.edListener.mouseCoordInZoomAndPan(e)
+                if(!currentMouseCoord) throw new Error("EditBox svgContainer property is null")
                 const { x, y } = this.edListener
 
                 const editBoxCenter = point(x + this.edListener.width / 2, y + this.edListener.height / 2)

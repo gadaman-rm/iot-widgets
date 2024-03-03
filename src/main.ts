@@ -2,6 +2,7 @@ import './components/components'
 import './reset.scss'
 import './widgets'
 import '@material/web/button/elevated-button'
+import { EditBox } from './widgets'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
@@ -114,8 +115,13 @@ const slTest = document.createElement('div')
 slTest.innerHTML =`
 <div is='g-slider'>
 </div>
-<div is='g-editbox' width="200" height="200" x="200" y="400" ratio="0.7">
-</div>
 `
 
+const editBox = new EditBox() 
+editBox.x = 100
+editBox.y = 100
+editBox.width = 100
+editBox.height = 100
+
 app.appendChild(slTest)
+app.appendChild(editBox)

@@ -21,11 +21,15 @@ export class MoveListener {
     #initHandler() {
         this.#dragListener.onDragStart = (e) => {
             const { initFn } = e.param
-            initFn({ ...this.emitMoveStart(this.#edListener.mouseCoordInZoomAndPan(e), point(this.#edListener)) })
+            const currentMouseCoord = this.#edListener.mouseCoordInZoomAndPan(e)
+            if(!currentMouseCoord) throw new Error("EditBox svgContainer property is null")
+            initFn({ ...this.emitMoveStart(currentMouseCoord, point(this.#edListener)) })
         }
         this.#dragListener.onDragMove = (e) => {
             const { init } = e.param
-            if (init) { this.emitMove(this.#edListener.mouseCoordInZoomAndPan(e), init) }
+            const currentMouseCoord = this.#edListener.mouseCoordInZoomAndPan(e)
+            if(!currentMouseCoord) throw new Error("EditBox svgContainer property is null")
+            if (init) { this.emitMove(currentMouseCoord, init) }
         }
         this.#dragListener.onDragEnd = (e) => { this.emitMoveEnd() }
     }
