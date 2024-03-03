@@ -112,7 +112,9 @@ const slTest = document.createElement('div')
 
 
 slTest.innerHTML =`
-<div is='g-slider' h-ratio="0.10212345440960255">
+<div is='g-slider'>
+</div>
+<div is='g-editbox' width="200" height="200" x="200" y="400" ratio="0.7">
 </div>
 `
 

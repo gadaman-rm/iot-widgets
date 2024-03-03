@@ -2,10 +2,13 @@ import { randomId } from "../math/helper"
 import { Transform, toTransformBox } from "../math/matrix"
 import { Point, point, roundPoint, subPoint } from "../math/point"
 
-export const BASE_SVG_ATTRIBUTES = ['id', 'x', 'y', 'width', 'h-ratio', 'height', 'rotate', 'scalex', 'scaley', 'origin'] as const
+export const BASE_SVG_ATTRIBUTES = ['id', 'x', 'y', 'width', 'ratio', 'height', 'rotate', 'scalex', 'scaley', 'origin'] as const
 export class BaseSvg extends HTMLDivElement {
+    initAttribute(name: string, defaultValue: string) { if(!this.attributes.getNamedItem(name)) this.setAttribute(name, defaultValue) }
     root: SVGSVGElement
     #transform: Transform
+    isMounted = false
+    isDimUpdate = false
     constructor(template: HTMLTemplateElement,
         id = randomId(),
         width?: number,
@@ -22,23 +25,25 @@ export class BaseSvg extends HTMLDivElement {
         this.shadowRoot!.appendChild(template.content.cloneNode(true))
         this.root = this.shadowRoot!.querySelector('svg')!
         this.#transform = new Transform(this.root, x, y, scaleX, scaleY, rotate)
-        this.id = id
-        this.width = width
-        this.height = height
-        this.x = x
-        this.y = y
-        this.scaleX = scaleX
-        this.scaleY = scaleY
-        this.rotate = rotate
-        this.origin = origin ? origin : (this.width && this.height) ? `${this.width / 2} ${this.height / 2}` : '0 0'
+        this.initAttribute('id', id)
+        this.initAttribute('x', x.toString())
+        this.initAttribute('y', y.toString())
+        if(width) this.initAttribute('width', width.toString())
+        if(height) this.initAttribute('height', height.toString())
+        this.initAttribute('rotate', rotate.toString())
+        this.initAttribute('scalex', scaleX.toString())
+        this.initAttribute('scaley', scaleY.toString())
+        this.initAttribute('origin', origin ? origin : (this.width && this.height) ? `${this.width / 2} ${this.height / 2}` : '0 0')
     }
 
     public get id() { return this.getAttribute('id')! }
     public set id(id: string) { this.setAttribute('id', id) }
+    public set transform(transform: Transform) { this.#transform = transform}
+    public get transform(): Transform | undefined { return this.#transform }
     public get width(): number { return +this.getAttribute('width')! }
     public set width(width: number | undefined) { if (width !== undefined) this.setAttribute('width', width.toString()) }
-    public get hRatio() { return +this.getAttribute('h-ratio')! }
-    public set hRatio(hRatio: number) { this.setAttribute('h-ratio', hRatio.toString()) }
+    public get ratio() { return +this.getAttribute('ratio')! }
+    public set ratio(ratio: number) { this.setAttribute('ratio', ratio.toString()) }
     public get height(): number { return +this.getAttribute('height')! }
     public set height(height: number | undefined) { if (height !== undefined) this.setAttribute('height', height.toString()) }
     public get x() { return +this.getAttribute('x')! }
@@ -68,20 +73,24 @@ export class BaseSvg extends HTMLDivElement {
             this.origin = { x: this.width / 2, y: this.height / 2 }
     }
     fixXyInResize(oldWidth: number, newWidth: number, oldHeight: number, newHeight: number) {
-        const { x, y, rotate } = this.#transform.transform
-        const iBox = toTransformBox(x, y, oldWidth, oldHeight, rotate)
-        const nBox = toTransformBox(x, y, newWidth, newHeight, rotate)
-        const dTl = subPoint(nBox.tl, iBox.tl)
-        const newPosition = roundPoint(subPoint(point(this.x, this.y), dTl))
-        if (!isNaN(newPosition.x) && !isNaN(newPosition.y)) {
-            this.x = newPosition.x
-            this.y = newPosition.y
+        if (this.#transform) {
+            const { x, y, rotate } = this.#transform.transform
+            const iBox = toTransformBox(x, y, oldWidth, oldHeight, rotate)
+            const nBox = toTransformBox(x, y, newWidth, newHeight, rotate)
+            const dTl = subPoint(nBox.tl, iBox.tl)
+            const newPosition = roundPoint(subPoint(point(this.x, this.y), dTl))
+            if (!isNaN(newPosition.x) && !isNaN(newPosition.y)) {
+                this.x = newPosition.x
+                this.y = newPosition.y
+            }
         }
     }
 
     attributeChangedCallback(attributeName: typeof BASE_SVG_ATTRIBUTES[number], oldValue: string, newValue: string) {
         switch (attributeName) {
             case 'id': this.idUpdate(oldValue, newValue)
+                break
+            case 'ratio': this.ratioUpdate(+oldValue, +newValue)
                 break
             case 'x': this.xUpdate(+oldValue, +newValue)
                 break
@@ -102,29 +111,41 @@ export class BaseSvg extends HTMLDivElement {
             default: this.attributeUpdate(attributeName, oldValue, newValue)
         }
     }
-    connectedCallback() { this.mount() }
+    connectedCallback() { 
+        this.isMounted = true
+        this.mount() 
+    }
     disconnectedCallback() { this.unmount() }
 
     idUpdate(oldId: string, newId: string) { }
+    ratioUpdate(oldRatio: number, newRatio: number) { }
     widthUpdate(oldWidth: number, newWidth: number) {
         this.fixXyInResize(oldWidth, newWidth, this.height, this.height)
         this.root.setAttribute('width', newWidth.toString())
-        if(this.hRatio) this.height = this.width * this.hRatio
         this.setOriginCenter()
-    }
-    heightUpdate(oldHeight: number, newHeight: number) {
-        if(oldHeight !== newHeight && this.hRatio && this.width) this.height = this.width * this.hRatio
-        else {
-            this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
-            this.root.setAttribute('height', newHeight.toString())
-            this.setOriginCenter()
+        if (!this.isDimUpdate && this.ratio) {
+            this.isDimUpdate = true
+            this.height = +(newWidth * this.ratio).toFixed(3)
+        } else {
+            this.isDimUpdate = false
         }
     }
-    xUpdate(oldX: number, newX: number) { this.#transform.transform = { x: newX } }
-    yUpdate(oldY: number, newY: number) { this.#transform.transform = { y: newY } }
-    rotateUpdate(oldRotate: number, newRotate: number) { this.#transform.transform = { rotate: -newRotate } }
-    scaleXUpdate(oldScaleX: number, newScaleX: number) { this.#transform.transform = { scaleX: newScaleX } }
-    scaleYUpdate(oldScaleY: number, newScaleY: number) { this.#transform.transform = { scaleY: newScaleY } }
+    heightUpdate(oldHeight: number, newHeight: number) {
+        this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
+        this.root.setAttribute('height', newHeight.toString())
+        this.setOriginCenter()
+        if (!this.isDimUpdate && this.ratio) {
+            this.isDimUpdate = true
+            this.width = +(newHeight * 1 / this.ratio).toFixed(3)
+        } else {
+            this.isDimUpdate = false
+        }
+    }
+    xUpdate(oldX: number, newX: number) { if(this.#transform) this.#transform.transform = { x: newX } }
+    yUpdate(oldY: number, newY: number) { if(this.#transform) this.#transform.transform = { y: newY } }
+    rotateUpdate(oldRotate: number, newRotate: number) { if(this.#transform) this.#transform.transform = { rotate: -newRotate } }
+    scaleXUpdate(oldScaleX: number, newScaleX: number) { if(this.#transform) this.#transform.transform = { scaleX: newScaleX } }
+    scaleYUpdate(oldScaleY: number, newScaleY: number) { if(this.#transform) this.#transform.transform = { scaleY: newScaleY } }
     originUpdate(oldOrigin: string, newOrigin: string) { this.root.setAttribute('transform-origin', newOrigin) }
     attributeUpdate(attributeName: any, oldValue: string, newValue: string) { }
     mount() { }

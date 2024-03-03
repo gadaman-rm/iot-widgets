@@ -27,8 +27,8 @@ export class BrResizeListener {
                 const box = this.edListener.toTransformBox({})
                 let newWidth = distancePointFromLine(currentMouseCoord, box.tl, box.bl)
                 let newHeight = distancePointFromLine(currentMouseCoord, box.tr, box.tl)
-                const nBox = this.edListener.toTransformBox({ width: newWidth, height: newHeight})
-                
+                if (this.edListener.ratio) newHeight = newWidth * this.edListener.ratio
+                const nBox = this.edListener.toTransformBox({ width: newWidth, height: newHeight })
                 if (newWidth > 10 && newHeight > 10) {
                     const newPosition = this.edListener.fixResizePositionInZoomAndPan(iBox, nBox)
                     this.edListener.setAttribute('x', newPosition.x.toString())

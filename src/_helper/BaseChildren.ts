@@ -1,6 +1,7 @@
 export const BASE_CHILDREN_ATTRIBUTES = ['id'] as const
 export type Childern = Node
 export class BaseChildren extends HTMLDivElement {
+    initAttribute(name: string, defaultValue: string) { if(!this.attributes.getNamedItem(name)) this.setAttribute(name, defaultValue) }
     observer?: MutationObserver
     static observedChildrenAttributes: string[] = []
     constructor(template: HTMLTemplateElement, TAG_NAME: string) {

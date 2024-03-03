@@ -184,19 +184,41 @@ export class EditBox extends BaseSvg {
     }
 
     widthUpdate(oldWidth: number, newWidth: number): void {
-        if (!this.isResizeByListener) this.fixXyInResize(oldWidth, newWidth, this.height, this.height)
-        // if(this.hRatio) this.height = this.width * this.hRatio
-        this.setOriginCenter()
-        this.render()
+        if (this.isMounted) {
+            if (!this.isResizeByListener) this.fixXyInResize(oldWidth, newWidth, this.height, this.height)
+            this.setOriginCenter()
+            if (!this.isDimUpdate && this.ratio) {
+                this.isDimUpdate = true
+                this.height = +(newWidth * this.ratio).toFixed(3)
+            } else {
+                this.isDimUpdate = false
+            }
+            this.render()
+        }
     }
 
     heightUpdate(oldHeight: number, newHeight: number): void {
-        // if(oldHeight !== newHeight && this.hRatio && this.width) this.height = this.width * this.hRatio
-        // else {
-        if (!this.isResizeByListener) this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
-        this.setOriginCenter()
-        this.render()
-        // }
+        if (this.isMounted) {
+            if (!this.isResizeByListener) this.fixXyInResize(this.width, this.width, oldHeight, newHeight)
+            this.setOriginCenter()
+            if (!this.isDimUpdate && this.ratio) {
+                this.isDimUpdate = true
+                this.width = +(newHeight * 1 / this.ratio).toFixed(3)
+            } else {
+                this.isDimUpdate = false
+            }
+            this.render()
+        }
+    }
+
+    ratioUpdate(oldRatio: number, newRatio: number): void {
+        if(newRatio) {
+            this.rmidResizeRef.style.visibility = 'hidden'
+            this.bmidResizeRef.style.visibility = 'hidden'
+        } else {
+            this.rmidResizeRef.style.visibility = 'visible'
+            this.bmidResizeRef.style.visibility = 'visible'
+        }
     }
 
     unmount() {

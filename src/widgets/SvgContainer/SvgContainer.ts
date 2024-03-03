@@ -68,7 +68,7 @@ export class SvgContainer extends HTMLDivElement {
         this.firstChild!.appendChild(widget)
         this.widgets.push(widget)
     }
-    removeWidget(widget: IWidgets | undefined) {
+    removeWidget(widget: IWidgets | undefined = undefined) {
         if (widget) this.widgets.forEach((item, index) => {
             if (item.id === widget.id) {
                 item.remove()
@@ -86,7 +86,7 @@ export class SvgContainer extends HTMLDivElement {
         this.firstChild!.appendChild(editBox)
         this.editBoxforWidgets.push({ widget, editBox })
     }
-    removeWidgetEditBox(editBox: EditBox | undefined) {
+    removeWidgetEditBox(editBox: EditBox | undefined = undefined) {
         if (editBox)
             this.widgets.forEach((item, index) => {
                 if (item.id === editBox.id) {

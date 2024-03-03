@@ -8,9 +8,10 @@ template.innerHTML = `${html}`
 const ATTRIBUTES = ['zero'] as const
 export class Gauge extends BaseSvg {
     static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
-    constructor(id = randomId(), width = 212.42054748535156, height = 158.1199951171875, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
+    constructor(id = randomId(), width = 212.420, height = 158.119, x = 0, y = 0, rotate = 0, origin?: string, scaleX = 1, scaleY = 1) {
         super(template, id, width, height, x, y, rotate, origin, scaleX, scaleY)
         this.setAttribute('is', "g-gauge")
+        this.setAttribute('ratio', '0.744')
     }
     attributeUpdate(attributeName: typeof ATTRIBUTES[number], _oldValue: string, _newValue: string) {
         switch (attributeName) {
