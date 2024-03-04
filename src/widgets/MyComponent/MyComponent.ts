@@ -4,6 +4,13 @@ import style from './MyComponent.scss?inline'
 const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
+export interface CheckEvent {
+    detail: {
+        name: string,
+        age: number
+    }
+}
+
 export class MyComponent extends HTMLDivElement {
     static get observedAttributes() {
         return ['age']
@@ -11,6 +18,7 @@ export class MyComponent extends HTMLDivElement {
     #onT1Click?: (e: MouseEvent) => void
     #title1Slot: HTMLSlotElement
     ageRef: HTMLDivElement
+    checkEvent: CustomEvent<CheckEvent['detail']>
     constructor() {
         super()
         this.attachShadow({ mode: 'open' })
@@ -19,7 +27,7 @@ export class MyComponent extends HTMLDivElement {
         this.ageRef = this.shadowRoot!.querySelector('#age')!
         this.#title1Slot = this.shadowRoot!.querySelector<HTMLSlotElement>(`[name="title1"]`)!
         this.initHandler()
-
+        this.checkEvent = new CustomEvent<CheckEvent['detail']>("z-check", { detail: { age: 0, name: '' } })
         // init age
         this.age = "29"
         this.ageRef.innerHTML = "29" //fix first render problem in text format
@@ -32,6 +40,8 @@ export class MyComponent extends HTMLDivElement {
         switch (attrName.toLowerCase()) {
             case 'age':
                 this.ageRef.innerHTML = newValue
+                this.checkEvent.detail.age = +newValue
+                this.dispatchEvent(this.checkEvent)
                 break
         }
     }
@@ -49,6 +59,16 @@ export class MyComponent extends HTMLDivElement {
     disconnectedCallback() {
         this.#title1Slot.removeEventListener('click', this.handleT1Click)
     }
+
+    //********************************* Events *********************************
+    addEventListener(type: 'z-check', listener: (e: CheckEvent) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    // @ts-ignore: Unreachable code error
+    addEventListener(type: unknown, listener: unknown, options?: unknown): void
+
+    removeEventListener(type: 'z-check', listener: (e: CheckEvent) => void, options?: boolean | EventListenerOptions | undefined): void
+    // @ts-ignore: Unreachable code error
+    removeEventListener(type: unknown, listener: unknown, options?: unknown): void
+    //********************************* *********************************
 }
 
 customElements.define('my-component', MyComponent, { extends: 'div' })

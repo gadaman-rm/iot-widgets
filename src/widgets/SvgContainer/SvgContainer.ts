@@ -15,6 +15,7 @@ export class SvgContainer extends HTMLDivElement {
     editBoxforWidgets: { widget: IWidgets, editBox: EditBox }[]
     widgets: IWidgets[]
     static get observedAttributes() { return SVG_CONTAINER_ATTRIBUTES }
+    checkEvent: CustomEvent
     constructor(widgets: IWidgets[] = [], pan: Point = { x: 0, y: 0 }, zoom: number = 1) {
         super()
         this.attachShadow({ mode: 'open' })
@@ -29,6 +30,12 @@ export class SvgContainer extends HTMLDivElement {
         widgets.forEach(widget => this.addWidget(widget))
         this.widgets = widgets
         this.appendChild(document.createElement('main'))
+
+        this.checkEvent = new CustomEvent("check", {
+            bubbles: true,
+            cancelable: false,
+            composed: true
+        })
     }
     public get zoom() { return +this.getAttribute('zoom')! }
     public set zoom(zoom: number) { this.setAttribute('zoom', zoom.toString()) }
@@ -67,6 +74,9 @@ export class SvgContainer extends HTMLDivElement {
     addWidget(widget: IWidgets) {
         this.firstChild!.appendChild(widget)
         this.widgets.push(widget)
+        console.log('add')
+        // this.checkEvent.
+        
     }
     removeWidget(widget: IWidgets | undefined = undefined) {
         if (widget) this.widgets.forEach((item, index) => {

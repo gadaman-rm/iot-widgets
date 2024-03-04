@@ -2,7 +2,7 @@ import './components/components'
 import './reset.scss'
 import './widgets'
 import '@material/web/button/elevated-button'
-import { EditBox } from './widgets'
+import { EditBox, MyComponent } from './widgets'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
@@ -84,7 +84,7 @@ const app = document.querySelector<HTMLDivElement>('#app')!
 
 // container.addWidgetEditBox(gauge, editBox)
 
-const slTest = document.createElement('div')
+// const slTest = document.createElement('div')
 // slTest.innerHTML =`
 // <div is='g-sidebar' anchor="right">
 //     <div name="video" data-type="menu">
@@ -112,16 +112,32 @@ const slTest = document.createElement('div')
 // `
 
 
-slTest.innerHTML =`
-<div is='g-slider'>
-</div>
+// slTest.innerHTML =`
+// <div is='g-slider'>
+// </div>
+// `
+// app.appendChild(slTest)
+
+// const editBox = new EditBox() 
+// editBox.x = 100
+// editBox.y = 100
+// editBox.width = 100
+// editBox.height = 100
+// app.appendChild(editBox)
+
+const my = new MyComponent()
+
+const f1 = (m: any) => { console.log(m.detail) }
+const f2 = (m: any) => { console.log(m) }
+
+my.addEventListener('z-check', f1, false)
+my.addEventListener('z-check', f2, false)
+
+my.removeEventListener("z-check", f2)
+
+my.innerHTML = `
+<div slot="title1">Zero</div>
+<div slot="title2">Zero is cool</div>
 `
 
-const editBox = new EditBox() 
-editBox.x = 100
-editBox.y = 100
-editBox.width = 100
-editBox.height = 100
-
-app.appendChild(slTest)
-app.appendChild(editBox)
+app.appendChild(my)

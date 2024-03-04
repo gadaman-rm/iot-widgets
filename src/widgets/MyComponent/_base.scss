@@ -15,7 +15,7 @@
 // @debug list.index(1px solid red, solid); // 2
 // @debug list.index(1px solid red, dashed); // null
 
-$transition-speed: math.div(1s, 50px);
+$transition-speed: math.div(1s, 500px);
 $sizes: 40px, 50px, 80px;
 $valid-sides: top, bottom, left, right;
 
@@ -36,7 +36,7 @@ $valid-sides: top, bottom, left, right;
 }
 
 .move {
-  @include move(10px, 120px);
+  @include move(0px, 500px);
 }
 
 
