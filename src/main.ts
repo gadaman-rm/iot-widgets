@@ -2,7 +2,7 @@ import './components/components'
 import './reset.scss'
 import './widgets'
 import '@material/web/button/elevated-button'
-import { EditBox, MyComponent } from './widgets'
+import { MyComponent } from './widgets'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
@@ -126,12 +126,16 @@ const app = document.querySelector<HTMLDivElement>('#app')!
 // app.appendChild(editBox)
 
 const my = new MyComponent()
+// my.z
 
 const f1 = (m: any) => { console.log(m.detail) }
 const f2 = (m: any) => { console.log(m) }
-
-my.addEventListener('z-check', f1, false)
-my.addEventListener('z-check', f2, false)
+// my.addEventListener('z')
+my.addEventListener('z-check', f1)
+my.addEventListener('z-check', f2)
+my.addEventListener('z-check', (e) => {
+    console.log('zero: ', e.detail.age)
+})
 
 my.removeEventListener("z-check", f2)
 

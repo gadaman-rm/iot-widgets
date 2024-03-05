@@ -43,9 +43,9 @@ export class EditBox extends BaseSvg {
     rotateListener: RotateListener
     moveListener: MoveListener
     isResizeByListener: boolean
-    #onEditStart?: (type: EditEvent['type']) => void
-    #onEdit?: (e: EditEvent) => void
-    #onEditEnd?: (type: EditEvent['type']) => void
+    editStartEvent: CustomEvent<{ type: EditEvent['type']}>
+    editEvent: CustomEvent<EditEvent>
+    editEndEvent: CustomEvent<{ type: EditEvent['type']}>
     constructor(svgContainer: SvgContainer | undefined = undefined) {
         super({ template })
         this.setAttribute('is', "g-editbox")
@@ -68,32 +68,35 @@ export class EditBox extends BaseSvg {
         this.bmidResizeListener = new BmidResizeListener(this.bmidResizeRef, this)
         this.brResizeListener = new BrResizeListener(this.brResizeRef, this)
         this.render()
+        this.editStartEvent = new CustomEvent<{ type: EditEvent['type']}>("edit-start", { detail: { type: ''} as any })
+        this.editEvent = new CustomEvent<EditEvent>("edit", { detail: {} as any })
+        this.editEndEvent = new CustomEvent<{ type: EditEvent['type']}>("edit-end", { detail: { type: ''} as any })
     }
 
     public set svgContainer(svgContainer: SvgContainer) { this.#svgContainer = svgContainer }
     public get svgContainer(): SvgContainer | undefined { return this.#svgContainer }
-    public set onEditStart(fn: (type: EditEvent['type']) => void) { this.#onEditStart = fn }
-    public set onEdit(fn: (e: EditEvent) => void) { this.#onEdit = fn }
-    public set onEditEnd(fn: (type: EditEvent['type']) => void) { this.#onEditEnd = fn }
 
-    editStartEmit(type: EditEvent['type']) { if (this.#onEditStart) this.#onEditStart(type) }
-    editEmit(type: EditEvent['type'], e: Partial<EditEvent>) {
-        if (this.#onEdit)
-            this.#onEdit({
-                type,
-                width: this.width,
-                height: this.height,
-                x: this.x,
-                y: this.y,
-                rotate: this.rotate,
-                scaleX: this.scaleX,
-                scaleY: this.scaleY,
-                originStr: this.originStr,
-                origin: this.origin,
-                ...e
-            })
+    editStartEmit(type: EditEvent['type']) { 
+        this.editStartEvent.detail.type = type
+        this.dispatchEvent(this.editStartEvent)
     }
-    editEndEmit(type: EditEvent['type']) { if (this.#onEditEnd) this.#onEditEnd(type) }
+    editEmit(type: EditEvent['type'], e: Partial<EditEvent>) {
+        this.editEvent.detail.type = type
+        this.editEvent.detail.width = e.width ?? this.width
+        this.editEvent.detail.height = e.height ?? this.height
+        this.editEvent.detail.x = e.x ?? this.x
+        this.editEvent.detail.y = e.y ?? this.y
+        this.editEvent.detail.rotate = e.rotate ?? this.rotate
+        this.editEvent.detail.scaleX = e.scaleX ?? this.scaleX
+        this.editEvent.detail.scaleY = e.scaleY ?? this.scaleY
+        this.editEvent.detail.originStr = e.originStr ?? this.originStr
+        this.editEvent.detail.origin = e.origin ?? this.origin
+        this.dispatchEvent(this.editEvent)
+    }
+    editEndEmit(type: EditEvent['type']) { 
+        this.editEndEvent.detail.type = type
+        this.dispatchEvent(this.editEndEvent)
+    }
 
     mouseCoordInZoomAndPan = (e: MouseEvent) => { return this.svgContainer?.mouseCoordInContainer(e) }
     // toTransformBox = (box: {x?: number, y?: number, width?: number, height?: number}, panAndZoom = false) => {
@@ -222,6 +225,20 @@ export class EditBox extends BaseSvg {
         this.bmidResizeListener.removeListener()
         this.brResizeListener.removeListener()
     }
+
+    //********************************* Events *********************************
+    addEventListener(type: 'edit-start', listener: (e: CustomEvent<{ type: EditEvent['type']}>) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'edit', listener: (e: CustomEvent<EditEvent>) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'edit-end', listener: (e: CustomEvent<{ type: EditEvent['type']}>) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    // @ts-ignore: Unreachable code error
+    addEventListener(type: unknown, listener: unknown, options?: unknown): void
+
+    removeEventListener(type: 'edit-start', listener: (e: CustomEvent<{ type: EditEvent['type']}>) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'edit', listener: (e: CustomEvent<EditEvent>) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'edit-end', listener: (e: CustomEvent<{ type: EditEvent['type']}>) => void, options?: boolean | EventListenerOptions | undefined): void
+    // @ts-ignore: Unreachable code error
+    removeEventListener(type: unknown, listener: unknown, options?: unknown): void
+    //********************************* *********************************
 }
 
 customElements.define('g-editbox', EditBox, { extends: 'div' })

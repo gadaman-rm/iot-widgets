@@ -7,6 +7,18 @@ import style from './SvgContainer.scss?inline'
 const template = document.createElement('template')
 template.innerHTML = `<style>${style}</style>${html}`
 
+export interface WidgetChangeEvent {
+    detail: {
+        widgets: IWidgets[]
+    }
+}
+
+export interface SelectChangeEvent {
+    detail: {
+        selects: { widget: IWidgets, editBox: EditBox }[]
+    }
+}
+
 export const SVG_CONTAINER_ATTRIBUTES = ['panx', 'pany', 'zoom'] as const
 export class SvgContainer extends HTMLDivElement {
     root: SVGSVGElement
@@ -15,7 +27,8 @@ export class SvgContainer extends HTMLDivElement {
     editBoxforWidgets: { widget: IWidgets, editBox: EditBox }[]
     widgets: IWidgets[]
     static get observedAttributes() { return SVG_CONTAINER_ATTRIBUTES }
-    checkEvent: CustomEvent
+    widgetChangeEvent: CustomEvent<WidgetChangeEvent['detail']>
+    selectChangeEvent: CustomEvent<SelectChangeEvent['detail']>
     constructor(widgets: IWidgets[] = [], pan: Point = { x: 0, y: 0 }, zoom: number = 1) {
         super()
         this.attachShadow({ mode: 'open' })
@@ -30,12 +43,8 @@ export class SvgContainer extends HTMLDivElement {
         widgets.forEach(widget => this.addWidget(widget))
         this.widgets = widgets
         this.appendChild(document.createElement('main'))
-
-        this.checkEvent = new CustomEvent("check", {
-            bubbles: true,
-            cancelable: false,
-            composed: true
-        })
+        this.widgetChangeEvent = new CustomEvent<WidgetChangeEvent['detail']>("widget-change", { detail: { widgets } })
+        this.selectChangeEvent = new CustomEvent<SelectChangeEvent['detail']>("select-change", { detail: { selects: [] } })
     }
     public get zoom() { return +this.getAttribute('zoom')! }
     public set zoom(zoom: number) { this.setAttribute('zoom', zoom.toString()) }
@@ -74,9 +83,8 @@ export class SvgContainer extends HTMLDivElement {
     addWidget(widget: IWidgets) {
         this.firstChild!.appendChild(widget)
         this.widgets.push(widget)
-        console.log('add')
-        // this.checkEvent.
-        
+        this.widgetChangeEvent.detail.widgets = [...this.widgets]
+        this.dispatchEvent(this.widgetChangeEvent)
     }
     removeWidget(widget: IWidgets | undefined = undefined) {
         if (widget) this.widgets.forEach((item, index) => {
@@ -89,12 +97,16 @@ export class SvgContainer extends HTMLDivElement {
             this.widgets.forEach((item, index) => { item.remove() })
             this.widgets.splice(0, this.widgets.length)
         }
+        this.widgetChangeEvent.detail.widgets = [...this.widgets]
+        this.dispatchEvent(this.widgetChangeEvent)
     }
     findWidget(widget: IWidgets) { return this.widgets.find(item => item.id == widget.id) }
 
     addWidgetEditBox(widget: IWidgets, editBox: EditBox) {
         this.firstChild!.appendChild(editBox)
         this.editBoxforWidgets.push({ widget, editBox })
+        this.selectChangeEvent.detail.selects = [...this.editBoxforWidgets]
+        this.dispatchEvent(this.selectChangeEvent)
     }
     removeWidgetEditBox(editBox: EditBox | undefined = undefined) {
         if (editBox)
@@ -106,10 +118,26 @@ export class SvgContainer extends HTMLDivElement {
             })
         else {
             this.editBoxforWidgets.forEach((item, index) => { item.editBox.remove() })
-            this.editBoxforWidgets.splice(0,this.editBoxforWidgets.length)
+            this.editBoxforWidgets.splice(0, this.editBoxforWidgets.length)
         }
+        this.selectChangeEvent.detail.selects = [...this.editBoxforWidgets]
+        this.dispatchEvent(this.selectChangeEvent)
     }
     findWidgetEditBox(widget: IWidgets) { return this.editBoxforWidgets.find(item => item.widget.id == widget.id) }
+
+    //********************************* Events *********************************
+    //__________________________ add __________________________
+    addEventListener(type: 'widget-change', listener: (e: WidgetChangeEvent) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'select-change', listener: (e: SelectChangeEvent) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    // @ts-ignore: Unreachable code error
+    addEventListener(type: unknown, listener: unknown, options?: unknown): void
+
+    //__________________________ remove __________________________
+    removeEventListener(type: 'widget-change', listener: (e: WidgetChangeEvent) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'select-change', listener: (e: SelectChangeEvent) => void, options?: boolean | EventListenerOptions | undefined): void
+    // @ts-ignore: Unreachable code error
+    removeEventListener(type: unknown, listener: unknown, options?: unknown): void
+    //********************************* *********************************
 }
 
 customElements.define('g-svg-container', SvgContainer, { extends: 'div' })
