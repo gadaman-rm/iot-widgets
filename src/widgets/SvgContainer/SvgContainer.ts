@@ -74,8 +74,8 @@ export class SvgContainer extends HTMLDivElement {
     }
 
     addWidget(widget: IWidgets) {
-        this.firstChild!.appendChild(widget) 
-        this.widgets.push(widget) 
+        this.firstChild!.appendChild(widget)
+        this.widgets.push(widget)
 
         this.widgetChangeEvent.detail.widgets = [...this.widgets]
         this.dispatchEvent(this.widgetChangeEvent)
@@ -93,16 +93,16 @@ export class SvgContainer extends HTMLDivElement {
     }
     findWidget(widgetId: string) { return this.widgets.find(item => item.id === widgetId) }
 
-    addEditBox(widget: IWidgets, editBox: EditBox) { 
+    addEditBox(widget: IWidgets, editBox: EditBox) {
         this.firstChild!.appendChild(editBox)
-        this.editBoxforWidgets.push({ editBox, widget}) 
+        this.editBoxforWidgets.push({ editBox, widget })
 
         this.editBoxChangeEvent.detail.editBoxforWidgets = [...this.editBoxforWidgets]
         this.dispatchEvent(this.editBoxChangeEvent)
     }
-    removeEditBox(widget: IWidgets) { 
+    removeEditBox(widget: IWidgets) {
         const removeItemIndex = this.editBoxforWidgets.findIndex(item => item.widget.id === widget.id)
-        if(removeItemIndex !== -1) {
+        if (removeItemIndex !== -1) {
             this.editBoxforWidgets[removeItemIndex].editBox.remove()
             this.editBoxforWidgets.splice(removeItemIndex, 1)
 
@@ -110,22 +110,22 @@ export class SvgContainer extends HTMLDivElement {
             this.dispatchEvent(this.editBoxChangeEvent)
         }
     }
-    removeAllEditBox() { 
-        if(this.editBoxforWidgets.length > 0) {
+    removeAllEditBox() {
+        if (this.editBoxforWidgets.length > 0) {
             this.editBoxforWidgets.forEach(item => item.editBox.remove())
             this.editBoxforWidgets.splice(0, this.editBoxforWidgets.length)
 
             this.editBoxChangeEvent.detail.editBoxforWidgets = [...this.editBoxforWidgets]
             this.dispatchEvent(this.editBoxChangeEvent)
         }
-     }
+    }
     findEditBoxByWidgetId(widget: IWidgets) { return this.editBoxforWidgets.find(item => item.widget.id === widget.id) }
     findEditBoxById(editBox: EditBox) { return this.editBoxforWidgets.find(item => item.editBox.id === editBox.id) }
 
     //********************************* Events *********************************
     //__________________________ add __________________________
-    addEventListener(type: 'widget-change', listener: (e: WidgetChangeEvent) => void, options?: boolean | AddEventListenerOptions | undefined): void
-    addEventListener(type: 'editbox-change', listener: (e: EditBoxChangeEvent) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'widget-change', listener: (e: { detail: WidgetChangeEvent }) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'editbox-change', listener: (e: { detail: EditBoxChangeEvent }) => void, options?: boolean | AddEventListenerOptions | undefined): void
     // @ts-ignore: Unreachable code error
     addEventListener(type: unknown, listener: unknown, options?: unknown): void
 

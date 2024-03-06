@@ -43,9 +43,9 @@ export class EditBox extends BaseSvg {
     rotateListener: RotateListener
     moveListener: MoveListener
     isResizeByListener: boolean
-    editStartEvent: CustomEvent<{ type: EditEvent['type']}>
+    editStartEvent: CustomEvent<{ type: EditEvent['type'] }>
     editEvent: CustomEvent<EditEvent>
-    editEndEvent: CustomEvent<{ type: EditEvent['type']}>
+    editEndEvent: CustomEvent<{ type: EditEvent['type'] }>
     constructor(svgContainer: SvgContainer | undefined = undefined) {
         super({ template })
         this.setAttribute('is', "g-editbox")
@@ -68,15 +68,15 @@ export class EditBox extends BaseSvg {
         this.bmidResizeListener = new BmidResizeListener(this.bmidResizeRef, this)
         this.brResizeListener = new BrResizeListener(this.brResizeRef, this)
         this.render()
-        this.editStartEvent = new CustomEvent<{ type: EditEvent['type']}>("edit-start", { detail: { type: ''} as any })
+        this.editStartEvent = new CustomEvent<{ type: EditEvent['type'] }>("edit-start", { detail: { type: '' } as any })
         this.editEvent = new CustomEvent<EditEvent>("edit", { detail: {} as any })
-        this.editEndEvent = new CustomEvent<{ type: EditEvent['type']}>("edit-end", { detail: { type: ''} as any })
+        this.editEndEvent = new CustomEvent<{ type: EditEvent['type'] }>("edit-end", { detail: { type: '' } as any })
     }
 
     public set svgContainer(svgContainer: SvgContainer) { this.#svgContainer = svgContainer }
     public get svgContainer(): SvgContainer | undefined { return this.#svgContainer }
 
-    editStartEmit(type: EditEvent['type']) { 
+    editStartEmit(type: EditEvent['type']) {
         this.editStartEvent.detail.type = type
         this.dispatchEvent(this.editStartEvent)
     }
@@ -93,7 +93,7 @@ export class EditBox extends BaseSvg {
         this.editEvent.detail.origin = e.origin ?? this.origin
         this.dispatchEvent(this.editEvent)
     }
-    editEndEmit(type: EditEvent['type']) { 
+    editEndEmit(type: EditEvent['type']) {
         this.editEndEvent.detail.type = type
         this.dispatchEvent(this.editEndEvent)
     }
@@ -209,7 +209,7 @@ export class EditBox extends BaseSvg {
     }
 
     ratioUpdate(oldRatio: number, newRatio: number): void {
-        if(newRatio) {
+        if (newRatio) {
             this.rmidResizeRef.style.visibility = 'hidden'
             this.bmidResizeRef.style.visibility = 'hidden'
         } else {
@@ -227,15 +227,15 @@ export class EditBox extends BaseSvg {
     }
 
     //********************************* Events *********************************
-    addEventListener(type: 'edit-start', listener: (e: CustomEvent<{ type: EditEvent['type']}>) => void, options?: boolean | AddEventListenerOptions | undefined): void
-    addEventListener(type: 'edit', listener: (e: CustomEvent<EditEvent>) => void, options?: boolean | AddEventListenerOptions | undefined): void
-    addEventListener(type: 'edit-end', listener: (e: CustomEvent<{ type: EditEvent['type']}>) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'edit-start', listener: (e: { detail: CustomEvent<{ type: EditEvent['type'] }> }) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'edit', listener: (e: { detail: CustomEvent<EditEvent> }) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'edit-end', listener: (e: { detail: CustomEvent<{ type: EditEvent['type'] }> }) => void, options?: boolean | AddEventListenerOptions | undefined): void
     // @ts-ignore: Unreachable code error
     addEventListener(type: unknown, listener: unknown, options?: unknown): void
 
-    removeEventListener(type: 'edit-start', listener: (e: CustomEvent<{ type: EditEvent['type']}>) => void, options?: boolean | EventListenerOptions | undefined): void
-    removeEventListener(type: 'edit', listener: (e: CustomEvent<EditEvent>) => void, options?: boolean | EventListenerOptions | undefined): void
-    removeEventListener(type: 'edit-end', listener: (e: CustomEvent<{ type: EditEvent['type']}>) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'edit-start', listener: (e: { detail: CustomEvent<{ type: EditEvent['type'] }> }) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'edit', listener: (e: { detail: CustomEvent<EditEvent> }) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'edit-end', listener: (e: { detail: CustomEvent<{ type: EditEvent['type'] }> }) => void, options?: boolean | EventListenerOptions | undefined): void
     // @ts-ignore: Unreachable code error
     removeEventListener(type: unknown, listener: unknown, options?: unknown): void
     //********************************* *********************************
