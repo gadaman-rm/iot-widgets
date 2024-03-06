@@ -227,15 +227,15 @@ export class EditBox extends BaseSvg {
     }
 
     //********************************* Events *********************************
-    addEventListener(type: 'edit-start', listener: (e: { detail: CustomEvent<{ type: EditEvent['type'] }> }) => void, options?: boolean | AddEventListenerOptions | undefined): void
-    addEventListener(type: 'edit', listener: (e: { detail: CustomEvent<EditEvent> }) => void, options?: boolean | AddEventListenerOptions | undefined): void
-    addEventListener(type: 'edit-end', listener: (e: { detail: CustomEvent<{ type: EditEvent['type'] }> }) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'edit-start', listener: (e: { detail: { type: EditEvent['type'] } }) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'edit', listener: (e: { detail: EditEvent }) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'edit-end', listener: (e: { detail: { type: EditEvent['type'] } }) => void, options?: boolean | AddEventListenerOptions | undefined): void
     // @ts-ignore: Unreachable code error
     addEventListener(type: unknown, listener: unknown, options?: unknown): void
 
-    removeEventListener(type: 'edit-start', listener: (e: { detail: CustomEvent<{ type: EditEvent['type'] }> }) => void, options?: boolean | EventListenerOptions | undefined): void
-    removeEventListener(type: 'edit', listener: (e: { detail: CustomEvent<EditEvent> }) => void, options?: boolean | EventListenerOptions | undefined): void
-    removeEventListener(type: 'edit-end', listener: (e: { detail: CustomEvent<{ type: EditEvent['type'] }> }) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'edit-start', listener: (e: { detail: { type: EditEvent['type'] } }) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'edit', listener: (e: { detail: EditEvent }) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'edit-end', listener: (e: { detail: { type: EditEvent['type'] } }) => void, options?: boolean | EventListenerOptions | undefined): void
     // @ts-ignore: Unreachable code error
     removeEventListener(type: unknown, listener: unknown, options?: unknown): void
     //********************************* *********************************
