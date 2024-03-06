@@ -19,6 +19,10 @@ export interface SelectChangeEvent {
     }
 }
 
+export interface RemoveEditBoxEvent {
+    remove: { editBox: EditBox }
+}
+
 export const SVG_CONTAINER_ATTRIBUTES = ['panx', 'pany', 'zoom'] as const
 export class SvgContainer extends HTMLDivElement {
     root: SVGSVGElement
@@ -29,6 +33,7 @@ export class SvgContainer extends HTMLDivElement {
     static get observedAttributes() { return SVG_CONTAINER_ATTRIBUTES }
     widgetChangeEvent: CustomEvent<WidgetChangeEvent['detail']>
     selectChangeEvent: CustomEvent<SelectChangeEvent['detail']>
+    editBoxRemoveEvent: CustomEvent<RemoveEditBoxEvent>
     constructor(widgets: IWidgets[] = [], pan: Point = { x: 0, y: 0 }, zoom: number = 1) {
         super()
         this.attachShadow({ mode: 'open' })
@@ -45,6 +50,7 @@ export class SvgContainer extends HTMLDivElement {
         this.appendChild(document.createElement('main'))
         this.widgetChangeEvent = new CustomEvent<WidgetChangeEvent['detail']>("widget-change", { detail: { widgets } })
         this.selectChangeEvent = new CustomEvent<SelectChangeEvent['detail']>("select-change", { detail: { selects: [] } })
+        this.editBoxRemoveEvent = new CustomEvent<RemoveEditBoxEvent>('editbox-remove', { detail: { remove: {} } as any })
     }
     public get zoom() { return +this.getAttribute('zoom')! }
     public set zoom(zoom: number) { this.setAttribute('zoom', zoom.toString()) }
@@ -112,16 +118,20 @@ export class SvgContainer extends HTMLDivElement {
         if (editBox)
             this.widgets.forEach((item, index) => {
                 if (item.id === editBox.id) {
+                    this.editBoxRemoveEvent.detail.remove.editBox = editBox
+                    this.dispatchEvent(this.editBoxRemoveEvent)
                     item.remove()
                     this.editBoxforWidgets.splice(index, 1)
                 }
             })
         else {
-            this.editBoxforWidgets.forEach((item, index) => { item.editBox.remove() })
+            this.editBoxforWidgets.forEach((item, index) => { 
+                this.editBoxRemoveEvent.detail.remove.editBox = item.editBox
+                this.dispatchEvent(this.editBoxRemoveEvent)
+                item.editBox.remove() 
+            })
             this.editBoxforWidgets.splice(0, this.editBoxforWidgets.length)
         }
-        this.selectChangeEvent.detail.selects = [...this.editBoxforWidgets]
-        this.dispatchEvent(this.selectChangeEvent)
     }
     findWidgetEditBox(widget: IWidgets) { return this.editBoxforWidgets.find(item => item.widget.id == widget.id) }
 
@@ -129,12 +139,14 @@ export class SvgContainer extends HTMLDivElement {
     //__________________________ add __________________________
     addEventListener(type: 'widget-change', listener: (e: WidgetChangeEvent) => void, options?: boolean | AddEventListenerOptions | undefined): void
     addEventListener(type: 'select-change', listener: (e: SelectChangeEvent) => void, options?: boolean | AddEventListenerOptions | undefined): void
+    addEventListener(type: 'editbox-remove', listener: (e: RemoveEditBoxEvent) => void, options?: boolean | AddEventListenerOptions | undefined): void
     // @ts-ignore: Unreachable code error
     addEventListener(type: unknown, listener: unknown, options?: unknown): void
 
     //__________________________ remove __________________________
     removeEventListener(type: 'widget-change', listener: (e: WidgetChangeEvent) => void, options?: boolean | EventListenerOptions | undefined): void
     removeEventListener(type: 'select-change', listener: (e: SelectChangeEvent) => void, options?: boolean | EventListenerOptions | undefined): void
+    removeEventListener(type: 'editbox-remove', listener: (e: {detail: RemoveEditBoxEvent}) => void, options?: boolean | EventListenerOptions | undefined): void
     // @ts-ignore: Unreachable code error
     removeEventListener(type: unknown, listener: unknown, options?: unknown): void
     //********************************* *********************************
