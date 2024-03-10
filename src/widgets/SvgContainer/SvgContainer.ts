@@ -1,4 +1,5 @@
 import { EditBox, IWidgets } from '..'
+import { moveToIndex } from '../../_helper'
 import { Transform } from '../../math/matrix'
 import { Point } from '../../math/point'
 import html from './SvgContainer.html?raw'
@@ -122,19 +123,55 @@ export class SvgContainer extends HTMLDivElement {
     findEditBoxByWidgetId(widget: IWidgets) { return this.editBoxforWidgets.find(item => item.widget.id === widget.id) }
     findEditBoxById(editBox: EditBox) { return this.editBoxforWidgets.find(item => item.editBox.id === editBox.id) }
 
-    //********************************* Events *********************************
-    //__________________________ add __________________________
-    addEventListener(type: 'widget-change', listener: (e: { detail: WidgetChangeEvent }) => void, options?: boolean | AddEventListenerOptions | undefined): void
-    addEventListener(type: 'editbox-change', listener: (e: { detail: EditBoxChangeEvent }) => void, options?: boolean | AddEventListenerOptions | undefined): void
-    // @ts-ignore: Unreachable code error
-    addEventListener(type: unknown, listener: unknown, options?: unknown): void
+    riseToTop() {
+        const selected = this.editBoxforWidgets[0].widget
+        if (selected && this.widgets.length > 1) {
+            const widgetIndex = this.widgets.findIndex(item => item.id === selected.id)
+            moveToIndex(selected, this.widgets.length)
+            this.swap(this.widgets.length - 1, widgetIndex)
+        }
+    }
 
-    //__________________________ remove __________________________
-    removeEventListener(type: 'widget-change', listener: (e: { detail: WidgetChangeEvent }) => void, options?: boolean | EventListenerOptions | undefined): void
-    removeEventListener(type: 'editbox-change', listener: (e: { detail: EditBoxChangeEvent }) => void, options?: boolean | EventListenerOptions | undefined): void
+    rise() {
+        const selected = this.editBoxforWidgets[0].widget
+        if (selected && this.widgets.length > 1) {
+            const widgetIndex = this.widgets.findIndex(item => item.id === selected.id)
+            const swapIndex = (widgetIndex + 1) >= this.widgets.length ? (this.widgets.length - 1) : (widgetIndex + 1)
+            moveToIndex(selected, swapIndex + 1)
+            this.swap(widgetIndex, swapIndex)
+        }
+    }
+
+    lower() {
+        const selected = this.editBoxforWidgets[0].widget
+        if (selected && this.widgets.length > 1) {
+            const widgetIndex = this.widgets.findIndex(item => item.id === selected.id)
+            const swapIndex = widgetIndex ? widgetIndex - 1 : 0 as number
+            moveToIndex(selected, swapIndex)
+            this.swap(widgetIndex, swapIndex)
+        }
+    }
+
+    lowerToBottom() {
+        const selected = this.editBoxforWidgets[0].widget
+        if (selected && this.widgets.length > 1) {
+            const widgetIndex = this.widgets.findIndex(item => item.id === selected.id) as number
+            moveToIndex(selected, 0)
+            this.swap(0, widgetIndex)
+        }
+    }
+
+    swap(indexA: number, indexB: number) { [[this.widgets[indexA]], [this.widgets[indexB]]] = [[this.widgets[indexB]], [this.widgets[indexA]]]}
+    //********************************* Events *********************************
     // @ts-ignore: Unreachable code error
-    removeEventListener(type: unknown, listener: unknown, options?: unknown): void
-    //********************************* *********************************
+    addEventListener<K extends keyof CustomElementEventMap>(type: K, listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void
+    // @ts-ignore: Unreachable code error
+    removeEventListener<K extends keyof CustomElementEventMap>(type: K, listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void
+}
+
+interface CustomElementEventMap extends HTMLElementEventMap {
+    "widget-change": { detail: WidgetChangeEvent }
+    "editbox-change": { detail: EditBoxChangeEvent }
 }
 
 customElements.define('g-svg-container', SvgContainer, { extends: 'div' })

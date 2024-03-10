@@ -1,9 +1,9 @@
 import { BASE_CHILDREN_ATTRIBUTES, BaseChildren } from '../../_helper/BaseChildren'
-import html from './Sample.html?raw'
-import style from './Sample.scss?inline'
+import htmlText from './Sample.html?raw'
+import cssText from './Sample.scss?inline'
 
 const template = document.createElement('template')
-template.innerHTML = `<style>${style}</style>${html}`
+template.innerHTML = `<style>${cssText}</style>${htmlText}`
 
 const TAG_NAME = `g-sample`
 const ATTRIBUTES = ['tab', 'anchor'] as const

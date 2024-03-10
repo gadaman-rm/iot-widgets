@@ -2,7 +2,6 @@ import './components/components'
 import './reset.scss'
 import './widgets'
 import '@material/web/button/elevated-button'
-import { MyComponent } from './widgets'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
@@ -84,7 +83,7 @@ const app = document.querySelector<HTMLDivElement>('#app')!
 
 // container.addWidgetEditBox(gauge, editBox)
 
-// const slTest = document.createElement('div')
+const slTest = document.createElement('div')
 // slTest.innerHTML =`
 // <div is='g-sidebar' anchor="right">
 //     <div name="video" data-type="menu">
@@ -113,35 +112,33 @@ const app = document.querySelector<HTMLDivElement>('#app')!
 
 
 // slTest.innerHTML =`
-// <div is='g-slider'>
+// <div is='g-context-menu'>
+//     <menu name="File">
+//         <menu name="Save" part="file">1</menu>
+//         <menu name="Save As">2</menu>
+//         <menu name="Open">3</menu>
+//     </menu>
 // </div>
+// `
+
+
+// slTest.innerHTML =`
+// <menu is='g-menu'>
+//     <menu name="Edit" data-type="menu">Edit</menu>
+//     <menu name="a" data-type="menu">a</menu>
+// </menu>
 // `
 // app.appendChild(slTest)
 
-// const editBox = new EditBox() 
-// editBox.x = 100
-// editBox.y = 100
-// editBox.width = 100
-// editBox.height = 100
-// app.appendChild(editBox)
 
-const my = new MyComponent()
-// my.z
-
-const f1 = (m: any) => { console.log(m.detail) }
-const f2 = (m: any) => { console.log(m) }
-// my.addEventListener('z')
-my.addEventListener('z-check', f1)
-my.addEventListener('z-check', f2)
-my.addEventListener('z-check', (e) => {
-    console.log('zero: ', e.detail.age)
-})
-
-my.removeEventListener("z-check", f2)
-
-my.innerHTML = `
-<div slot="title1">Zero</div>
-<div slot="title2">Zero is cool</div>
+slTest.innerHTML =`
+<div is='g-context-menu'>
+<menu name="edit">Edit</menu>
+</div>
 `
+app.appendChild(slTest)
 
-app.appendChild(my)
+// document.addEventListener('contextmenu', function(e) {
+//     // alert("You've tried to open context menu")
+//     // e.preventDefault()
+// }, false)
