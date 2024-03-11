@@ -46,10 +46,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "plop": "plop",
+    "graph": "yarn --silent depcruise src --include-only \"^src\" --output-type dot > graph.dot"
   },
   "devDependencies": {
     "@types/uuid": "^9.0.7",
+    "dependency-cruiser": "^16.2.3",
+    "plop": "^4.0.1",
     "sass": "^1.70.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
