@@ -1,0 +1,15 @@
+:host {
+    --window-width: var(--g-window-width, 50%);
+    --window-height: var(--g-window-height, 100px);
+}
+
+#root {
+    background-color: yellow;
+    transition: all 450ms ease-in-out;
+    width: var(--window-width);
+    height: var(--window-height);
+}
+
+// ::slotted(*) {
+    // background-color: black !important;
+// }

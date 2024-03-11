@@ -4,6 +4,8 @@
     --drawer-height: var(--g-drawer-height, 100%);
     --drawer-min: var(--g-drawer-min, 50px);
     --drawer-max: var(--g-drawer-max, 500px);
+    --drawer-margin-start: var(--g-margin-start, 0rem);
+    --drawer-margin-end: var(--g-margin-end, 0rem);
     --drawer-offset: var(--g-drawer-offset, 0px);
     --drawer-color: var(--g-drawer-color, #fff);
     --drawer-resizer-size: var(--g-drawer-resizer-size, 10px);
@@ -16,8 +18,9 @@
     z-index: var(--drawer-z-index);
 
     &--dir-left {
+        margin-block-start: var(--drawer-margin-start);
         width: var(--drawer-width);
-        height: var(--drawer-height);
+        height: calc(100% - var(--drawer-margin-end) - var(--drawer-margin-start));
         inset-block-start: 0;
         inset-inline-start: 0;
         transform-origin: top left;
@@ -25,8 +28,9 @@
     }
 
     &--dir-right {
+        margin-block-start: var(--drawer-margin-start);
         width: var(--drawer-width);
-        height: var(--drawer-height);
+        height: calc(100% - var(--drawer-margin-end) - var(--drawer-margin-start));
         inset-block-start: 0;
         inset-inline-end: 0;
         transform-origin: top right;
@@ -34,7 +38,8 @@
     }
 
     &--dir-top {
-        width: var(--drawer-width);
+        margin-inline-end: var(--drawer-margin-start);
+        width: calc(100% - var(--drawer-margin-end) - var(--drawer-margin-start));
         height: var(--drawer-height);
         inset-block-start: 0;
         inset-inline-end: 0;
@@ -43,7 +48,8 @@
     }
 
     &--dir-bottom {
-        width: var(--drawer-width);
+        margin-inline-end: var(--drawer-margin-start);
+        width: calc(100% - var(--drawer-margin-end) - var(--drawer-margin-start));
         height: var(--drawer-height);
         inset-block-end: 0;
         inset-inline-end: 0;

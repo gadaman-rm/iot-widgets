@@ -3,6 +3,8 @@
     --tab-select-color: #782890;
     --tab-size: 3rem;
     --tab-item-size: 3rem;
+    --tab-margin-start: 0rem;
+    --tab-margin-end: 0rem;
     --tab-offset: 0px;
     --tab-z-index: 0;
 }
@@ -15,8 +17,9 @@
     &--dir-left {
         display: flex;
         flex-direction: column;
+        margin-block-start: var(--tab-margin-start);
         width: var(--tab-size);
-        height: 100%;
+        height: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
         inset-block-start: 0;
         inset-inline-start: 0;
         transform-origin: top left;
@@ -26,8 +29,9 @@
     &--dir-right {
         display: flex;
         flex-direction: column;
+        margin-block-start: var(--tab-margin-start);
         width: var(--tab-size);
-        height: 100%;
+        height: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
         inset-block-start: 0;
         inset-inline-end: 0;
         transform-origin: top right;
@@ -37,7 +41,8 @@
     &--dir-top {
         display: flex;
         flex-direction: row;
-        width: 100%;
+        margin-inline-end: var(--tab-margin-start);
+        width: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
         height: var(--tab-size);
         inset-block-start: 0;
         inset-inline-end: 0;
@@ -48,7 +53,8 @@
     &--dir-bottom {
         display: flex;
         flex-direction: row;
-        width: 100%;
+        margin-inline-end: var(--tab-margin-start);
+        width: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
         height: var(--tab-size);
         inset-block-end: 0;
         inset-inline-end: 0;

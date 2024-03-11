@@ -130,11 +130,9 @@ export class Drawer extends HTMLDivElement {
     sizeUpdate(oldsize: number, newSize: number) {
         if (this.anchor === 'left' || this.anchor === 'right') {
             this.style.setProperty("--drawer-width", `${newSize}px`)
-            this.style.setProperty("--drawer-height", "100%")
         }
         if (this.anchor === 'top' || this.anchor === 'bottom') {
             this.style.setProperty("--drawer-height", `${newSize}px`)
-            this.style.setProperty("--drawer-width", "100%")
         }
 
         if (oldsize && newSize && oldsize !== newSize && !this.validateAndSetSize(newSize)) this.size = oldsize

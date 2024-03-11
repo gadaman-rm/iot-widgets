@@ -1,5 +1,8 @@
 :host {
-    --sidebar-tab-size: var(--g-sidebar-tab-size, 3rem); //sync with --g-sidebar-tab-size
+    --sidebar-size: var(--g-sidebar-size, 3rem);
+    --sidebar-margin-start: var(--g-sidebar-margin-start, 0rem);
+    --sidebar-margin-end: var(--g-sidebar-margin-end, 0rem);
+
     --sidebar-tab-item-size: var(--g-sidebar-tab-item-size, 3rem);
     --sidebar-tab-offset: var(--g-sidebar-tab-offset, 0px);
     --sidebar-tab-color: var(--g-sidebar-tab-color, #fff);
@@ -7,7 +10,6 @@
     --sidebar-tab-z-index: var(--g-sidebar-tab-z-index, 1);
 
     --sidebar-panel-animation: var(--g-sidebar-panel-animation, show);
-    --sidebar-panel-offset: var(--g-sidebar-tab-size, 3rem); //sync with --g-sidebar-tab-size
     --sidebar-panel-width: var(--g-sidebar-panel-width, 300px);
     --sidebar-panel-height: var(--g-sidebar-panel-height, 100%);
     --sidebar-panel-color: var(--g-sidebar-panel-color, #fff);
@@ -16,7 +18,9 @@
 }
 
 #menu {
-    --tab-size: var(--sidebar-tab-size);
+    --tab-size: var(--sidebar-size);
+    --tab-margin-start: var(--sidebar-margin-start);
+    --tab-margin-end: var(--sidebar-margin-end);
     --tab-color: var(--sidebar-tab-color);
     --tab-select-color: var(--sidebar-tab-select-color);
     --tab-item-size: var(--sidebar-tab-item-size);
@@ -26,9 +30,11 @@
 
 #panel {
     --drawer-animation: var(--sidebar-panel-animation);
+    --g-drawer-offset: var(--sidebar-size);
+    --drawer-margin-start: var(--sidebar-margin-start);
+    --drawer-margin-end: var(--sidebar-margin-end);
     --g-drawer-width: var(--sidebar-panel-width);
     --g-drawer-height: var(--sidebar-panel-height);
-    --g-drawer-offset: var(--sidebar-panel-offset);
     --g-drawer-color: var(--sidebar-panel-color);
     --g-drawer-resizer-size: var(--sidebar-panel-resizer-size);
     --g-drawer-z-index: var(--sidebar-panel-z-index);
