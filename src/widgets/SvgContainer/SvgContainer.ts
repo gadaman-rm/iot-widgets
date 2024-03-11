@@ -82,15 +82,14 @@ export class SvgContainer extends HTMLDivElement {
         this.dispatchEvent(this.widgetChangeEvent)
     }
     removeWidget(widget: IWidgets) {
-        this.widgets.forEach((item, index) => {
-            if (item.id === widget.id) {
-                this.widgets.splice(index, 1)
-                item.remove()
+        const removeItem = this.widgets.find(item => item.id === widget.id)
+        if (removeItem) {
+            removeItem.remove()
+            this.widgets = this.widgets.filter(item => item.id !== widget.id)
 
-                this.widgetChangeEvent.detail.widgets = [...this.widgets]
-                this.dispatchEvent(this.widgetChangeEvent)
-            }
-        })
+            this.widgetChangeEvent.detail.widgets = [...this.widgets]
+            this.dispatchEvent(this.widgetChangeEvent)
+        }
     }
     findWidget(widgetId: string) { return this.widgets.find(item => item.id === widgetId) }
 
@@ -101,11 +100,11 @@ export class SvgContainer extends HTMLDivElement {
         this.editBoxChangeEvent.detail.editBoxforWidgets = [...this.editBoxforWidgets]
         this.dispatchEvent(this.editBoxChangeEvent)
     }
-    removeEditBox(widget: IWidgets) {
-        const removeItemIndex = this.editBoxforWidgets.findIndex(item => item.widget.id === widget.id)
-        if (removeItemIndex !== -1) {
-            this.editBoxforWidgets[removeItemIndex].editBox.remove()
-            this.editBoxforWidgets.splice(removeItemIndex, 1)
+    removeEditBox(editBox: EditBox) {
+        const removeItem = this.editBoxforWidgets.find(item => item.editBox.id === editBox.id)
+        if (removeItem) {
+            removeItem.editBox.remove()
+            this.editBoxforWidgets = this.editBoxforWidgets.filter(item => item.editBox.id !== editBox.id)
 
             this.editBoxChangeEvent.detail.editBoxforWidgets = [...this.editBoxforWidgets]
             this.dispatchEvent(this.editBoxChangeEvent)
@@ -114,9 +113,9 @@ export class SvgContainer extends HTMLDivElement {
     removeAllEditBox() {
         if (this.editBoxforWidgets.length > 0) {
             this.editBoxforWidgets.forEach(item => item.editBox.remove())
-            this.editBoxforWidgets.splice(0, this.editBoxforWidgets.length)
+            this.editBoxforWidgets = []
 
-            this.editBoxChangeEvent.detail.editBoxforWidgets = [...this.editBoxforWidgets]
+            this.editBoxChangeEvent.detail.editBoxforWidgets = []
             this.dispatchEvent(this.editBoxChangeEvent)
         }
     }
