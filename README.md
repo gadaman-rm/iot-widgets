@@ -1,7 +1,9 @@
 ### use
 ```
-yarn plop widget Test HTMLDivElement div g-test
+yarn plop widget Foo g-foo
+yarn plop components Bar HTMLDivElement div g-bar
 ```
+
 ## Code Analysis
 ### Count line
 ```

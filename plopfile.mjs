@@ -2,7 +2,7 @@ export default function (
 	/** @type {import('plop').NodePlopAPI} */
 	plop
 ) {
-	// create your generators here
+	//********************** widget **********************
 	plop.setGenerator('widget', {
 		description: 'create widget dynamically',
 		prompts: [
@@ -13,20 +13,10 @@ export default function (
 			},
 			{
 				type: 'input',
-				name: 'type',
-				message: 'DOM API Type'
-			},
-			{
-				type: 'input',
-				name: 'tag',
-				message: 'Html extends tag'
-			},
-			{
-				type: 'input',
 				name: 'tag-name',
 				message: 'Web component tag name'
 			},
-		], // array of inquirer prompts
+		],
 		actions: [
 			{
 				type: 'addMany',
@@ -40,6 +30,47 @@ export default function (
 				pattern: /$/,
 				template: "export * from './{{name}}/{{name}}'\n",
 			}
-		]  // array of actions
+		]  
+	})
+
+	//********************** component **********************
+	plop.setGenerator('components', {
+		description: 'create components dynamically',
+		prompts: [
+			{
+				type: 'input',
+				name: 'name',
+				message: 'Name'
+			},
+			{
+				type: 'input',
+				name: 'type',
+				message: 'Extends class type'
+			},
+			{
+				type: 'input',
+				name: 'tag',
+				message: 'Html extends tag'
+			},
+			{
+				type: 'input',
+				name: 'tag-name',
+				message: 'Web component tag name'
+			},
+		],
+		actions: [
+			{
+				type: 'addMany',
+				destination: 'src/components/{{name}}',
+				templateFiles: 'plop_templates/component/*.hbs',
+				base: 'plop_templates/component',
+			},
+			{
+				type: 'modify',
+				path: 'src/components/components.ts',
+				pattern: /$/,
+				template: "export * from './{{name}}/{{name}}'\n",
+			}
+		]
 	})
 }
