@@ -8,6 +8,7 @@
     --drawer-margin-end: var(--g-margin-end, 0rem);
     --drawer-offset: var(--g-drawer-offset, 0px);
     --drawer-color: var(--g-drawer-color, #fff);
+    --drawer-box-shadow: var(--g-drawer-box-shadow, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px);
     --drawer-resizer-size: var(--g-drawer-resizer-size, 10px);
     --drawer-z-index: var(--g-drawer-z-index, 0);
 }
@@ -15,6 +16,7 @@
 .drawer {
     position: absolute;
     background-color: var(--drawer-color);
+    box-shadow: var(--drawer-box-shadow);
     z-index: var(--drawer-z-index);
 
     &--dir-left {

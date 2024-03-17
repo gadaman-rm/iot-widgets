@@ -1,8 +1,12 @@
+:host {
+    --svg-container-color: var(--g-svg-container-color, #fff);
+}
+
 #root {
     // position: relative;
     // width: 100dvw;
     // height: 100dvh;
-    background-color: gray;
+    background-color: var(--svg-container-color);
     border: none !important;
     box-shadow: none !important;
 }
