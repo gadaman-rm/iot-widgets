@@ -1,0 +1,59 @@
+#root {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#backdrop {
+  display: none;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: var(--color-surface-dim);
+  opacity: 0.3;
+}
+
+#dialog {
+  background-color: var(--color-surface);
+  color: var(--color-on-background);
+  position: absolute;
+  border-color: transparent;
+  inset-inline-start: 0%;
+  inset-block-start: 50%;
+  transform: translate(0%, -50%);
+  padding-inline: 0.7rem;
+  padding-block-end: 0.5rem;
+  padding-block-start: 2rem;
+  border-radius: var(--border-corner-medium);
+}
+
+#body {
+  min-width: 2rem;
+  min-height: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+}
+
+#close {
+  position: absolute;
+  inset-block-start: 0.5rem;
+  inset-inline-end: 0.5rem;
+  background-color: transparent;
+  border: transparent;
+  outline-style: none;
+
+  &:hover {
+    opacity: var(--opacity-hover);
+  }
+
+  &:active {
+    opacity: var(--opacity-active);
+  }
+
+  & svg {
+    width: 20px;
+    fill: var(--color-primary);
+  }
+}

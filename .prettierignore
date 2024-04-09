@@ -1,0 +1,7 @@
+# Ignore all README files: 
+**/*.md
+
+# Ignore all Handlebars files: 
+**/*.hbs
+
+

@@ -28,7 +28,7 @@ export default function (
 				type: 'modify',
 				path: 'src/widgets/index.ts',
 				pattern: /$/,
-				template: "export * from './{{name}}/{{name}}'\n",
+				template: 'export * from "./{{name}}/{{name}}"\n',
 			}
 		]  
 	})
@@ -69,7 +69,7 @@ export default function (
 				type: 'modify',
 				path: 'src/components/components.ts',
 				pattern: /$/,
-				template: "export * from './{{name}}/{{name}}'\n",
+				template: 'export * from "./{{name}}/{{name}}"\n',
 			}
 		]
 	})

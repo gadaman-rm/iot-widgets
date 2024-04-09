@@ -1,6 +1,6 @@
 {
   "name": "@gadaman-rm/iot-widgets",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "type": "module",
   "description": "iot widgets",
   "main": "dist/index.cjs",
@@ -51,17 +51,17 @@
     "graph": "yarn --silent depcruise src --include-only \"^src\" --output-type dot > graph.dot"
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.7",
-    "dependency-cruiser": "^16.2.3",
+    "@types/uuid": "^9.0.8",
+    "dependency-cruiser": "^16.3.0",
     "plop": "^4.0.1",
-    "sass": "^1.70.0",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.8",
-    "vite-plugin-dts": "^3.7.2",
-    "vite-plugin-lib-inject-css": "^1.3.0"
+    "sass": "^1.74.1",
+    "typescript": "^5.4.4",
+    "vite": "^5.2.8",
+    "vite-plugin-dts": "^3.8.1",
+    "vite-plugin-lib-inject-css": "^2.0.1"
   },
   "dependencies": {
-    "@material/web": "^1.3.0",
+    "@material/web": "^1.4.0",
     "material-components-web": "^14.0.0",
     "uuid": "^9.0.1"
   }
