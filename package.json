@@ -1,6 +1,6 @@
 {
   "name": "@gadaman-rm/iot-widgets",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "type": "module",
   "description": "iot widgets",
   "main": "dist/index.cjs",
@@ -11,6 +11,10 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
+    },
+    "./dist/theme/": {
+      "import": "./dist/",
+      "require": "./dist/"
     },
     "./components": {
       "import": "./dist/components.js",
@@ -34,7 +38,11 @@
     }
   },
   "files": [
-    "/dist"
+    "/dist",
+    "**/*.scss"
+  ],
+  "sideEffects": [
+    "**/*.scss"
   ],
   "publishConfig": {
     "@gadaman-rm:registry": "https://npm.pkg.github.com"
