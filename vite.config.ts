@@ -35,7 +35,7 @@ export default defineConfig({
     {
       name: "theme-config",
       closeBundle: async () => {
-        cpSync(`${__dirname}/src/styles/theme/`, `${__dirname}/dist/theme`, {
+        cpSync(`${__dirname}/src/styles/`, `${__dirname}/dist/styles`, {
           recursive: true,
         })
       },

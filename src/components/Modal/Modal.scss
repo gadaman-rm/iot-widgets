@@ -10,12 +10,12 @@
   width: 100dvw;
   height: 100dvh;
   background-color: var(--color-surface-dim);
-  opacity: 0.3;
+  opacity: 0;
 }
 
 #dialog {
-  background-color: var(--color-surface);
-  color: var(--color-on-background);
+  background-color: var(--color-surface-container-high);
+  color: var(--color-on-surface);
   position: absolute;
   border-color: transparent;
   inset-inline-start: 0%;
@@ -24,7 +24,7 @@
   padding-inline: 0.7rem;
   padding-block-end: 0.5rem;
   padding-block-start: 2rem;
-  border-radius: var(--border-corner-medium);
+  border-radius: var(--border-corner-extra-large);
 }
 
 #body {

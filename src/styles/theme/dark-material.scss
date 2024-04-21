@@ -1,39 +1,4 @@
 :root {
-  /* Borders */
-  --border-corner-full: 100%;
-
-  --border-corner-extra-large: 28px;
-  --border-corner-extra-large-top: 28px 28px 0px 0px;
-  --border-corner-extra-large-bottom: 0px 0px 28px 28px;
-  --border-corner-extra-large-start: 28px 0px 0px 28px;
-  --border-corner-extra-large-end: 0px 28px 28px 0px;
-
-  --border-corner-large: 16px;
-  --border-corner-large-top: 16px 16px 0px 0px;
-  --border-corner-large-bottom: 0px 0px 16px 16px;
-  --border-corner-large-start: 16px 0px 0px 16px;
-  --border-corner-large-end: 0px 16px 16px 0px;
-
-  --border-corner-medium: 12px;
-  --border-corner-medium-top: 12px 12px 0px 0px;
-  --border-corner-medium-bottom: 0px 0px 12px 12px;
-  --border-corner-medium-start: 12px 0px 0px 12px;
-  --border-corner-medium-end: 0px 12px 12px 0px;
-
-  --border-corner-small: 8px;
-  --border-corner-small-top: 8px 8px 0px 0px;
-  --border-corner-samll-bottom: 0px 0px 8px 8px;
-  --border-corner-small-start: 8px 0px 0px 8px;
-  --border-corner-small-end: 0px 8px 8px 0px;
-
-  --border-corner-extra-small: 4px;
-  --border-corner-extra-small-top: 4px 4px 0px 0px;
-  --border-corner-extra-samll-bottom: 0px 0px 4px 4px;
-  --border-corner-extra-small-start: 4px 0px 0px 4px;
-  --border-corner-extra-small-end: 0px 4px 4px 0px;
-
-  --border-corner-none: 0px;
-
   /* Colors */
   --color-background: #141218;
   --color-on-background: #e6e0e9;
@@ -72,6 +37,41 @@
   --color-on-error: #601410;
   --color-error-container: #8c1d18;
   --color-on-error-container: #f9dedc;
+
+  /* Borders */
+  --border-corner-full: 9999px;
+
+  --border-corner-extra-large: 28px;
+  --border-corner-extra-large-top: 28px 28px 0px 0px;
+  --border-corner-extra-large-bottom: 0px 0px 28px 28px;
+  --border-corner-extra-large-start: 28px 0px 0px 28px;
+  --border-corner-extra-large-end: 0px 28px 28px 0px;
+
+  --border-corner-large: 16px;
+  --border-corner-large-top: 16px 16px 0px 0px;
+  --border-corner-large-bottom: 0px 0px 16px 16px;
+  --border-corner-large-start: 16px 0px 0px 16px;
+  --border-corner-large-end: 0px 16px 16px 0px;
+
+  --border-corner-medium: 12px;
+  --border-corner-medium-top: 12px 12px 0px 0px;
+  --border-corner-medium-bottom: 0px 0px 12px 12px;
+  --border-corner-medium-start: 12px 0px 0px 12px;
+  --border-corner-medium-end: 0px 12px 12px 0px;
+
+  --border-corner-small: 8px;
+  --border-corner-small-top: 8px 8px 0px 0px;
+  --border-corner-samll-bottom: 0px 0px 8px 8px;
+  --border-corner-small-start: 8px 0px 0px 8px;
+  --border-corner-small-end: 0px 8px 8px 0px;
+
+  --border-corner-extra-small: 4px;
+  --border-corner-extra-small-top: 4px 4px 0px 0px;
+  --border-corner-extra-samll-bottom: 0px 0px 4px 4px;
+  --border-corner-extra-small-start: 4px 0px 0px 4px;
+  --border-corner-extra-small-end: 0px 4px 4px 0px;
+
+  --border-corner-none: 0px;
 
   /* Font Family */
   --headline-large-font: Roboto;

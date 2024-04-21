@@ -1,5 +1,3 @@
-@use "./theme/dark-material.scss";
-
 html,
 body,
 div,
@@ -15,6 +13,7 @@ h6,
 p,
 blockquote,
 pre,
+a,
 abbr,
 address,
 cite,
@@ -26,6 +25,7 @@ img,
 ins,
 kbd,
 q,
+s,
 samp,
 small,
 strong,
@@ -33,6 +33,7 @@ sub,
 sup,
 var,
 b,
+u,
 i,
 dl,
 dt,
@@ -56,13 +57,16 @@ article,
 aside,
 canvas,
 details,
-figcaption,
+embed,
 figure,
+figcaption,
 footer,
 header,
 hgroup,
 menu,
 nav,
+output,
+ruby,
 section,
 summary,
 time,
@@ -72,15 +76,9 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  outline: 0;
   font-size: 100%;
-  font-weight: normal;
+  font: inherit;
   vertical-align: baseline;
-  background: transparent;
-}
-
-body {
-  line-height: 1;
 }
 
 article,
@@ -97,7 +95,12 @@ section {
   display: block;
 }
 
-nav ul {
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
   list-style: none;
 }
 
@@ -114,67 +117,7 @@ q:after {
   content: none;
 }
 
-a {
-  margin: 0;
-  padding: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent;
-}
-
-ins {
-  background-color: #ff9;
-  color: #000;
-  text-decoration: none;
-}
-
-mark {
-  background-color: #ff9;
-  color: #000;
-  font-style: italic;
-  font-weight: normal;
-}
-
-del {
-  text-decoration: line-through;
-}
-
-abbr[title],
-dfn[title] {
-  border-bottom: 1px dotted;
-  cursor: help;
-}
-
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #cccccc;
-  margin: 1em 0;
-  padding: 0;
-}
-
-input,
-select {
-  vertical-align: middle;
-}
-
-body {
-  width: 100%;
-  margin-inline: auto;
-  overflow: hidden;
-  touch-action: manipulation;
-  user-select: none;
-  background-color: #808080;
-}
-
-// div[is='g-sidebar'] {
-//     div[name='menu'] {
-//         cursor: pointer;
-//     }
-// }

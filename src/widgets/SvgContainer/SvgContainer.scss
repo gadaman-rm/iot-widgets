@@ -1,26 +1,26 @@
 :host {
-    --svg-container-color: var(--g-svg-container-color, #fff);
+  --svg-container-color: var(--g-svg-container-color, #fff);
 }
 
 #root {
-    // position: relative;
-    // width: 100dvw;
-    // height: 100dvh;
-    background-color: var(--svg-container-color);
-    border: none !important;
-    box-shadow: none !important;
+  // position: relative;
+  // width: 100dvw;
+  // height: 100dvh;
+  background-color: var(--svg-container-color);
+  border: none !important;
+  box-shadow: none !important;
 }
 
 foreignObject {
+  border: none !important;
+  box-shadow: none !important;
+  overflow: visible;
+  &:active {
     border: none !important;
     box-shadow: none !important;
-    overflow: visible;
-    &:active {
-        border: none !important;
-        box-shadow: none !important;
-    }
-    &:hover {
-        border: none !important;
-        box-shadow: none !important;
-    }
+  }
+  &:hover {
+    border: none !important;
+    box-shadow: none !important;
+  }
 }

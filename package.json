@@ -1,6 +1,6 @@
 {
   "name": "@gadaman-rm/iot-widgets",
-  "version": "0.1.17",
+  "version": "0.2.0",
   "type": "module",
   "description": "iot widgets",
   "main": "dist/index.cjs",
@@ -11,10 +11,6 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
-    },
-    "./dist/theme/": {
-      "import": "./dist/",
-      "require": "./dist/"
     },
     "./components": {
       "import": "./dist/components.js",
@@ -35,11 +31,13 @@
       "import": "./dist/utility.js",
       "require": "./dist/utility.cjs",
       "types": "./dist/utility.d.ts"
-    }
+    },
+    "./styles/*": "./dist/styles/*",
+    "./styles/adoptor/*": "./dist/styles/adoptor/*",
+    "./styles/theme/*": "./dist/styles/theme/*"
   },
   "files": [
-    "/dist",
-    "**/*.scss"
+    "/dist"
   ],
   "sideEffects": [
     "**/*.scss"
@@ -60,16 +58,16 @@
   },
   "devDependencies": {
     "@types/uuid": "^9.0.8",
-    "dependency-cruiser": "^16.3.0",
+    "dependency-cruiser": "^16.3.1",
     "plop": "^4.0.1",
-    "sass": "^1.74.1",
-    "typescript": "^5.4.4",
-    "vite": "^5.2.8",
-    "vite-plugin-dts": "^3.8.1",
+    "sass": "^1.75.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10",
+    "vite-plugin-dts": "^3.8.3",
     "vite-plugin-lib-inject-css": "^2.0.1"
   },
   "dependencies": {
-    "@material/web": "^1.4.0",
+    "@material/web": "^1.4.1",
     "material-components-web": "^14.0.0",
     "uuid": "^9.0.1"
   }
