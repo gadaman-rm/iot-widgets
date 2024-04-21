@@ -1,0 +1,159 @@
+:root {
+  // Color
+  --md-sys-color-background: var(--color-background);
+  --md-sys-color-on-background: var(--color-on-background);
+
+  --md-sys-color-surface: var(--color-surface);
+  --md-sys-color-on-surface: var(--color-on-surface);
+  --md-sys-surface-variant: var(--surface-variant);
+  --on-surface-variant: var(--on-surface-variant);
+  --md-sys-color-surface-bright: var(--color-surface-bright);
+  --md-sys-color-surface-dim: var(--color-surface-dim);
+  --md-sys-color-surface-container: var(--color-surface-container);
+  --md-sys-color-surface-container-high: var(--color-surface-container-high);
+  --md-sys-color-surface-container-highest: var(
+    --color-surface-container-highest
+  );
+  --md-sys-color-surface-container-low: var(--color-surface-container-low);
+  --md-sys-color-surface-container-lowest: var(
+    --color-surface-container-lowest
+  );
+
+  --md-sys-color-primary: var(--color-primary);
+  --md-sys-color-on-primary: var(--color-on-primary);
+  --md-sys-color-primary-container: var(--color-primary-container);
+  --md-sys-color-on-primary-container: var(--color-on-primary-container);
+
+  --md-sys-color-secondary: var(--color-secondary);
+  --md-sys-color-on-secondary: var(--color-on-secondary);
+  --md-sys-color-secondary-container: var(--color-secondary-container);
+  --md-sys-color-on-secondary-container: var(--color-on-secondary-container);
+
+  --md-sys-color-tertiary: var(--color-tertiary);
+  --md-sys-color-on-tertiary: var(--color-on-tertiary);
+  --md-sys-color-tertiary-container: var(--color-tertiary-container);
+  --md-sys-color-on-tertiary-container: var(--color-on-tertiary-container);
+
+  --md-sys-color-error: var(--color-error);
+  --md-sys-color-on-error: var(--color-on-error);
+  --md-sys-color-error-container: var(--color-error-container);
+  --md-sys-color-on-error-container: var(--color-on-error-container);
+
+  // Shape
+  --md-sys-shape-corner-full: var(--border-corner-full);
+  --md-sys-shape-corner-extra-large: var(--border-corner-extra-large);
+  --md-sys-shape-corner-large: var(--border-corner-large);
+  --md-sys-shape-corner-medium: var(--border-corner-medium);
+  --md-sys-shape-corner-small: var(--border-corner-small);
+  --md-sys-shape-corner-extra-small: var(--border-corner-extra-small);
+  --md-sys-shape-corner-none: var(--border-corner-none);
+
+  --md-sys-shape-corner-extra-large-top: var(--border-corner-extra-large-top);
+  --md-sys-shape-corner-large-top: var(--border-corner-large-top);
+  --md-sys-shape-corner-extra-small-top: var(--border-corner-extra-small-top);
+  --md-sys-shape-corner-large-start: var(--border-corner-large-start);
+  --md-sys-shape-corner-large-end: var(--border-corner-large-end);
+
+  // Font Family
+  --md-sys-typescale-headline-large-font: var(--headline-large-font);
+  --md-sys-typescale-headline-large-line-height: var(
+    --headline-large-line-height
+  );
+  --md-sys-typescale-headline-large-size: var(--headline-large-size);
+  --md-sys-typescale-headline-large-tracking: var(--headline-large-tracking);
+  --md-sys-typescale-headline-large-weight: var(--headline-large-weight);
+
+  --md-sys-typescale-headline-medium-font: var(--headline-medium-font);
+  --md-sys-typescale-headline-medium-line-height: var(
+    --headline-medium-line-height
+  );
+  --md-sys-typescale-headline-medium-size: var(--headline-medium-size);
+  --md-sys-typescale-headline-medium-tracking: var(--headline-medium-tracking);
+  --md-sys-typescale-headline-medium-weight: var(--headline-medium-weight);
+
+  --md-sys-typescale-headline-small-font: var(--headline-small-font);
+  --md-sys-typescale-headline-small-line-height: var(
+    --headline-small-line-height
+  );
+  --md-sys-typescale-headline-small-size: var(--headline-small-size);
+  --md-sys-typescale-headline-small-tracking: var(--headline-small-tracking);
+  --md-sys-typescale-headline-small-weight: var(--headline-small-weight);
+
+  --md-sys-typescale-lable-large-font: var(--lable-large-font);
+  --md-sys-typescale-lable-large-line-height: var(--lable-large-line-height);
+  --md-sys-typescale-lable-large-size: var(--lable-large-size);
+  --md-sys-typescale-lable-large-tracking: var(--lable-large-tracking);
+  --md-sys-typescale-lable-large-weight: var(--lable-large-weight);
+
+  --md-sys-typescale-lable-medium-font: var(--lable-medium-font);
+  --md-sys-typescale-lable-medium-line-height: var(--lable-medium-line-height);
+  --md-sys-typescale-lable-medium-size: var(--lable-medium-size);
+  --md-sys-typescale-lable-medium-tracking: var(--lable-medium-tracking);
+  --md-sys-typescale-lable-medium-weight: var(--lable-medium-weight);
+
+  --md-sys-typescale-lable-small-font: var(--lable-small-font);
+  --md-sys-typescale-lable-small-line-height: var(--lable-small-line-height);
+  --md-sys-typescale-lable-small-size: var(--lable-small-size);
+  --md-sys-typescale-lable-small-tracking: var(--lable-small-tracking);
+  --md-sys-typescale-lable-small-weight: var(--lable-small-weight);
+
+  --md-sys-typescale-title-large-font: var(--title-large-font);
+  --md-sys-typescale-title-large-line-height: var(--title-large-line-height);
+  --md-sys-typescale-title-large-size: var(--title-large-size);
+  --md-sys-typescale-title-large-tracking: var(--title-large-tracking);
+  --md-sys-typescale-title-large-weight: var(--title-large-weight);
+
+  --md-sys-typescale-title-medium-font: var(--title-medium-font);
+  --md-sys-typescale-title-medium-line-height: var(--title-medium-line-height);
+  --md-sys-typescale-title-medium-size: var(--title-medium-size);
+  --md-sys-typescale-title-medium-tracking: var(--title-medium-tracking);
+  --md-sys-typescale-title-medium-weight: var(--title-medium-weight);
+
+  --md-sys-typescale-title-small-font: var(--title-small-font);
+  --md-sys-typescale-title-small-line-height: var(--title-small-line-height);
+  --md-sys-typescale-title-small-size: var(--title-small-size);
+  --md-sys-typescale-title-small-tracking: var(--title-small-tracking);
+  --md-sys-typescale-title-small-weight: var(--title-small-weight);
+
+  --md-sys-typescale-display-large-font: var(--display-large-font);
+  --md-sys-typescale-display-large-line-height: var(
+    --display-large-line-height
+  );
+  --md-sys-typescale-display-large-size: var(--display-large-size);
+  --md-sys-typescale-display-large-tracking: var(--display-large-tracking);
+  --md-sys-typescale-display-large-weight: var(--display-large-weight);
+
+  --md-sys-typescale-display-medium-font: var(--display-medium-font);
+  --md-sys-typescale-display-medium-line-height: var(
+    --display-medium-line-height
+  );
+  --md-sys-typescale-display-medium-size: var(--display-medium-size);
+  --md-sys-typescale-display-medium-tracking: var(--display-medium-tracking);
+  --md-sys-typescale-display-medium-weight: var(--display-medium-weight);
+
+  --md-sys-typescale-display-small-font: var(--display-small-font);
+  --md-sys-typescale-display-small-line-height: var(
+    --display-small-line-height
+  );
+  --md-sys-typescale-display-small-size: var(--display-small-size);
+  --md-sys-typescale-display-small-tracking: var(--display-small-tracking);
+  --md-sys-typescale-display-small-weight: var(--display-small-weight);
+
+  --md-sys-typescale-body-large-font: var(--body-large-font);
+  --md-sys-typescale-body-large-line-height: var(--body-large-line-height);
+  --md-sys-typescale-body-large-size: var(--body-large-size);
+  --md-sys-typescale-body-large-tracking: var(--body-large-tracking);
+  --md-sys-typescale-body-large-weight: var(--body-large-weight);
+
+  --md-sys-typescale-body-medium-font: var(--body-medium-font);
+  --md-sys-typescale-body-medium-line-height: var(--body-medium-line-height);
+  --md-sys-typescale-body-medium-size: var(--body-medium-size);
+  --md-sys-typescale-body-medium-tracking: var(--body-medium-tracking);
+  --md-sys-typescale-body-medium-weight: var(--body-medium-weight);
+
+  --md-sys-typescale-body-small-font: var(--body-small-font);
+  --md-sys-typescale-body-small-line-height: var(--body-small-line-height);
+  --md-sys-typescale-body-small-size: var(--body-small-size);
+  --md-sys-typescale-body-small-tracking: var(--body-small-tracking);
+  --md-sys-typescale-body-small-weight: var(--body-small-weight);
+}
