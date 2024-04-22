@@ -1,29 +1,29 @@
-@use 'base';
+@use "base";
 
 .class {
-    &-one {
-        font-size: 2rem;
-        color: tomato;
-    }
+  &-one {
+    font-size: 2rem;
+    color: tomato;
+  }
 
-    &-two {
-        font-size: 4rem;
-        color: cornflowerblue;
-    }
+  &-two {
+    font-size: 4rem;
+    color: cornflowerblue;
+  }
 }
 
 :host {
-    display: block;
-    background-color: yellow;
+  display: block;
+  background-color: yellow;
 }
 
-:host-context(main){
-    background-color: red !important;
+:host-context(main) {
+  background-color: red !important;
 }
 
-::slotted([slot="title1"]){
-    font-style: italic;
-    display: inline;
+::slotted([slot="title1"]) {
+  font-style: italic;
+  display: inline;
 }
 
 // this style is for usage of part out side of this component

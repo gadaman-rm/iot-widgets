@@ -1,99 +1,99 @@
 :host {
-    --tab-color: #fff;
-    --tab-select-color: #782890;
-    --tab-size: 3rem;
-    --tab-item-size: 3rem;
-    --tab-margin-start: 0rem;
-    --tab-margin-end: 0rem;
-    --tab-offset: 0px;
-    --tab-z-index: 0;
+  --tab-color: #fff;
+  --tab-select-color: #782890;
+  --tab-size: 3rem;
+  --tab-item-size: 3rem;
+  --tab-margin-start: 0rem;
+  --tab-margin-end: 0rem;
+  --tab-offset: 0px;
+  --tab-z-index: 0;
 }
 
 .tab {
-    position: absolute;
-    background-color: var(--tab-color);
-    z-index: var(--tab-z-index);
+  position: absolute;
+  background-color: var(--tab-color);
+  z-index: var(--tab-z-index);
 
-    &--dir-left {
-        display: flex;
-        flex-direction: column;
-        margin-block-start: var(--tab-margin-start);
-        width: var(--tab-size);
-        height: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
-        inset-block-start: 0;
-        inset-inline-start: 0;
-        transform-origin: top left;
-        transform: scaleX(1) translateX(var(--tab-offset));
-    }
+  &--dir-left {
+    display: flex;
+    flex-direction: column;
+    margin-block-start: var(--tab-margin-start);
+    width: var(--tab-size);
+    height: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    transform-origin: top left;
+    transform: scaleX(1) translateX(var(--tab-offset));
+  }
 
-    &--dir-right {
-        display: flex;
-        flex-direction: column;
-        margin-block-start: var(--tab-margin-start);
-        width: var(--tab-size);
-        height: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
-        inset-block-start: 0;
-        inset-inline-end: 0;
-        transform-origin: top right;
-        transform: scaleX(1) translateX(calc(0px - var(--tab-offset)));
-    }
+  &--dir-right {
+    display: flex;
+    flex-direction: column;
+    margin-block-start: var(--tab-margin-start);
+    width: var(--tab-size);
+    height: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    transform-origin: top right;
+    transform: scaleX(1) translateX(calc(0px - var(--tab-offset)));
+  }
 
-    &--dir-top {
-        display: flex;
-        flex-direction: row;
-        margin-inline-end: var(--tab-margin-start);
-        width: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
-        height: var(--tab-size);
-        inset-block-start: 0;
-        inset-inline-end: 0;
-        transform-origin: top right;
-        transform: scaleY(1) translateY(var(--tab-offset));
-    }
+  &--dir-top {
+    display: flex;
+    flex-direction: row;
+    margin-inline-end: var(--tab-margin-start);
+    width: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
+    height: var(--tab-size);
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    transform-origin: top right;
+    transform: scaleY(1) translateY(var(--tab-offset));
+  }
 
-    &--dir-bottom {
-        display: flex;
-        flex-direction: row;
-        margin-inline-end: var(--tab-margin-start);
-        width: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
-        height: var(--tab-size);
-        inset-block-end: 0;
-        inset-inline-end: 0;
-        transform-origin: bottom right;
-        transform: scaleY(1) translateY(calc(0px - var(--tab-offset)));
-    }
+  &--dir-bottom {
+    display: flex;
+    flex-direction: row;
+    margin-inline-end: var(--tab-margin-start);
+    width: calc(100% - var(--tab-margin-end) - var(--tab-margin-start));
+    height: var(--tab-size);
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    transform-origin: bottom right;
+    transform: scaleY(1) translateY(calc(0px - var(--tab-offset)));
+  }
 
-    &--animation {
-        transition: all 450ms ease-in-out;
-    }
+  &--animation {
+    transition: all 450ms ease-in-out;
+  }
 }
 
 .item {
-    position: relative;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  justify-content: center;
+  align-items: center;
 }
 
 .tab--dir-left .item {
-    width: 100%;
-    height: var(--tab-item-size);
+  width: 100%;
+  height: var(--tab-item-size);
 }
 
 .tab--dir-top .item {
-    height: 100%;
-    width: var(--tab-item-size);
+  height: 100%;
+  width: var(--tab-item-size);
 }
 
 .tab--dir-right .item {
-    width: 100%;
-    height: var(--tab-item-size);
+  width: 100%;
+  height: var(--tab-item-size);
 }
 
 .tab--dir-bottom .item {
-    height: 100%;
-    width: var(--tab-item-size);
+  height: 100%;
+  width: var(--tab-item-size);
 }
 
 ::slotted([aria-selected="true"]) {
-    fill: var(--tab-color) !important;
-    background-color: var(--tab-select-color) !important;
+  fill: var(--tab-color) !important;
+  background-color: var(--tab-select-color) !important;
 }

@@ -1,46 +1,64 @@
-import { BASE_SVG_ATTRIBUTES, BaseSvg } from '../../_helper'
-import htmlText from './{{name}}.html?raw'
-import cssText from './{{name}}.scss?inline'
+import { BASE_SVG_ATTRIBUTES, BaseSvg } from "../../_helper"
+import htmlText from "./{{name}}.html?raw"
+import cssText from "./{{name}}.scss?inline"
 
-const template = document.createElement('template')
+const template = document.createElement("template")
 template.innerHTML = `<style>${cssText}</style>${htmlText}`
 
-export interface {{name}}LoadedEvent { loaded: Boolean }
+export interface {{name}}LoadedEvent {
+  loaded: Boolean
+}
 
-const TAG_NAME = `{{tag-name}}`
-const ATTRIBUTES = ['value'] as const
+const TAG_{{name}} = `{{tag-name}}`
+const ATTRIBUTES = ["value"] as const
 export class {{name}} extends BaseSvg {
-    static get observedAttributes() { return [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES] }
-    loadEvent: CustomEvent<{{name}}LoadedEvent>
-    constructor() {
-        super({ template, width: 200, height: 200 })
-        this.setAttribute('is', TAG_NAME)
-        this.loadEvent = new CustomEvent<{{name}}LoadedEvent>("widget-loaded", { detail: { loaded: false } })
-    }
+  static get observedAttributes() {
+    return [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
+  }
+  loadEvent: CustomEvent<{{name}}LoadedEvent>
+  constructor() {
+    super({ template, width: 200, height: 200 })
+    this.setAttribute("is", TAG_{{name}})
+    this.loadEvent = new CustomEvent<{{name}}LoadedEvent>("widget-loaded", {
+      detail: { loaded: false },
+    })
+  }
 
-    mount() {
-        this.loadEvent.detail.loaded = true
-        this.dispatchEvent(this.loadEvent)
+  mount() {
+    this.loadEvent.detail.loaded = true
+    this.dispatchEvent(this.loadEvent)
+  }
+  unmount() {}
+  attributeUpdate(
+    attributeName: (typeof ATTRIBUTES)[number],
+    oldValue: string,
+    newValue: string,
+  ) {
+    switch (attributeName) {
+      case "value":
+        this.valueUpdate(oldValue, newValue)
+        break
     }
-    unmount() { }
-    attributeUpdate(attributeName: typeof ATTRIBUTES[number], oldValue: string, newValue: string) {
-        switch (attributeName) {
-            case 'value':
-                this.valueUpdate(oldValue, newValue)
-                break
-        }
-    }
+  }
 
-    valueUpdate(oldValue: string, newValue: string) { }
+  valueUpdate(oldValue: string, newValue: string) {}
 
-    // @ts-ignore: Unreachable code error
-    addEventListener<K extends keyof CustomElementEventMap>(type: K, listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void
-    // @ts-ignore: Unreachable code error
-    removeEventListener<K extends keyof CustomElementEventMap>(type: K, listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void
+  // @ts-ignore: Unreachable code error
+  addEventListener<K extends keyof CustomElementEventMap>(
+    type: K,
+    listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  // @ts-ignore: Unreachable code error
+  removeEventListener<K extends keyof CustomElementEventMap>(
+    type: K,
+    listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any,
+    options?: boolean | EventListenerOptions,
+  ): void
 }
 
 interface CustomElementEventMap extends HTMLElementEventMap {
-    "widget-loaded": { detail: {{name}}LoadedEvent }
+  "widget-loaded": { detail: {{name}}LoadedEvent }
 }
 
-customElements.define(TAG_NAME, {{name}}, { extends: 'div' })
+customElements.define(TAG_{{name}}, {{name}}, { extends: "div" })

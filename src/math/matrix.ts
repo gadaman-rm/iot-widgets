@@ -1,4 +1,4 @@
-import { point, Point, rotatePoints } from './point'
+import { point, Point, rotatePoints } from "./point"
 
 /**
  * Mathematical utilities.
@@ -24,7 +24,6 @@ import { point, Point, rotatePoints } from './point'
 // Constants
 const NEAR_ZERO = 1e-14
 
-
 /**
  * A (hopefully) quicker function to transform a point by a matrix
  * (this function avoids any DOM calls and just does the math).
@@ -34,7 +33,7 @@ const NEAR_ZERO = 1e-14
  * @returns {module:Point} representing the transformed point
  */
 export const transformPoint = (m: DOMMatrix, p: Point) =>
-    point(m.a * p.x + m.c * p.y + m.e, m.b * p.x + m.d * p.y + m.f)
+  point(m.a * p.x + m.c * p.y + m.e, m.b * p.x + m.d * p.y + m.f)
 
 /**
  * Calculate an array of points transformed with an affine matrix
@@ -44,7 +43,7 @@ export const transformPoint = (m: DOMMatrix, p: Point) =>
  * @returns {Point[]} Array of point
  */
 export const transformPoints = (m: DOMMatrix, points: Point[]) => {
-    return points.map(point => transformPoint(m, point))
+  return points.map((point) => transformPoint(m, point))
 }
 
 /**
@@ -55,9 +54,9 @@ export const transformPoints = (m: DOMMatrix, points: Point[]) => {
  * @returns {boolean} Indicates whether or not the matrix is 1,0,0,1,0,0
  */
 export const isIdentity = (m: DOMMatrix) => {
-    return (
-        m.a === 1 && m.b === 0 && m.c === 0 && m.d === 1 && m.e === 0 && m.f === 0
-    )
+  return (
+    m.a === 1 && m.b === 0 && m.c === 0 && m.d === 1 && m.e === 0 && m.f === 0
+  )
 }
 
 /**
@@ -68,30 +67,30 @@ export const isIdentity = (m: DOMMatrix) => {
  * @returns {DOMMatrix} The matrix object resulting from the calculation
  */
 export const matrixMultiply = (...args: DOMMatrix[]): DOMMatrix => {
-    const m = args.reduceRight((prev, m1) => {
-        return m1.multiply(prev)
-    })
+  const m = args.reduceRight((prev, m1) => {
+    return m1.multiply(prev)
+  })
 
-    if (Math.abs(m.a) < NEAR_ZERO) {
-        m.a = 0
-    }
-    if (Math.abs(m.b) < NEAR_ZERO) {
-        m.b = 0
-    }
-    if (Math.abs(m.c) < NEAR_ZERO) {
-        m.c = 0
-    }
-    if (Math.abs(m.d) < NEAR_ZERO) {
-        m.d = 0
-    }
-    if (Math.abs(m.e) < NEAR_ZERO) {
-        m.e = 0
-    }
-    if (Math.abs(m.f) < NEAR_ZERO) {
-        m.f = 0
-    }
+  if (Math.abs(m.a) < NEAR_ZERO) {
+    m.a = 0
+  }
+  if (Math.abs(m.b) < NEAR_ZERO) {
+    m.b = 0
+  }
+  if (Math.abs(m.c) < NEAR_ZERO) {
+    m.c = 0
+  }
+  if (Math.abs(m.d) < NEAR_ZERO) {
+    m.d = 0
+  }
+  if (Math.abs(m.e) < NEAR_ZERO) {
+    m.e = 0
+  }
+  if (Math.abs(m.f) < NEAR_ZERO) {
+    m.f = 0
+  }
 
-    return m
+  return m
 }
 
 /**
@@ -101,17 +100,17 @@ export const matrixMultiply = (...args: DOMMatrix[]): DOMMatrix => {
  * @returns {boolean} Whether or not a matrix transform was found
  */
 export const hasMatrixTransform = (tlist: SVGTransformList) => {
-    if (!tlist) {
-        return false
-    }
-    let num = tlist.numberOfItems
-    while (num--) {
-        const xform = tlist.getItem(num)
-        if (xform.type === 1 && !isIdentity(xform.matrix)) {
-            return true
-        }
-    }
+  if (!tlist) {
     return false
+  }
+  let num = tlist.numberOfItems
+  while (num--) {
+    const xform = tlist.getItem(num)
+    if (xform.type === 1 && !isIdentity(xform.matrix)) {
+      return true
+    }
+  }
+  return false
 }
 
 /**
@@ -127,16 +126,16 @@ export const hasMatrixTransform = (tlist: SVGTransformList) => {
  * @property {Float} aabox.height - Float with the axis-aligned height coordinate
  */
 export interface TransformedBox {
-    tl: Point,
-    tr: Point,
-    br: Point,
-    bl: Point,
-    aabox: {
-        minx: number,
-        miny: number,
-        maxx: number,
-        maxy: number
-    }
+  tl: Point
+  tr: Point
+  br: Point
+  bl: Point
+  aabox: {
+    minx: number
+    miny: number
+    maxx: number
+    maxy: number
+  }
 }
 
 /**
@@ -150,18 +149,18 @@ export interface TransformedBox {
  * @returns {module:math.AngleCoord45}
  */
 export const snapToAngle = (x1: number, y1: number, x2: number, y2: number) => {
-    const snap = Math.PI / 4 // 45 degrees
-    const dx = x2 - x1
-    const dy = y2 - y1
-    const angle = Math.atan2(dy, dx)
-    const dist = Math.sqrt(dx * dx + dy * dy)
-    const snapangle = Math.round(angle / snap) * snap
+  const snap = Math.PI / 4 // 45 degrees
+  const dx = x2 - x1
+  const dy = y2 - y1
+  const angle = Math.atan2(dy, dx)
+  const dist = Math.sqrt(dx * dx + dy * dy)
+  const snapangle = Math.round(angle / snap) * snap
 
-    return {
-        x: x1 + dist * Math.cos(snapangle),
-        y: y1 + dist * Math.sin(snapangle),
-        a: snapangle
-    }
+  return {
+    x: x1 + dist * Math.cos(snapangle),
+    y: y1 + dist * Math.sin(snapangle),
+    a: snapangle,
+  }
 }
 
 /**
@@ -172,163 +171,187 @@ export const snapToAngle = (x1: number, y1: number, x2: number, y2: number) => {
  * @returns {boolean} True if rectangles intersect
  */
 export const rectsIntersect = (r1: SVGRect, r2: SVGRect) => {
-    return (
-        r2.x < r1.x + r1.width &&
-        r2.x + r2.width > r1.x &&
-        r2.y < r1.y + r1.height &&
-        r2.y + r2.height > r1.y
-    )
+  return (
+    r2.x < r1.x + r1.width &&
+    r2.x + r2.width > r1.x &&
+    r2.y < r1.y + r1.height &&
+    r2.y + r2.height > r1.y
+  )
 }
 
 export const toTransformBox = (
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    angle: number = 0,
-    origin?: Point,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  angle: number = 0,
+  origin?: Point,
 ): TransformedBox => {
-    const org = origin ? origin : point(x + (width / 2), y + (height / 2))
-    const [tl, tr, br, bl] = rotatePoints([
-        point(x, y),
-        point(x + width, y),
-        point(x + width, y + height),
-        point(x, y + height)
-    ], -angle, org)
+  const org = origin ? origin : point(x + width / 2, y + height / 2)
+  const [tl, tr, br, bl] = rotatePoints(
+    [
+      point(x, y),
+      point(x + width, y),
+      point(x + width, y + height),
+      point(x, y + height),
+    ],
+    -angle,
+    org,
+  )
 
-    const minx = Math.min(tl.x, tr.x, bl.x, br.x)
-    const maxx = Math.max(tl.x, tr.x, bl.x, br.x)
-    const miny = Math.min(tl.y, tr.y, bl.y, br.y)
-    const maxy = Math.max(tl.y, tr.y, bl.y, br.y)
+  const minx = Math.min(tl.x, tr.x, bl.x, br.x)
+  const maxx = Math.max(tl.x, tr.x, bl.x, br.x)
+  const miny = Math.min(tl.y, tr.y, bl.y, br.y)
+  const maxy = Math.max(tl.y, tr.y, bl.y, br.y)
 
-    return {
-        tl,
-        tr,
-        br,
-        bl,
-        aabox: {
-            minx,
-            miny,
-            maxx,
-            maxy
-        }
-    }
+  return {
+    tl,
+    tr,
+    br,
+    bl,
+    aabox: {
+      minx,
+      miny,
+      maxx,
+      maxy,
+    },
+  }
 }
 
 export const svgInfo = (
-    ref: SVGSVGElement,
-    _props: '*' | 'width' | 'height' | 'viewBox' = "*"
+  ref: SVGSVGElement,
+  _props: "*" | "width" | "height" | "viewBox" = "*",
 ) => {
-    const svg = ref
-    const box = svg.getBBox()
-    const viewBox = [box.x, box.y, box.width, box.height].join(" ")
-    const vX = box.x
-    const vY = box.y
-    const vWidth = box.width
-    const vHeight = box.height
-    const width = svg.width.baseVal.value
-    const height = svg.height.baseVal.value
-    const x = svg.x.baseVal.value
-    const y = svg.y.baseVal.value
+  const svg = ref
+  const box = svg.getBBox()
+  const viewBox = [box.x, box.y, box.width, box.height].join(" ")
+  const vX = box.x
+  const vY = box.y
+  const vWidth = box.width
+  const vHeight = box.height
+  const width = svg.width.baseVal.value
+  const height = svg.height.baseVal.value
+  const x = svg.x.baseVal.value
+  const y = svg.y.baseVal.value
 
-    return {
-        x,
-        y,
-        width,
-        height,
-        viewBox,
-        vX,
-        vY,
-        vWidth,
-        vHeight,
-    }
+  return {
+    x,
+    y,
+    width,
+    height,
+    viewBox,
+    vX,
+    vY,
+    vWidth,
+    vHeight,
+  }
 }
 
 export type TransformProps = {
-    x?: number
-    y?: number
-    rotate?: number
-    scaleX?: number
-    scaleY?: number
+  x?: number
+  y?: number
+  rotate?: number
+  scaleX?: number
+  scaleY?: number
 }
 
 export class Transform {
+  x: number
+  y: number
+  rotate: number
+  scaleX: number
+  scaleY: number
+  element: HTMLElement | SVGElement
+
+  constructor(
+    element: HTMLElement | SVGElement,
+    x = 0,
+    y = 0,
+    scaleX = 1,
+    scaleY = 1,
+    rotate = 0,
+  ) {
+    this.x = x
+    this.y = y
+    this.scaleX = scaleX
+    this.scaleY = scaleY
+    this.rotate = rotate
+    this.element = element
+    if (this.element instanceof HTMLElement)
+      this.#parse(this.element.style.transform)
+    else this.#parse(this.element.getAttribute("transform")!)
+  }
+
+  public get transform(): {
     x: number
     y: number
     rotate: number
     scaleX: number
     scaleY: number
-    element: HTMLElement | SVGElement
+  } {
+    if (this.element instanceof HTMLElement)
+      this.#parse(this.element.style.transform)
+    else this.#parse(this.element.getAttribute("transform")!)
+    return {
+      x: this.x,
+      y: this.y,
+      rotate: this.rotate,
+      scaleX: this.scaleX,
+      scaleY: this.scaleY,
+    }
+  }
+  public set transform(transform: string | TransformProps) {
+    if (typeof transform === "string") {
+      if (this.element instanceof HTMLElement)
+        this.element.style.transform = transform
+      else this.element.setAttribute("transform", transform)
+      this.#parse(transform)
+    } else {
+      transform = { ...this.transform, ...transform }
+      const { x, y, rotate, scaleX, scaleY } = transform
+      if (this.element instanceof HTMLElement) {
+        const transformStr = `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY}) rotate(${rotate}deg)`
+        this.element.style.transform = transformStr
+      } else {
+        const transformStr2 = `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY}) rotate(${rotate}deg)`
+        this.element.style.transform = transformStr2
+        const transformStr = `translate(${x},${y}) scale(${scaleX},${scaleY}) rotate(${rotate})`
+        this.element.setAttribute("transform", transformStr)
+      }
+    }
+  }
 
-    constructor(element: HTMLElement | SVGElement, x = 0, y = 0, scaleX = 1, scaleY = 1, rotate = 0) {
-        this.x = x
-        this.y = y
-        this.scaleX = scaleX
-        this.scaleY = scaleY
-        this.rotate = rotate
-        this.element = element
-        if(this.element instanceof HTMLElement) 
-            this.#parse(this.element.style.transform)
-        else
-            this.#parse(this.element.getAttribute('transform')!)
-    }
-    
-    public get transform(): { x: number, y: number, rotate: number, scaleX: number, scaleY: number } {
-        if (this.element instanceof HTMLElement)
-            this.#parse(this.element.style.transform)
-        else
-            this.#parse(this.element.getAttribute('transform')!)
-        return { x: this.x, y: this.y, rotate: this.rotate, scaleX: this.scaleX, scaleY: this.scaleY }
-    }
-    public set transform(transform: string | TransformProps) {
-        if (typeof transform === 'string') {
-            if (this.element instanceof HTMLElement) this.element.style.transform = transform
-            else this.element.setAttribute('transform', transform)
-            this.#parse(transform)
-        } else {
-            transform = { ...this.transform, ...transform }
-            const { x, y, rotate, scaleX, scaleY } = transform
-            if (this.element instanceof HTMLElement) {
-                const transformStr = `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY}) rotate(${rotate}deg)`
-                this.element.style.transform = transformStr
-            }
-            else {
-                const transformStr2 = `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY}) rotate(${rotate}deg)`
-                this.element.style.transform = transformStr2
-                const transformStr = `translate(${x},${y}) scale(${scaleX},${scaleY}) rotate(${rotate})`
-                this.element.setAttribute('transform', transformStr)
-            }
+  #parse(transform: string) {
+    if (transform) {
+      const transformTrim = transform
+        .replace(/, /g, ",")
+        .replace(/px/g, "")
+        .replace(/deg/g, "")
+      const translate = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(
+        transformTrim,
+      )
+      const scale2d = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(transformTrim)
+      const rotate = /rotate\(\s*([^\s,)]+)/.exec(transformTrim)
+
+      if (translate) {
+        this.x = +translate[1]
+        this.y = +translate[2]
+      }
+
+      if (scale2d) {
+        this.scaleX = +scale2d[1]
+        this.scaleY = +scale2d[2]
+      } else {
+        const scale = /scale\(\s*([^\s,)]+)/.exec(transformTrim)
+        if (scale) {
+          this.scaleX = +scale[1]
+          this.scaleY = +scale[1]
         }
+      }
+
+      if (rotate) {
+        this.rotate = +rotate[1]
+      }
     }
-
-    #parse(transform: string) {
-        if (transform) {
-            const transformTrim = transform.replace(/, /g, ',')
-            .replace(/px/g, '')
-            .replace(/deg/g, '')
-            const translate = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(transformTrim)
-            const scale2d = /scale\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(transformTrim)
-            const rotate = /rotate\(\s*([^\s,)]+)/.exec(transformTrim)
-
-            if(translate) {
-                this.x = +translate[1]
-                this.y = +translate[2]
-            }
-
-            if(scale2d) {
-                this.scaleX = +scale2d[1]
-                this.scaleY = +scale2d[2]
-            } else {
-                const scale = /scale\(\s*([^\s,)]+)/.exec(transformTrim)
-                if(scale) {
-                    this.scaleX = +scale[1]
-                    this.scaleY = +scale[1]
-                }
-            }
-
-            if(rotate) {
-                this.rotate = +rotate[1]
-            }
-        }
-    }
+  }
 }

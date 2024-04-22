@@ -1,4 +1,4 @@
-const template = document.createElement('template')
+const template = document.createElement("template")
 template.innerHTML = `
 <style>
 svg {
@@ -11,12 +11,12 @@ svg {
 `
 
 export class Circle extends HTMLDivElement {
-    constructor() {
-        super()
-        this.attachShadow({ mode: 'open' })
-        this.shadowRoot!.appendChild(template.content.cloneNode(true))
-        this.setAttribute('is', "g-circle")
-    }
+  constructor() {
+    super()
+    this.attachShadow({ mode: "open" })
+    this.shadowRoot!.appendChild(template.content.cloneNode(true))
+    this.setAttribute("is", "g-circle")
+  }
 }
 
-customElements.define('g-circle', Circle, { extends: 'div' })
+customElements.define("g-circle", Circle, { extends: "div" })

@@ -1,2 +1,2 @@
-export * from './debug'
-export * from './check'
+export * from "./debug"
+export * from "./check"

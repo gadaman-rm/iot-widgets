@@ -1,14 +1,14 @@
 @use "@material/theme" with (
-  $primary: #FEDBD0,
-  $on-primary: #442C2E
+  $primary: #fedbd0,
+  $on-primary: #442c2e
 );
 
-@use '@material/button/mdc-button';
-@use '@material/button';
+@use "@material/button/mdc-button";
+@use "@material/button";
 
 .foo-button {
-    // @include button.container-fill-color(darksalmon);
-    // @include button.ink-color(red);
-    --mdc-theme-primary: green;
-    --mdc-theme-on-primary: yellow;
+  // @include button.container-fill-color(darksalmon);
+  // @include button.ink-color(red);
+  --mdc-theme-primary: green;
+  --mdc-theme-on-primary: yellow;
 }

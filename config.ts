@@ -27,5 +27,5 @@
 
 // export const currentConfig = config[process.env.LIB_NAME]
 
-// // if (process.env.NODE_ENV != "development" && currentConfig === undefined) 
+// // if (process.env.NODE_ENV != "development" && currentConfig === undefined)
 // //   throw new Error('LIB_NAME is not defined or is not valid')

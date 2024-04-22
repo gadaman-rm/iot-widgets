@@ -1,5 +1,5 @@
 @use "sass:math";
-@use 'sass:list';
+@use "sass:list";
 @use "sass:map";
 @use "sass:meta";
 @use "sass:string";
@@ -39,7 +39,6 @@ $valid-sides: top, bottom, left, right;
   @include move(0px, 500px);
 }
 
-
 @each $size in $sizes {
   .icon-#{$size} {
     font-size: $size;
@@ -48,7 +47,11 @@ $valid-sides: top, bottom, left, right;
   }
 }
 
-$prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
+$prefixes-by-browser: (
+  "firefox": moz,
+  "safari": webkit,
+  "ie": ms,
+);
 
 @function prefixes-for-browsers($browsers) {
   $prefixes: ();
@@ -59,7 +62,6 @@ $prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
 }
 
 // @debug prefixes-for-browsers("firefox" "ie"); // moz ms
-
 
 @mixin syntax-colors($args...) {
   // @debug meta.keywords($args);
@@ -72,18 +74,21 @@ $prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
   }
 }
 
-@include syntax-colors(
-  $string: #080,
-  $comment: #800,
-  $variable: #60b,
-);
+@include syntax-colors($string: #080, $comment: #800, $variable: #60b);
 
-$font-weights: ("regular": 400, "medium": 500, "bold": 700);
+$font-weights: (
+  "regular": 400,
+  "medium": 500,
+  "bold": 700,
+);
 // @debug map.get($font-weights, "medium"); // 500
 // @debug map.get($font-weights, "extra-bold"); // null
 
-
-$icons: ("eye": "\f112", "start": "\f12e", "stop": "\f12f");
+$icons: (
+  "eye": "\f112",
+  "start": "\f12e",
+  "stop": "\f12f",
+);
 
 @each $name, $glyph in $icons {
   .icon-#{$name}:before {
@@ -93,29 +98,45 @@ $icons: ("eye": "\f112", "start": "\f12e", "stop": "\f12f");
   }
 }
 
-
-$font-weights: ("regular": 400, "medium": 500, "bold": 700);
+$font-weights: (
+  "regular": 400,
+  "medium": 500,
+  "bold": 700,
+);
 
 // @debug map.set($font-weights, "extra-bold", 900);
 // ("regular": 400, "medium": 500, "bold": 700, "extra-bold": 900)
 // @debug map.set($font-weights, "bold", 900);
 // ("regular": 400, "medium": 500, "bold": 900)
 
-$light-weights: ("lightest": 100, "light": 300);
-$heavy-weights: ("medium": 500, "bold": 700);
+$light-weights: (
+  "lightest": 100,
+  "light": 300,
+);
+$heavy-weights: (
+  "medium": 500,
+  "bold": 700,
+);
 
 // @debug map.merge($light-weights, $heavy-weights);
 
-$prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
+$prefixes-by-browser: (
+  "firefox": moz,
+  "safari": webkit,
+  "ie": ms,
+);
 
 @mixin add-browser-prefix($browser, $prefix) {
-  $prefixes-by-browser: map.merge($prefixes-by-browser, ($browser: $prefix)) !global;
+  $prefixes-by-browser: map.merge(
+    $prefixes-by-browser,
+    (
+      $browser: $prefix,
+    )
+  ) !global;
 }
 
 @include add-browser-prefix("opera", o);
 // @debug $prefixes-by-browser;
-
-
 
 /// Return a copy of $list with all elements for which $condition returns `true`
 /// removed.
