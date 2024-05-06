@@ -1,0 +1,112 @@
+:host {
+  --menu-width: var(--g-menu-width, 200px);
+  --menu-sub-width: var(--g-menu-sub-width, 150px);
+  --menu-radius: var(--g-menu-radius, 0.3rem);
+  --menu-item-height: var(--g-menu-item-height, 30px);
+  --menu-padding: var(--g-menu-padding, 1rem);
+  --menu-icon-size: var(--g-menu-icon-size, 1rem);
+  --menu-color-surface: var(--g-menu-color-surface, #333);
+  --menu-color-on-surface: var(--g-menu-color-on-surface, #fff);
+  --menu-item-meta-color: var(--g-menu-item-meta-color, #999);
+  --menu-color-hover: var(--g-menu-color-hover, #444);
+  --menu-item-grid-template-columns: calc(
+      var(--menu-icon-size) + var(--menu-padding)
+    )
+    1fr 1fr;
+}
+
+ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+hr {
+  margin-inline: 0.1rem;
+  margin-block: 0.2rem;
+  background-color: var(--menu-item-meta-color);
+  height: 0.01rem;
+  border: 0;
+}
+
+#root {
+  visibility: hidden;
+  position: absolute;
+  padding-block: var(--menu-radius);
+  width: var(--menu-width);
+  border-radius: var(--menu-radius);
+  background: var(--menu-color-surface);
+  color: var(--menu-color-on-surface);
+  user-select: none;
+}
+
+.icon svg {
+  width: var(--menu-icon-size);
+  fill: var(--menu-color-on-surface);
+}
+
+.text {
+  text-align: start;
+}
+
+.hint {
+  text-align: end;
+  color: var(--menu-item-meta-color);
+}
+
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--menu-item-grid-template-columns);
+  height: var(--menu-item-height);
+  cursor: pointer;
+  align-items: center;
+  padding-inline: var(--menu-padding);
+  transition: background 0.3s ease-out;
+
+  &:hover {
+    background: var(--menu-color-hover);
+  }
+}
+
+.item-sub .hint svg {
+  fill: var(--menu-color-on-surface);
+  width: 10px;
+}
+
+.item-sub .menu {
+  position: absolute;
+  visibility: hidden;
+  inset-block-start: 0px;
+  inset-inline-start: var(--menu-width);
+  width: var(--menu-sub-width);
+  background: var(--menu-color-surface);
+  transition: visibility 0.3s ease-out;
+}
+
+.item-sub:hover .menu {
+  visibility: visible;
+}
+
+.item-sub .menu .item-sub .menu {
+  visibility: hidden;
+  inset-inline-start: var(--menu-sub-width);
+  width: var(--menu-sub-width);
+}
+
+.item-sub .menu .item-sub:hover .menu {
+  visibility: visible;
+}
+
+li[data-disable="true"]:hover {
+  background: var(--menu-color-surface);
+  cursor: default;
+}
+
+li[data-disable="true"] {
+  color: var(--menu-item-meta-color);
+}
+
+li[data-disable="true"] .icon svg {
+  fill: var(--menu-item-meta-color);
+}

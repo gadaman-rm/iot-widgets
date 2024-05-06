@@ -1,0 +1,111 @@
+@use "@material/theme" with (
+  $primary: var(--color-primary),
+  $on-primary: var(--color-on-primary),
+  $secondary: var(--color-secondary),
+  $on-secondary: var(--color-on-secondary),
+  $error: var(--color-error),
+  $on-error: var(--color-on-error),
+  $surface: var(--color-surface),
+  $on-surface: var(--color-on-surface),
+  $background: var(--color-background)
+);
+
+// @use "@material/shape" with (
+//   $large-component-radius: var(--border-corner-large),
+//   $medium-component-radius: var(--border-corner-medium),
+//   $small-component-radius: var(--border-corner-small)
+// );
+
+@use "@material/typography" with (
+  $styles-headline1: (
+    font-family: var(--diplay-large-font),
+    line-height: var(--diplay-large-line-height),
+    font-size: var(--diplay-large-size),
+    letter-spacing: var(--diplay-large-tracking),
+    font-weight: var(--diplay-large-weight),
+  ),
+  $styles-headline2: (
+    font-family: var(--diplay-medium-font),
+    line-height: var(--diplay-medium-line-height),
+    font-size: var(--diplay-medium-size),
+    letter-spacing: var(--diplay-medium-tracking),
+    font-weight: var(--diplay-medium-weight),
+  ),
+  $styles-headline3: (
+    font-family: var(--diplay-small-font),
+    line-height: var(--diplay-small-line-height),
+    font-size: var(--diplay-small-size),
+    letter-spacing: var(--diplay-small-tracking),
+    font-weight: var(--diplay-small-weight),
+  ),
+  $styles-headline4: (
+    font-family: var(--headline-large-font),
+    line-height: var(--headline-large-line-height),
+    font-size: var(--headline-large-size),
+    letter-spacing: var(--headline-large-tracking),
+    font-weight: var(--headline-large-weight),
+  ),
+  $styles-headline5: (
+    font-family: var(--headline-medium-font),
+    line-height: var(--headline-medium-line-height),
+    font-size: var(--headline-medium-size),
+    letter-spacing: var(--headline-medium-tracking),
+    font-weight: var(--headline-medium-weight),
+  ),
+  $styles-headline6: (
+    font-family: var(--headline-small-font),
+    line-height: var(--headline-small-line-height),
+    font-size: var(--headline-small-size),
+    letter-spacing: var(--headline-small-tracking),
+    font-weight: var(--headline-small-weight),
+  ),
+  $styles-body1: (
+    font-family: var(--body-large-font),
+    line-height: var(--body-large-line-height),
+    font-size: var(--body-large-size),
+    letter-spacing: var(--body-large-tracking),
+    font-weight: var(--body-large-weight),
+  ),
+  $styles-body2: (
+    font-family: var(--body-medium-font),
+    line-height: var(--body-medium-line-height),
+    font-size: var(--body-medium-size),
+    letter-spacing: var(--body-medium-tracking),
+    font-weight: var(--body-medium-weight),
+  ),
+  $styles-subtitle1: (
+    font-family: var(--title-medium-font),
+    line-height: var(--title-medium-line-height),
+    font-size: var(--title-medium-size),
+    letter-spacing: var(--title-medium-tracking),
+    font-weight: var(--title-medium-weight),
+  ),
+  $styles-subtitle2: (
+    font-family: var(--title-small-font),
+    line-height: var(--title-small-line-height),
+    font-size: var(--title-small-size),
+    letter-spacing: var(--title-small-tracking),
+    font-weight: var(--title-small-weight),
+  ),
+  $styles-button: (
+    font-family: var(--lable-large-font),
+    line-height: var(--lable-large-line-height),
+    font-size: var(--lable-large-size),
+    letter-spacing: var(--lable-large-tracking),
+    font-weight: var(--lable-large-weight),
+  ),
+  $styles-caption: (
+    font-family: var(--lable-medium-font),
+    line-height: var(--lable-medium-line-height),
+    font-size: var(--lable-medium-size),
+    letter-spacing: var(--lable-medium-tracking),
+    font-weight: var(--lable-medium-weight),
+  ),
+  $styles-overline: (
+    font-family: var(--lable-small-font),
+    line-height: var(--lable-small-line-height),
+    font-size: var(--lable-small-size),
+    letter-spacing: var(--lable-small-tracking),
+    font-weight: var(--lable-small-weight),
+  )
+);

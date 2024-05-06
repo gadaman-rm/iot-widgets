@@ -1,7 +1,11 @@
 :root {
   --g-svg-container-color: var(--color-surface-container-low);
-
   --g-sidebar-tab-color: var(--color-surface-container-high);
   --g-sidebar-tab-select-color: var(--color-on-surface);
   --g-sidebar-panel-color: var(--color-surface-container-high);
+
+  --g-menu-color-surface: var(--color-surface-container-highest);
+  --g-menu-color-on-surface: var(--color-on-surface);
+  --g-menu-item-meta-color: var(--color-outline);
+  --g-menu-color-hover: var(--color-outline-variant);
 }

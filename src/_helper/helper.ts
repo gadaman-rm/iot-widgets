@@ -2,6 +2,13 @@ export const getCssVar = (
   cssVar: string,
   elem: Element = document.documentElement,
 ) => window.getComputedStyle(elem).getPropertyValue(cssVar)
+
+export const strToBool = (value: string | null | undefined) =>
+  value === "" || value?.toLowerCase() === "true"
+
+export const boolToStr = (value: boolean | null | undefined) =>
+  value ? "true" : "false"
+
 export const createSlot = (name: string) => {
   const div = document.createElement("div")
   div.innerHTML = `<slot id="${name}" name="${name}"></slot>`

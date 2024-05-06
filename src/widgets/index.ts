@@ -8,4 +8,3 @@ export * from "./utility"
 export * from "./Window/Window"
 export * from "./RefrigeratorFrame/RefrigeratorFrame"
 export * from "./RefrigeratorContent/RefrigeratorContent"
-

@@ -3,12 +3,13 @@ import dts from "vite-plugin-dts"
 import { libInjectCss } from "vite-plugin-lib-inject-css"
 import path from "path"
 import { cpSync } from "fs"
+import swc from "@z-code/vite-plugin-swc"
 
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
     outDir: "dist",
-    sourcemap: true,
+    sourcemap: false,
     emptyOutDir: false,
     lib: {
       name: "@gadaman-rm/iot-widgets",
@@ -27,9 +28,14 @@ export default defineConfig({
     },
   },
   plugins: [
+    swc({
+      include: /\.ts?$/,
+      swcrc: true,
+      configFile: true,
+    }),
     libInjectCss(),
     dts({
-      exclude: ["src/app.tsx", "src/main.tsx"],
+      exclude: ["src/main.ts"],
       rollupTypes: true,
     }),
     {

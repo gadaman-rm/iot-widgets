@@ -1,8 +1,16 @@
 {
-  "name": "@gadaman-rm/iot-widgets",
-  "version": "0.2.1",
+  "name": "@gadaco/iot-widgets",
+  "version": "0.3.0",
   "type": "module",
   "description": "iot widgets",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gadaman-rm/iot-widgets.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "web components"
+  ],
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,13 +50,6 @@
   "sideEffects": [
     "**/*.scss"
   ],
-  "publishConfig": {
-    "@gadaman-rm:registry": "https://npm.pkg.github.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gadaman-rm/iot-widgets.git"
-  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -58,12 +59,13 @@
   },
   "devDependencies": {
     "@types/uuid": "^9.0.8",
+    "@z-code/vite-plugin-swc": "^0.3.3",
     "dependency-cruiser": "^16.3.1",
     "plop": "^4.0.1",
     "sass": "^1.75.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.10",
-    "vite-plugin-dts": "^3.8.3",
+    "vite-plugin-dts": "^3.9.0",
     "vite-plugin-lib-inject-css": "^2.0.1"
   },
   "dependencies": {
