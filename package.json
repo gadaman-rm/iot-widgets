@@ -5,7 +5,7 @@
   "description": "iot widgets",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gadaman-rm/iot-widgets.git"
+    "url": "git+https://github.com/gadaman-rm/iot-widgets.git"
   },
   "license": "MIT",
   "keywords": [
