@@ -32,7 +32,7 @@ export interface Divider {
 export type MenuJsonItem = Item | SubItem | Divider
 
 export interface MenuJsonSelectEvent {
-  group?: string
+  id?: string
 }
 
 const TAG_MenuJson = `g-menu-json`
@@ -56,9 +56,9 @@ export class MenuJson extends HTMLDivElement {
     this.attachShadow({ mode: "open" })
     this.shadowRoot!.appendChild(template.content.cloneNode(true))
     this.setAttribute("is", TAG_MenuJson)
-    this.init()
     this.rootRef = this.shadowRoot!.querySelector("#root")!
     this.menuRef = this.shadowRoot!.querySelector(".menu")!
+    this.init()
 
     this.loadEvent = new CustomEvent<MenuJsonLoadedEvent>("component-loaded", {
       detail: { loaded: false },
@@ -83,7 +83,7 @@ export class MenuJson extends HTMLDivElement {
             !strToBool(selectedItem.dataset.disable) &&
             !strToBool(selectedItem.dataset.nested)
           ) {
-            this.selectEvent.detail.group = selectedItem.dataset.group
+            this.selectEvent.detail.id = selectedItem.dataset.group
             this.dispatchEvent(this.selectEvent)
             this.open = false
           }
@@ -220,8 +220,8 @@ export class MenuJson extends HTMLDivElement {
 
     window.addEventListener("contextmenu", (e) => {
       e.preventDefault()
-      const x = e.offsetX
-      const y = e.offsetY
+      const x = e.x
+      const y = e.y
       const winWidth = window.innerWidth
       const winHeight = window.innerHeight
       const cmWidth = this.rootRef.offsetWidth

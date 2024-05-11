@@ -1,10 +1,15 @@
 :host {
-  --menu-width: var(--g-menu-width, 200px);
-  --menu-sub-width: var(--g-menu-sub-width, 150px);
+  --menu-width: var(--g-menu-width, 250px);
+  --menu-sub-width: var(--g-menu-sub-width, 220px);
   --menu-radius: var(--g-menu-radius, 0.3rem);
   --menu-item-height: var(--g-menu-item-height, 30px);
-  --menu-padding: var(--g-menu-padding, 1rem);
+  --menu-padding: var(--g-menu-padding, 0.6rem);
   --menu-icon-size: var(--g-menu-icon-size, 1rem);
+  --menu-font-family: var(--g-menu-font-family, system-ui, "Open Sans");
+  --menu-font-size: var(--g-menu-font-size, 14px);
+  --menu-font-weight: var(--g-menu-font-weight, 550);
+  --menu-line-height: var(--g-menu-line-height, 1.25rem);
+  --menu-letter-spacing: var(--g-menu-letter-spacing, 0.00625rem);
   --menu-color-surface: var(--g-menu-color-surface, #333);
   --menu-color-on-surface: var(--g-menu-color-on-surface, #fff);
   --menu-item-meta-color: var(--g-menu-item-meta-color, #999);
@@ -12,7 +17,7 @@
   --menu-item-grid-template-columns: calc(
       var(--menu-icon-size) + var(--menu-padding)
     )
-    1fr 1fr;
+    2fr 1fr;
 }
 
 ul {
@@ -31,18 +36,25 @@ hr {
 
 #root {
   visibility: hidden;
-  position: absolute;
+  position: fixed;
   padding-block: var(--menu-radius);
   width: var(--menu-width);
   border-radius: var(--menu-radius);
   background: var(--menu-color-surface);
   color: var(--menu-color-on-surface);
   user-select: none;
+  font-family: var(--menu-font-family);
+  font-size: var(--menu-font-size);
+  font-weight: var(--menu-font-weight);
+  line-height: var(--menu-line-height);
+  letter-spacing: var(--menu-letter-spacing);
 }
 
 .icon svg {
   width: var(--menu-icon-size);
+  height: var(--menu-icon-size);
   fill: var(--menu-color-on-surface);
+  margin-block-start: 3px;
 }
 
 .text {
@@ -70,8 +82,10 @@ hr {
 }
 
 .item-sub .hint svg {
+  width: var(--menu-icon-size);
+  height: var(--menu-icon-size);
   fill: var(--menu-color-on-surface);
-  width: 10px;
+  margin-block-start: 3px;
 }
 
 .item-sub .menu {

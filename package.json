@@ -1,6 +1,6 @@
 {
   "name": "@gadaco/iot-widgets",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "description": "iot widgets",
   "repository": {
@@ -60,13 +60,13 @@
   "devDependencies": {
     "@types/uuid": "^9.0.8",
     "@z-code/vite-plugin-swc": "^0.3.3",
-    "dependency-cruiser": "^16.3.1",
+    "dependency-cruiser": "^16.3.2",
     "plop": "^4.0.1",
-    "sass": "^1.75.0",
+    "sass": "^1.77.1",
     "typescript": "^5.4.5",
     "vite": "^5.2.10",
     "vite-plugin-dts": "^3.9.0",
-    "vite-plugin-lib-inject-css": "^2.0.1"
+    "vite-plugin-lib-inject-css": "^2.1.0"
   },
   "dependencies": {
     "@material/web": "^1.4.1",

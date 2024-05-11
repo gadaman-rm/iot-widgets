@@ -219,6 +219,166 @@ export class SvgContainer extends HTMLDivElement {
     }
   }
 
+  vlerticalLeft() {
+    if (this.editBoxforWidgets.length > 1) {
+      let leftist = this.editBoxforWidgets[0]
+      this.editBoxforWidgets.forEach((item) => {
+        if (item.widget.x < leftist.widget.x) leftist = item
+      })
+
+      this.editBoxforWidgets.forEach((item) => {
+        item.widget.x = leftist.widget.x
+        item.editBox.x = leftist.editBox.x
+      })
+    }
+  }
+
+  vlerticalRight() {
+    if (this.editBoxforWidgets.length > 1) {
+      let rightist = this.editBoxforWidgets[0]
+      this.editBoxforWidgets.forEach((item) => {
+        if (
+          item.widget.x + item.widget.width >
+          rightist.widget.x + rightist.widget.width
+        )
+          rightist = item
+      })
+
+      this.editBoxforWidgets.forEach((item) => {
+        const d =
+          rightist.widget.x +
+          rightist.widget.width -
+          item.widget.x -
+          item.widget.width
+        item.widget.x += d
+        item.editBox.x += d
+      })
+    }
+  }
+
+  vlerticalCenter() {
+    if (this.editBoxforWidgets.length > 1) {
+      const ref = this.editBoxforWidgets[0]
+      const refCenter = ref.widget.x + ref.widget.width / 2
+
+      this.editBoxforWidgets.forEach((item) => {
+        const itemCenter = item.widget.x + item.widget.width / 2
+        const d = refCenter - itemCenter
+        item.widget.x += d
+        item.editBox.x += d
+      })
+    }
+  }
+
+  vlerticalDistributeCenter() {
+    if (this.editBoxforWidgets.length > 2) {
+      const sorted = this.editBoxforWidgets.sort(
+        (p, c) => p.widget.x - c.widget.x,
+      )
+      const firstIndex = 0
+      const lastIndex = sorted.length - 1
+
+      const fill = sorted.reduce((p, c, index) => {
+        if (index !== firstIndex && index !== lastIndex) {
+          return p + c.widget.width
+        } else return p
+      }, 0)
+
+      const itemFirst = sorted[firstIndex].widget.x
+      const itemLast = sorted[lastIndex].widget.x
+      const space =
+        (itemLast - itemFirst - sorted[firstIndex].widget.width - fill) /
+        (sorted.length - 1)
+      let sum = 0
+
+      sorted.forEach((item, index) => {
+        item.widget.x = itemFirst + sum + index * space
+        item.editBox.x = itemFirst + sum + index * space
+        sum += item.widget.width
+      })
+    }
+  }
+
+  horizontalTop() {
+    if (this.editBoxforWidgets.length > 1) {
+      let leftist = this.editBoxforWidgets[0]
+      this.editBoxforWidgets.forEach((item) => {
+        if (item.widget.y < leftist.widget.y) leftist = item
+      })
+
+      this.editBoxforWidgets.forEach((item) => {
+        item.widget.y = leftist.widget.y
+        item.editBox.y = leftist.editBox.y
+      })
+    }
+  }
+
+  horizontalBottom() {
+    if (this.editBoxforWidgets.length > 1) {
+      let rightist = this.editBoxforWidgets[0]
+      this.editBoxforWidgets.forEach((item) => {
+        if (
+          item.widget.y + item.widget.height >
+          rightist.widget.y + rightist.widget.height
+        )
+          rightist = item
+      })
+
+      this.editBoxforWidgets.forEach((item) => {
+        const d =
+          rightist.widget.y +
+          rightist.widget.height -
+          item.widget.y -
+          item.widget.height
+        item.widget.y += d
+        item.editBox.y += d
+      })
+    }
+  }
+
+  horizontalCenter() {
+    if (this.editBoxforWidgets.length > 1) {
+      const ref = this.editBoxforWidgets[0]
+      const refCenter = ref.widget.y + ref.widget.height / 2
+
+      this.editBoxforWidgets.forEach((item) => {
+        const itemCenter = item.widget.y + item.widget.height / 2
+        const d = refCenter - itemCenter
+        item.widget.y += d
+        item.editBox.y += d
+      })
+    }
+  }
+
+  horizontalDistributeCenter() {
+    if (this.editBoxforWidgets.length > 2) {
+      const sorted = this.editBoxforWidgets.sort(
+        (p, c) => p.widget.y - c.widget.y,
+      )
+      const firstIndex = 0
+      const lastIndex = sorted.length - 1
+
+      const fill = sorted.reduce((p, c, index) => {
+        if (index !== firstIndex && index !== lastIndex) {
+          return p + c.widget.height
+        } else return p
+      }, 0)
+
+      const itemFirst = sorted[firstIndex].widget.y
+      const itemLast = sorted[lastIndex].widget.y
+      const space =
+        (itemLast - itemFirst - sorted[firstIndex].widget.height - fill) /
+        (sorted.length - 1)
+      let sum = 0
+
+      sorted.forEach((item, index) => {
+        item.widget.y = itemFirst + sum + index * space
+        item.editBox.y = itemFirst + sum + index * space
+        sum += item.widget.height
+      })
+    }
+  }
+
   swap(indexA: number, indexB: number) {
     ;[[this.widgets[indexA]], [this.widgets[indexB]]] = [
       [this.widgets[indexB]],
