@@ -105,6 +105,10 @@ export class MenuJson extends HTMLDivElement {
       )
         this.open = false
     })
+
+    document.addEventListener("keyup", (e: KeyboardEvent) => {
+      if (e.code === "Escape") this.open = false
+    })
   }
 
   init() {

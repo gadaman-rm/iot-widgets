@@ -1,5 +1,5 @@
 import { defineConfig } from "vite"
-import dts from "vite-plugin-dts"
+// import dts from "vite-plugin-dts"
 import { libInjectCss } from "vite-plugin-lib-inject-css"
 import path from "path"
 import { cpSync } from "fs"
@@ -34,10 +34,10 @@ export default defineConfig({
       configFile: true,
     }),
     libInjectCss(),
-    dts({
-      exclude: ["src/main.ts"],
-      rollupTypes: true,
-    }),
+    // dts({
+    //   exclude: ["src/main.ts"],
+    //   rollupTypes: true,
+    // }),
     {
       name: "theme-config",
       closeBundle: async () => {
