@@ -1,5 +1,9 @@
 # @gadaco/iot-widgets
-A collection of web components that make your life better.
+
+[![Published on npm](https://img.shields.io/npm/v/@gadaco/iot-widgets)](https://www.npmjs.com/package/@gadaco/iot-widgets)
+
+A collection of web components that make your life less painful.
+
 ## Install
 ```bash
 npm install @gadaco/iot-widgets

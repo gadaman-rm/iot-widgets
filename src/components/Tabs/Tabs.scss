@@ -1,12 +1,12 @@
 :host {
-  --tab-color: #fff;
-  --tab-select-color: #782890;
-  --tab-size: 3rem;
-  --tab-item-size: 3rem;
-  --tab-margin-start: 0rem;
-  --tab-margin-end: 0rem;
-  --tab-offset: 0px;
-  --tab-z-index: 0;
+  --tab-color: var(--g-tab-color, #fff);
+  --tab-select-color: var(--g-tab-select-color, #782890);
+  --tab-size: var(--g-tab-size, 3rem);
+  --tab-item-size: var(--g-tab-item-size, 3rem);
+  --tab-margin-start: var(--g-tab-margin-start, 0px);
+  --tab-margin-end: var(--g-tab-margin-end, 0rem);
+  --tab-offset: var(--g-tab-offset, 0px);
+  --tab-z-index: var(--g-tab-z-index, 0);
 }
 
 .tab {

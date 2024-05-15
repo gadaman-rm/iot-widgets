@@ -3,8 +3,8 @@ import {
   BASE_CHILDREN_ATTRIBUTES,
   BaseChildren,
 } from "../../_helper/BaseChildren"
-import htmlText from "./Tab.html?raw"
-import cssText from "./Tab.scss?inline"
+import htmlText from "./Tabs.html?raw"
+import cssText from "./Tabs.scss?inline"
 import { htmlRoot } from "../../_helper"
 
 export interface TabOnSelectEvent extends MouseEvent {
@@ -16,10 +16,10 @@ export interface TabOnSelectEvent extends MouseEvent {
 const template = document.createElement("template")
 template.innerHTML = `<style>${cssText}</style>${htmlText}`
 
-const TAG_NAME = `g-tab`
+const TAG_NAME = `g-tabs`
 const ATTRIBUTES = ["tab", "size", "item-size", "anchor"] as const
 const CHILDREN_ATTRIBUTES = ["aria-selected"] as const
-export class Tab extends BaseChildren {
+export class Tabs extends BaseChildren {
   item?: HTMLDivElement[]
   rootRef: HTMLDivElement
   slotRefs: Map<string, HTMLSlotElement> = new Map()
@@ -173,4 +173,4 @@ export class Tab extends BaseChildren {
   }
 }
 
-customElements.define(TAG_NAME, Tab, { extends: "div" })
+customElements.define(TAG_NAME, Tabs, { extends: "div" })

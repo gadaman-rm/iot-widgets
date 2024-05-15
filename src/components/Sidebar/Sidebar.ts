@@ -4,7 +4,7 @@ import {
 } from "../../_helper/BaseChildren"
 import html from "./Sidebar.html?raw"
 import style from "./Sidebar.scss?inline"
-import { Drawer, Tab } from "../components"
+import { Drawer, Tabs } from "../components"
 import { DOM_READY_TIME } from "../../config"
 import { createSlot } from "../../_helper"
 
@@ -14,7 +14,7 @@ template.innerHTML = `<style>${style}</style>${html}`
 const TAG_NAME = `g-sidebar`
 const ATTRIBUTES = ["tab", "anchor"] as const
 export class Sidebar extends BaseChildren {
-  menuRef: Tab
+  menuRef: Tabs
   menuSlotRefs: Map<string, HTMLSlotElement> = new Map()
   panelRef: Drawer
   panelSlotRef: HTMLSlotElement

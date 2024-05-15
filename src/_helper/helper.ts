@@ -27,7 +27,10 @@ export const html = (strings: TemplateStringsArray, ...args: any[]) => {
   return div
 }
 
-export const htmlRoot = (strings: TemplateStringsArray, ...args: any[]) => {
+export const htmlRoot = <T = Element>(
+  strings: TemplateStringsArray,
+  ...args: any[]
+) => {
   let str = ""
   const div = document.createElement("div")
   strings.raw.forEach((strItem, strIndex) => {
@@ -36,7 +39,7 @@ export const htmlRoot = (strings: TemplateStringsArray, ...args: any[]) => {
     if (argItem) str += String(args[strIndex])
   })
   div.innerHTML = str
-  return div.firstElementChild!
+  return div.firstElementChild! as T
 }
 
 export const htmlList = (strings: TemplateStringsArray, ...args: any[]) => {
