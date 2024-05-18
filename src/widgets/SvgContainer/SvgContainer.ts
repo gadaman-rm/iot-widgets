@@ -219,7 +219,7 @@ export class SvgContainer extends HTMLDivElement {
     }
   }
 
-  vlerticalLeft() {
+  verticalLeft() {
     if (this.editBoxforWidgets.length > 1) {
       let leftist = this.editBoxforWidgets[0]
       this.editBoxforWidgets.forEach((item) => {
@@ -233,7 +233,7 @@ export class SvgContainer extends HTMLDivElement {
     }
   }
 
-  vlerticalRight() {
+  verticalRight() {
     if (this.editBoxforWidgets.length > 1) {
       let rightist = this.editBoxforWidgets[0]
       this.editBoxforWidgets.forEach((item) => {
@@ -256,7 +256,7 @@ export class SvgContainer extends HTMLDivElement {
     }
   }
 
-  vlerticalCenter() {
+  verticalCenter() {
     if (this.editBoxforWidgets.length > 1) {
       const ref = this.editBoxforWidgets[0]
       const refCenter = ref.widget.x + ref.widget.width / 2
@@ -270,7 +270,7 @@ export class SvgContainer extends HTMLDivElement {
     }
   }
 
-  vlerticalDistributeCenter() {
+  verticalDistributeCenter() {
     if (this.editBoxforWidgets.length > 2) {
       const sorted = this.editBoxforWidgets.sort(
         (p, c) => p.widget.x - c.widget.x,
