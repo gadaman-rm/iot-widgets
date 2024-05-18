@@ -1,6 +1,6 @@
 import { EditBox, IWidgets } from ".."
 import { moveToIndex } from "../../_helper"
-import { Transform } from "../../math/matrix"
+import { Transform, toTransformBox } from "../../math/matrix"
 import { Point } from "../../math/point"
 import html from "./SvgContainer.html?raw"
 import style from "./SvgContainer.scss?inline"
@@ -377,6 +377,40 @@ export class SvgContainer extends HTMLDivElement {
         sum += item.widget.height
       })
     }
+  }
+
+  widgetsInBox(start: Point, end: Point) {
+    return this.widgets.filter((item) => {
+      if (item.getAttribute("is") !== "g-editbox") {
+        const { tl, tr, br, bl } = toTransformBox(
+          item.x,
+          item.y,
+          item.width,
+          item.height,
+          -item.rotate,
+        )
+
+        if (
+          tl.x >= start.x &&
+          tl.y >= start.y &&
+          tl.x <= end.x &&
+          tl.y <= end.y &&
+          tr.x >= start.x &&
+          tr.y >= start.y &&
+          tr.x <= end.x &&
+          tr.y <= end.y &&
+          br.x >= start.x &&
+          br.y >= start.y &&
+          br.x <= end.x &&
+          br.y <= end.y &&
+          bl.x >= start.x &&
+          bl.y >= start.y &&
+          bl.x <= end.x &&
+          bl.y <= end.y
+        )
+          return item
+      }
+    })
   }
 
   swap(indexA: number, indexB: number) {
