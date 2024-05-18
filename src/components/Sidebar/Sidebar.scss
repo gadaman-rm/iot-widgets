@@ -6,6 +6,7 @@
   --sidebar-tab-item-size: var(--g-sidebar-tab-item-size, 3rem);
   --sidebar-tab-offset: var(--g-sidebar-tab-offset, 0px);
   --sidebar-tab-color: var(--g-sidebar-tab-color, #fff);
+  --sidebar-tab-on-color: var(--g-sidebar-tab-on-color, #fff);
   --sidebar-tab-select-color: var(--g-sidebar-tab-select-color, #782890);
   --sidebar-tab-z-index: var(--g-sidebar-tab-z-index, 1);
 
@@ -22,6 +23,7 @@
   --tab-margin-start: var(--sidebar-margin-start);
   --tab-margin-end: var(--sidebar-margin-end);
   --tab-color: var(--sidebar-tab-color);
+  --tab-on-color: var(--sidebar-tab-on-color);
   --tab-select-color: var(--sidebar-tab-select-color);
   --tab-item-size: var(--sidebar-tab-item-size);
   --tab-offset: var(--sidebar-tab-offset);

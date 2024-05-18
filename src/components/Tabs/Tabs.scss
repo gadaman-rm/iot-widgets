@@ -1,12 +1,20 @@
 :host {
-  --tab-color: var(--g-tab-color, #fff);
-  --tab-select-color: var(--g-tab-select-color, #782890);
+  --tab-color: var(--g-tab-color, #42424a);
+  --tab-on-color: var(--g-tab-on-color, #fff);
+  --tab-select-color: var(--g-tab-select-color, #d0bcff);
   --tab-size: var(--g-tab-size, 3rem);
-  --tab-item-size: var(--g-tab-item-size, 3rem);
+  --tab-item-size: var(--g-tab-item-size, 3.75rem);
+  --tab-item-gap: var(--g-tab-item-gap, 0.1rem);
   --tab-margin-start: var(--g-tab-margin-start, 0px);
   --tab-margin-end: var(--g-tab-margin-end, 0rem);
   --tab-offset: var(--g-tab-offset, 0px);
   --tab-z-index: var(--g-tab-z-index, 0);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tab-item-gap);
 }
 
 .tab {
@@ -93,7 +101,17 @@
   width: var(--tab-item-size);
 }
 
+::slotted([aria-selected="false"]) {
+  fill: var(--tab-on-color) !important;
+  width: var(--tab-item-size);
+  height: var(--tab-item-size);
+  margin-inline: auto !important;
+}
+
 ::slotted([aria-selected="true"]) {
-  fill: var(--tab-color) !important;
+  fill: var(--tab-on-color) !important;
+  width: var(--tab-item-size);
+  height: var(--tab-item-size);
+  margin-inline: auto !important;
   background-color: var(--tab-select-color) !important;
 }

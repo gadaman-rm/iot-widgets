@@ -5,7 +5,7 @@ import {
 } from "../../_helper/BaseChildren"
 import htmlText from "./Tabs.html?raw"
 import cssText from "./Tabs.scss?inline"
-import { htmlRoot } from "../../_helper"
+import { boolToStr, htmlRoot, strToBool } from "../../_helper"
 
 export interface TabOnSelectEvent extends MouseEvent {
   param: {
@@ -17,7 +17,7 @@ const template = document.createElement("template")
 template.innerHTML = `<style>${cssText}</style>${htmlText}`
 
 const TAG_NAME = `g-tabs`
-const ATTRIBUTES = ["tab", "size", "item-size", "anchor"] as const
+const ATTRIBUTES = ["ripple", "tab", "size", "item-size", "anchor"] as const
 const CHILDREN_ATTRIBUTES = ["aria-selected"] as const
 export class Tabs extends BaseChildren {
   item?: HTMLDivElement[]
@@ -33,6 +33,13 @@ export class Tabs extends BaseChildren {
   constructor() {
     super(template, TAG_NAME)
     this.rootRef = this.shadowRoot!.querySelector("#root")!
+  }
+
+  public get ripple() {
+    return strToBool(this.getAttribute("ripple"))
+  }
+  public set ripple(ripple: boolean) {
+    this.setAttribute("ripple", boolToStr(ripple))
   }
 
   public get tab() {
@@ -76,14 +83,14 @@ export class Tabs extends BaseChildren {
         item.setAttribute("aria-selected", "false")
       if (role) {
         this.rootRef.appendChild(
-          htmlRoot`<div class="item" key="${role}"><md-ripple></md-ripple><slot id="${role}" name="${role}"></slot></div>`,
+          htmlRoot`<div class="item" key="${role}">${this.ripple ? "<md-ripple></md-ripple>" : ""}<slot id="${role}" name="${role}"></slot></div>`,
         )
         const slotRef = this.shadowRoot!.querySelector<HTMLSlotElement>(
           `#${role}`,
         )!
         slotRef.assign(item)
         item.addEventListener("click", ((e: TabOnSelectEvent) => {
-          if (role) {
+          if (role && this.tab !== role) {
             e.param = { role }
             this.tab = role
             if (this.#onChange) this.#onChange(e)
