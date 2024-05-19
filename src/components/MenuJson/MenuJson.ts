@@ -231,48 +231,51 @@ export class MenuJson extends HTMLDivElement {
       const cmWidth = this.rootRef.offsetWidth
       const cmHeight = this.rootRef.offsetHeight
 
-      const subMenu1 =
-        this.shadowRoot!.querySelector<HTMLUListElement>(".item-sub .menu")
-      const subMenu2 = this.shadowRoot!.querySelector<HTMLUListElement>(
-        ".item-sub .menu .item-sub .menu",
-      )
+      this.shadowRoot!.querySelectorAll<HTMLUListElement>(
+        ".content > .menu > .item-sub > .menu",
+      ).forEach((item) => {
+        const subMenu = item?.querySelector<HTMLUListElement>(
+          ".item-sub .menu .item-sub .menu",
+        )
 
-      if (subMenu1) {
-        const sub1Width = subMenu1.offsetWidth
-        const sub1Height = subMenu1.offsetHeight
-        x + cmWidth + sub1Width > winWidth
-          ? (subMenu1.style.insetInlineStart =
-              "calc(0px - var(--menu-sub-width))")
-          : (subMenu1.style.insetInlineStart = "var(--menu-width)")
+        if (item) {
+          const menuWidth = item.offsetWidth
+          const menuHeight = item.offsetHeight
 
-        if (y + cmHeight + sub1Height > winHeight) {
-          subMenu1.style.insetBlockStart = "auto"
-          subMenu1.style.insetBlockEnd = "0px"
-        } else {
-          subMenu1.style.insetBlockStart = "0px"
-          subMenu1.style.insetBlockEnd = "auto"
+          x + cmWidth + menuWidth > winWidth
+            ? (item.style.insetInlineStart =
+                "calc(0px - var(--menu-sub-width))")
+            : (item.style.insetInlineStart = "var(--menu-width)")
+
+          if (y + cmHeight + menuHeight > winHeight) {
+            item.style.insetBlockStart = "auto"
+            item.style.insetBlockEnd = "0px"
+          } else {
+            item.style.insetBlockStart = "0px"
+            item.style.insetBlockEnd = "auto"
+          }
         }
-      }
 
-      if (subMenu1 && subMenu2) {
-        const sub1Width = subMenu1.offsetWidth
-        const sub1Height = subMenu1.offsetHeight
-        const sub2Width = subMenu2.offsetWidth
-        const sub2Height = subMenu2.offsetHeight
+        if (item && subMenu) {
+          const menuWidth = item.offsetWidth
+          const menuHeight = item.offsetHeight
+          const subWidth = subMenu.offsetWidth
+          const subHeight = subMenu.offsetHeight
 
-        x + cmWidth + sub1Width + sub2Width > winWidth
-          ? (subMenu2.style.insetInlineStart =
-              " calc(0px - var(--menu-sub-width))")
-          : (subMenu2.style.insetInlineStart = "var(--menu-sub-width)")
+          x + cmWidth + menuWidth + subWidth > winWidth
+            ? (subMenu.style.insetInlineStart =
+                "calc(0px - var(--menu-sub-width))")
+            : (subMenu.style.insetInlineStart = "var(--menu-sub-width)")
 
-        if (y + cmHeight + sub1Height + sub2Height > winHeight) {
-          subMenu2.style.insetBlockStart = "auto"
-          subMenu2.style.insetBlockEnd = "0px"
-        } else {
-          subMenu2.style.insetBlockStart = "0px"
-          subMenu2.style.insetBlockEnd = "auto"
+          if (y + cmHeight + menuHeight + subHeight > winHeight) {
+            subMenu.style.insetBlockStart = "auto"
+            subMenu.style.insetBlockEnd = "0px"
+          } else {
+            subMenu.style.insetBlockStart = "0px"
+            subMenu.style.insetBlockEnd = "auto"
+          }
         }
-      }
+      })
 
       this.x = x + cmWidth + 5 > winWidth ? Math.abs(cmWidth - x) : x
       this.y = y + cmHeight + 5 > winHeight ? Math.abs(cmHeight - y) : y
