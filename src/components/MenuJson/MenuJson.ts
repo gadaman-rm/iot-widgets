@@ -36,7 +36,16 @@ export interface MenuJsonSelectEvent {
 }
 
 const TAG_MenuJson = `g-menu-json`
-const ATTRIBUTES = ["id", "x", "y", "open"] as const
+const ATTRIBUTES = [
+  "id",
+  "top-offset",
+  "right-offset",
+  "buttom-offset",
+  "left-offset",
+  "x",
+  "y",
+  "open",
+] as const
 export class MenuJson extends HTMLDivElement {
   initAttribute(name: string, defaultValue: string) {
     if (!this.attributes.getNamedItem(name))
@@ -117,6 +126,10 @@ export class MenuJson extends HTMLDivElement {
   }
 
   initAttr() {
+    this.initAttribute("top-offset", "0")
+    this.initAttribute("right-offset", "0")
+    this.initAttribute("buttom-offset", "0")
+    this.initAttribute("left-offset", "0")
     this.initAttribute("x", "0")
     this.initAttribute("y", "0")
   }
@@ -134,6 +147,34 @@ export class MenuJson extends HTMLDivElement {
   }
   public set id(id: string) {
     this.setAttribute("id", id)
+  }
+
+  public get topOffset() {
+    return +this.getAttribute("top-offset")!
+  }
+  public set topOffset(x: number) {
+    this.setAttribute("top-offset", x.toString())
+  }
+
+  public get rightOffset() {
+    return +this.getAttribute("right-offset")!
+  }
+  public set rightOffset(x: number) {
+    this.setAttribute("right-offset", x.toString())
+  }
+
+  public get buttomOffset() {
+    return +this.getAttribute("buttom-offset")!
+  }
+  public set buttomOffset(x: number) {
+    this.setAttribute("buttom-offset", x.toString())
+  }
+
+  public get leftOffset() {
+    return +this.getAttribute("left-offset")!
+  }
+  public set leftOffset(x: number) {
+    this.setAttribute("left-offset", x.toString())
   }
 
   public get x() {
@@ -226,10 +267,21 @@ export class MenuJson extends HTMLDivElement {
       e.preventDefault()
       const x = e.x
       const y = e.y
+
       const winWidth = window.innerWidth
       const winHeight = window.innerHeight
       const cmWidth = this.rootRef.offsetWidth
       const cmHeight = this.rootRef.offsetHeight
+
+      this.x =
+        x + cmWidth + 5 > winWidth - this.rightOffset
+          ? Math.abs(cmWidth - x)
+          : x
+      this.y =
+        y + cmHeight + 5 > winHeight - this.buttomOffset
+          ? Math.abs(cmHeight - y)
+          : y
+      this.open = true
 
       this.shadowRoot!.querySelectorAll<HTMLUListElement>(
         ".content > .menu > .item-sub > .menu",
@@ -238,21 +290,33 @@ export class MenuJson extends HTMLDivElement {
           ".item-sub .menu .item-sub .menu",
         )
 
+        const itemPosition: {
+          horizontal: "left" | "right"
+          vertical: "top" | "buttom"
+        } = {
+          horizontal: "right",
+          vertical: "buttom",
+        }
         if (item) {
           const menuWidth = item.offsetWidth
           const menuHeight = item.offsetHeight
 
-          x + cmWidth + menuWidth > winWidth
-            ? (item.style.insetInlineStart =
-                "calc(0px - var(--menu-sub-width))")
-            : (item.style.insetInlineStart = "var(--menu-width)")
+          if (x + cmWidth + menuWidth > winWidth - this.rightOffset) {
+            item.style.insetInlineStart = "calc(0px - var(--menu-sub-width))"
+            itemPosition.horizontal = "left"
+          } else {
+            item.style.insetInlineStart = "var(--menu-width)"
+            itemPosition.horizontal = "right"
+          }
 
-          if (y + cmHeight + menuHeight > winHeight) {
+          if (y + cmHeight + menuHeight > winHeight - this.buttomOffset) {
             item.style.insetBlockStart = "auto"
             item.style.insetBlockEnd = "0px"
+            itemPosition.vertical = "top"
           } else {
             item.style.insetBlockStart = "0px"
             item.style.insetBlockEnd = "auto"
+            itemPosition.vertical = "buttom"
           }
         }
 
@@ -262,25 +326,45 @@ export class MenuJson extends HTMLDivElement {
           const subWidth = subMenu.offsetWidth
           const subHeight = subMenu.offsetHeight
 
-          x + cmWidth + menuWidth + subWidth > winWidth
-            ? (subMenu.style.insetInlineStart =
-                "calc(0px - var(--menu-sub-width))")
-            : (subMenu.style.insetInlineStart = "var(--menu-sub-width)")
-
-          if (y + cmHeight + menuHeight + subHeight > winHeight) {
-            subMenu.style.insetBlockStart = "auto"
-            subMenu.style.insetBlockEnd = "0px"
+          if (itemPosition.horizontal === "left") {
+            if (x - this.leftOffset - 2 * subWidth > subWidth)
+              subMenu.style.insetInlineStart =
+                "calc(0px - var(--menu-sub-width))"
+            else subMenu.style.insetInlineStart = "var(--menu-sub-width)"
           } else {
-            subMenu.style.insetBlockStart = "0px"
-            subMenu.style.insetBlockEnd = "auto"
+            if (
+              x + cmWidth + menuWidth + subWidth >
+              winWidth - this.rightOffset
+            ) {
+              subMenu.style.insetInlineStart =
+                "calc(0px - var(--menu-sub-width))"
+            } else {
+              subMenu.style.insetInlineStart = "var(--menu-sub-width)"
+            }
+          }
+
+          if (itemPosition.vertical === "top") {
+            if (y - this.topOffset - 2 * subHeight > subHeight) {
+              subMenu.style.insetBlockStart = "auto"
+              subMenu.style.insetBlockEnd = "0px"
+            } else {
+              subMenu.style.insetBlockStart = "0px"
+              subMenu.style.insetBlockEnd = "auto"
+            }
+          } else {
+            if (
+              y + cmHeight + menuHeight + subHeight >
+              winHeight - this.buttomOffset
+            ) {
+              subMenu.style.insetBlockStart = "auto"
+              subMenu.style.insetBlockEnd = "0px"
+            } else {
+              subMenu.style.insetBlockStart = "0px"
+              subMenu.style.insetBlockEnd = "auto"
+            }
           }
         }
       })
-
-      this.x = x + cmWidth + 5 > winWidth ? Math.abs(cmWidth - x) : x
-      this.y = y + cmHeight + 5 > winHeight ? Math.abs(cmHeight - y) : y
-
-      this.open = true
     })
   }
   disconnectedCallback() {
@@ -307,9 +391,7 @@ export class MenuJson extends HTMLDivElement {
     }
   }
 
-  idUpdate(oldId: string, newId: string) {
-    console.log(oldId, newId)
-  }
+  idUpdate(oldId: string, newId: string) {}
 
   xUpdate(oldX: number, newX: number) {
     this.rootRef.style.insetInlineStart = `${newX}px`

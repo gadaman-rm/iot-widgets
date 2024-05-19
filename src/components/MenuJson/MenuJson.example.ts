@@ -1,10 +1,19 @@
 import { MenuJson } from "./MenuJson"
+import "./MenuJson.example.scss"
 
 document.body.innerHTML = `
-<div is="g-menu-json">
-</div>
+<div is="g-menu-json"></div>
+<div class="to"></div>
+<div class="ro"></div>
+<div class="bo"></div>
+<div class="lo"></div>
 `
 const elem = document.querySelector<MenuJson>(`div[is="g-menu-json"]`)!
+
+elem.topOffset = 50
+elem.rightOffset = 100
+elem.buttomOffset = 80
+elem.leftOffset = 70
 
 elem.items = [
   {

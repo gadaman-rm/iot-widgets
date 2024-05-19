@@ -1,0 +1,35 @@
+.to {
+  position: fixed;
+  inset-inline-start: 0px;
+  inset-block-start: 0px;
+  width: 100%;
+  height: 50px;
+  background-color: #666;
+}
+
+.ro {
+  position: fixed;
+  inset-inline-end: 0px;
+  inset-block-start: 0px;
+  width: 100px;
+  height: 100%;
+  background-color: #444;
+}
+
+.bo {
+  position: fixed;
+  inset-inline-start: 0px;
+  inset-block-end: 0px;
+  width: 100%;
+  height: 80px;
+  background-color: #666;
+}
+
+.lo {
+  position: fixed;
+  inset-inline-start: 0px;
+  inset-block-start: 0px;
+  width: 70px;
+  height: 100%;
+  background-color: #444;
+}
