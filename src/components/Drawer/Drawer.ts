@@ -7,6 +7,10 @@ import style from "./Drawer.scss?inline"
 const template = document.createElement("template")
 template.innerHTML = `<style>${style}</style>${html}`
 
+export interface DrawerChangeEvent {
+  size: number
+}
+
 export const DRAWER_ATTRIBUTES = [
   "id",
   "open",
@@ -23,6 +27,7 @@ export class Drawer extends HTMLDivElement {
   rootRef: HTMLDivElement
   resizerRef: HTMLDivElement
   dragListener!: DragListener<{ animation: boolean }>
+  drawerChangeEvent: CustomEvent<DrawerChangeEvent>
   constructor() {
     super()
     this.attachShadow({ mode: "open" })
@@ -36,6 +41,13 @@ export class Drawer extends HTMLDivElement {
         this.rootRef.classList.add("drawer--animation")
       else this.rootRef.classList.remove("drawer--animation")
     }, DOM_READY_TIME)
+
+    this.drawerChangeEvent = new CustomEvent<DrawerChangeEvent>(
+      "drawer-change",
+      {
+        detail: { size: 0 },
+      },
+    )
   }
 
   public get id() {
@@ -169,6 +181,8 @@ export class Drawer extends HTMLDivElement {
     this.style.setProperty("--drawer-offset", `${newSize}px`)
   }
   sizeUpdate(oldsize: number, newSize: number) {
+    this.drawerChangeEvent.detail.size = newSize
+    this.dispatchEvent(this.drawerChangeEvent)
     if (this.anchor === "left" || this.anchor === "right") {
       this.style.setProperty("--drawer-width", `${newSize}px`)
     }
@@ -201,6 +215,23 @@ export class Drawer extends HTMLDivElement {
     }
     if (this.size) this.size = this.size
   }
+
+  // @ts-ignore: Unreachable code error
+  addEventListener<K extends keyof CustomElementEventMap>(
+    type: K,
+    listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  // @ts-ignore: Unreachable code error
+  removeEventListener<K extends keyof CustomElementEventMap>(
+    type: K,
+    listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any,
+    options?: boolean | EventListenerOptions,
+  ): void
+}
+
+interface CustomElementEventMap extends HTMLElementEventMap {
+  "drawer-change": { detail: DrawerChangeEvent }
 }
 
 customElements.define("g-drawer", Drawer, { extends: "div" })

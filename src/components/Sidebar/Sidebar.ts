@@ -11,6 +11,11 @@ import { createSlot } from "../../_helper"
 const template = document.createElement("template")
 template.innerHTML = `<style>${style}</style>${html}`
 
+export interface SidebarChangeEvent {
+  id?: string | null
+  size: number
+}
+
 const TAG_NAME = `g-sidebar`
 const ATTRIBUTES = ["tab", "anchor"] as const
 export class Sidebar extends BaseChildren {
@@ -20,6 +25,7 @@ export class Sidebar extends BaseChildren {
   panelSlotRef: HTMLSlotElement
   panelSlotRefs: Map<string, HTMLSlotElement> = new Map()
   item?: HTMLDivElement[]
+  sidebarChangeEvent: CustomEvent<SidebarChangeEvent>
   static get observedAttributes() {
     return [...BASE_CHILDREN_ATTRIBUTES, ...ATTRIBUTES]
   }
@@ -30,6 +36,18 @@ export class Sidebar extends BaseChildren {
     this.panelSlotRef = this.shadowRoot!.querySelector("#panel-slot")!
     const anchor = this.attributes.getNamedItem("anchor")?.value
     const tab = this.attributes.getNamedItem("tab")?.value
+    this.sidebarChangeEvent = new CustomEvent<SidebarChangeEvent>(
+      "sidebar-change",
+      {
+        detail: {
+          id: tab,
+          size: parseFloat(
+            getComputedStyle(this).getPropertyValue("--sidebar-size"),
+          ),
+        },
+      },
+    )
+
     if (!anchor) {
       const defultAnchor = "right"
       this.setAttribute("anchor", defultAnchor)
@@ -93,6 +111,13 @@ export class Sidebar extends BaseChildren {
       this.menuRef.onChange = (e) => {
         this.tab = e.param.role
       }
+      this.panelRef.addEventListener("drawer-change", (e) => {
+        this.sidebarChangeEvent.detail.size =
+          e.detail.size +
+          parseFloat(getComputedStyle(this).getPropertyValue("--sidebar-size"))
+        this.sidebarChangeEvent.detail.id = this.tab
+        this.dispatchEvent(this.sidebarChangeEvent)
+      })
     }, DOM_READY_TIME)
   }
 
@@ -111,9 +136,23 @@ export class Sidebar extends BaseChildren {
     }
   }
 
-  tabUpdate(oldTab: string, newTab: string) {
+  tabUpdate(oldTab: string | null, newTab: string | null) {
+    if (newTab === null)
+      this.sidebarChangeEvent.detail.size = parseFloat(
+        getComputedStyle(this).getPropertyValue("--sidebar-size"),
+      )
+    else
+      this.sidebarChangeEvent.detail.size =
+        parseFloat(
+          getComputedStyle(this).getPropertyValue("--sidebar-panel-width"),
+        ) +
+        parseFloat(getComputedStyle(this).getPropertyValue("--sidebar-size"))
+
+    this.sidebarChangeEvent.detail.id = newTab
+    this.dispatchEvent(this.sidebarChangeEvent)
+
     setTimeout(() => {
-      this.menuRef.setAttribute("tab", newTab)
+      this.menuRef.setAttribute("tab", newTab as any)
       if (this.select(newTab)) this.panelRef.setAttribute("open", "true")
       else this.panelRef.setAttribute("open", "false")
     }, DOM_READY_TIME)
@@ -153,6 +192,23 @@ export class Sidebar extends BaseChildren {
     // this.removeAttribute('tab')
     // this.menuRef.close()
   }
+
+  // @ts-ignore: Unreachable code error
+  addEventListener<K extends keyof CustomElementEventMap>(
+    type: K,
+    listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  // @ts-ignore: Unreachable code error
+  removeEventListener<K extends keyof CustomElementEventMap>(
+    type: K,
+    listener: (this: HTMLDivElement, ev: CustomElementEventMap[K]) => any,
+    options?: boolean | EventListenerOptions,
+  ): void
+}
+
+interface CustomElementEventMap extends HTMLElementEventMap {
+  "sidebar-change": { detail: SidebarChangeEvent }
 }
 
 customElements.define(TAG_NAME, Sidebar, { extends: "div" })
