@@ -41,7 +41,20 @@ export class Row extends BaseSvg {
   containerRef: SVGForeignObjectElement
   headerRef: HTMLDivElement
 
-  #items: RowItem[] = []
+  #items: RowItem[] = [
+    {
+      text: "عملیات",
+    },
+    {
+      text: "ورژن",
+    },
+    {
+      text: "نام",
+    },
+    {
+      text: "کد",
+    },
+  ]
   constructor() {
     super({ template, width: 200, height: 200 })
     this.setAttribute("is", TAG_CustomTableHeader)
@@ -50,6 +63,7 @@ export class Row extends BaseSvg {
     this.loadEvent = new CustomEvent<RowLoadedEvent>("widget-loaded", {
       detail: { loaded: false },
     })
+    this.rander()
   }
 
   public get items() {
