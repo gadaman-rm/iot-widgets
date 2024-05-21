@@ -8,7 +8,8 @@ import "@material/web/ripple/ripple"
 
 // examples
 // import "./components/Tabs/Tab.example"
-import "./components/MenuJson/MenuJson.example"
+// import "./components/MenuJson/MenuJson.example"
+import "./widgets/Row/Row.example"
 
 // test.innerHTML = `
 // <div id="menu" is="g-menu" open>

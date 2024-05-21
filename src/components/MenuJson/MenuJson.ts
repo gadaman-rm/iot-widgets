@@ -9,7 +9,7 @@ export interface MenuJsonLoadedEvent {
   loaded: Boolean
 }
 
-export interface Item {
+export interface MenuJsonSimpleItem {
   type: "item"
   id: string
   text: string
@@ -18,18 +18,21 @@ export interface Item {
   disable?: boolean
 }
 
-export interface SubItem {
+export interface MenuJsonSubItem {
   type: "sub-item"
   text: string
   icon: string
   menuJsonItems: MenuJsonItem[]
 }
 
-export interface Divider {
+export interface MenuJsonDivider {
   type: "divider"
 }
 
-export type MenuJsonItem = Item | SubItem | Divider
+export type MenuJsonItem =
+  | MenuJsonSimpleItem
+  | MenuJsonSubItem
+  | MenuJsonDivider
 
 export interface MenuJsonSelectEvent {
   id?: string
