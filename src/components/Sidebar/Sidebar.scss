@@ -16,6 +16,8 @@
   --sidebar-panel-color: var(--g-sidebar-panel-color, #fff);
   --sidebar-panel-resizer-size: var(--g-sidebar-panel-resizer-size, 10px);
   --sidebar-panel-z-index: var(--g-sidebar-panel-z-index, 0);
+  --sidebar-panel-min: var(--g-sidebar-panel-min, 50px);
+  --sidebar-panel-max: var(--g-sidebar-panel-max, 500px);
 }
 
 #menu {
@@ -40,4 +42,6 @@
   --g-drawer-color: var(--sidebar-panel-color);
   --g-drawer-resizer-size: var(--sidebar-panel-resizer-size);
   --g-drawer-z-index: var(--sidebar-panel-z-index);
+  --g-drawer-min: var(--sidebar-panel-min);
+  --g-drawer-max: var(--sidebar-panel-max);
 }
