@@ -1,6 +1,6 @@
 import html from "./Button.html?raw"
 import style from "./Button.scss?inline"
-import { MDCRipple } from "@material/ripple/index"
+import { MDCRipple } from "@material/ripple"
 
 const template = document.createElement("template")
 template.innerHTML = `<style>${style}</style>${html}`

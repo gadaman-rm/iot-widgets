@@ -35,8 +35,10 @@ export class {{name}} extends {{type}} {
   }
 
   connectedCallback() {
-    this.loadEvent.detail.loaded = true
-    this.dispatchEvent(this.loadEvent)
+    setTimeout(() => {
+      this.loadEvent.detail.loaded = true
+      this.dispatchEvent(this.loadEvent)
+    }, 0)
   }
   disconnectedCallback() {}
   attributeChangedCallback(

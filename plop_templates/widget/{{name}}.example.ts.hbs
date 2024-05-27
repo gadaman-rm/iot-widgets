@@ -1,0 +1,13 @@
+import { {{name}} } from "./{{name}}"
+
+document.body.innerHTML = `
+<div is="g-svg-container">
+  <main>
+   <div is="{{tag-name}}"></div>
+  </main>
+</div>
+`
+const elem = document.querySelector<{{name}}>(`div[is="{{tag-name}}"]`)!
+elem.addEventListener("widget-loaded", (e) => {
+  console.log(e.detail.loaded)
+})

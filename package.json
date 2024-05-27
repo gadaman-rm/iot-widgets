@@ -1,6 +1,6 @@
 {
   "name": "@gadaco/iot-widgets",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "type": "module",
   "description": "iot widgets",
   "repository": {
@@ -71,6 +71,7 @@
   "dependencies": {
     "@material/web": "^1.4.1",
     "material-components-web": "^14.0.0",
+    "monaco-editor": "^0.49.0",
     "uuid": "^9.0.1"
   },
   "packageManager": "yarn@4.2.2+sha512.c44e283c54e02de9d1da8687025b030078c1b9648d2895a65aab8e64225bfb7becba87e1809fc0b4b6778bbd47a1e2ab6ac647de4c5e383a53a7c17db6c3ff4b"

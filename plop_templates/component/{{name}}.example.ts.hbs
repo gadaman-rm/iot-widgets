@@ -1,0 +1,9 @@
+import { {{name}} } from "./{{name}}"
+
+document.body.innerHTML = `
+<div is="{{tag-name}}"></div>
+`
+const elem = document.querySelector<{{name}}>(`div[is="{{tag-name}}"]`)!
+elem.addEventListener("component-loaded", (e) => {
+  console.log(e.detail.loaded)
+})
