@@ -38,7 +38,7 @@ export class Row extends BaseSvg {
     return [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
   }
   loadEvent: CustomEvent<RowLoadedEvent>
-  containerRef: SVGForeignObjectElement
+  containerRef?: SVGForeignObjectElement
   headerRef: HTMLDivElement
 
   #items: RowItem[] = [
@@ -133,10 +133,10 @@ ${item.icons
   }
 
   heightChange(oldHeight: number, newHeight: number): void {
-    this.containerRef.setAttribute("height", newHeight.toString())
+    this.containerRef?.setAttribute("height", newHeight.toString())
   }
   widthChange(oldWidth: number, newWidth: number): void {
-    this.containerRef.setAttribute("width", newWidth.toString())
+    this.containerRef?.setAttribute("width", newWidth.toString())
   }
 
   // @ts-ignore: Unreachable code error
