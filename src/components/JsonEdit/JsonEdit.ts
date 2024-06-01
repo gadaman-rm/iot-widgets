@@ -141,7 +141,7 @@ export class JsonEdit extends HTMLDivElement {
   }
 
   codeUpdate(oldCode: string, newCode: string) {
-    this.textRef.textContent = this.code
+    this.textRef.value = this.code
   }
 
   colsUpdate(oldRow: number, newRow: number) {

@@ -22,9 +22,5 @@ elem.code = `[
 `
 
 elem.addEventListener("json-change", (e) => {
-  // console.log(e.detail.json, elem.codeInJson())
+  console.log(e.detail.json, elem.codeInJson())
 })
-
-setTimeout(() => {
-  elem.code = "zero"
-}, 6000)
