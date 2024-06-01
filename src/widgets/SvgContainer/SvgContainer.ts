@@ -300,7 +300,7 @@ export class SvgContainer extends HTMLDivElement {
   }
 
   rowDistribute() {
-    if (this.editBoxforWidgets.length > 2) {
+    if (this.editBoxforWidgets.length > 1) {
       this.editBoxforWidgets.forEach((item, index, arr) => {
         if (index > 0) {
           item.widget.x = arr[0].widget.x
@@ -310,6 +310,33 @@ export class SvgContainer extends HTMLDivElement {
           item.editBox.y =
             arr[index - 1].widget.y + arr[index - 1].widget.height
         }
+      })
+    }
+  }
+
+  expandHeight() {
+    if (this.editBoxforWidgets.length > 1) {
+      let max = this.editBoxforWidgets[0].widget.height
+      this.editBoxforWidgets.forEach((item) => {
+        if (item.widget.height > max) max = item.widget.height
+      })
+
+      this.editBoxforWidgets.forEach((item) => {
+        item.widget.height = max
+        item.editBox.height = max
+      })
+    }
+  }
+  shrinkHeight() {
+    if (this.editBoxforWidgets.length > 1) {
+      let min = this.editBoxforWidgets[0].widget.height
+      this.editBoxforWidgets.forEach((item) => {
+        if (item.widget.height < min) min = item.widget.height
+      })
+
+      this.editBoxforWidgets.forEach((item) => {
+        item.widget.height = min
+        item.editBox.height = min
       })
     }
   }
@@ -395,7 +422,7 @@ export class SvgContainer extends HTMLDivElement {
   }
 
   columnDistribute() {
-    if (this.editBoxforWidgets.length > 2) {
+    if (this.editBoxforWidgets.length > 1) {
       this.editBoxforWidgets.forEach((item, index, arr) => {
         if (index > 0) {
           item.widget.y = arr[0].widget.y
@@ -404,6 +431,33 @@ export class SvgContainer extends HTMLDivElement {
           item.editBox.x = arr[0].widget.x
           item.editBox.x = arr[index - 1].widget.x + arr[index - 1].widget.width
         }
+      })
+    }
+  }
+
+  expandWidth() {
+    if (this.editBoxforWidgets.length > 1) {
+      let max = this.editBoxforWidgets[0].widget.width
+      this.editBoxforWidgets.forEach((item) => {
+        if (item.widget.width > max) max = item.widget.width
+      })
+
+      this.editBoxforWidgets.forEach((item) => {
+        item.widget.width = max
+        item.editBox.width = max
+      })
+    }
+  }
+  shrinkWidth() {
+    if (this.editBoxforWidgets.length > 1) {
+      let min = this.editBoxforWidgets[0].widget.width
+      this.editBoxforWidgets.forEach((item) => {
+        if (item.widget.width < min) min = item.widget.width
+      })
+
+      this.editBoxforWidgets.forEach((item) => {
+        item.widget.width = min
+        item.editBox.width = min
       })
     }
   }
