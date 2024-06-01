@@ -299,6 +299,21 @@ export class SvgContainer extends HTMLDivElement {
     }
   }
 
+  rowDistribute() {
+    if (this.editBoxforWidgets.length > 2) {
+      this.editBoxforWidgets.forEach((item, index, arr) => {
+        if (index > 0) {
+          item.widget.x = arr[0].widget.x
+          item.widget.y = arr[index - 1].widget.y + arr[index - 1].widget.height
+
+          item.editBox.x = arr[0].widget.x
+          item.editBox.y =
+            arr[index - 1].widget.y + arr[index - 1].widget.height
+        }
+      })
+    }
+  }
+
   horizontalTop() {
     if (this.editBoxforWidgets.length > 1) {
       let leftist = this.editBoxforWidgets[0]
@@ -375,6 +390,20 @@ export class SvgContainer extends HTMLDivElement {
         item.widget.y = itemFirst + sum + index * space
         item.editBox.y = itemFirst + sum + index * space
         sum += item.widget.height
+      })
+    }
+  }
+
+  columnDistribute() {
+    if (this.editBoxforWidgets.length > 2) {
+      this.editBoxforWidgets.forEach((item, index, arr) => {
+        if (index > 0) {
+          item.widget.y = arr[0].widget.y
+          item.widget.x = arr[index - 1].widget.x + arr[index - 1].widget.width
+
+          item.editBox.x = arr[0].widget.x
+          item.editBox.x = arr[index - 1].widget.x + arr[index - 1].widget.width
+        }
       })
     }
   }
