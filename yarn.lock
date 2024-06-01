@@ -208,6 +208,7 @@ __metadata:
     "@types/uuid": "npm:^9.0.8"
     "@z-code/vite-plugin-swc": "npm:^0.3.3"
     dependency-cruiser: "npm:^16.3.1"
+    js-base64: "npm:^3.7.7"
     material-components-web: "npm:^14.0.0"
     monaco-editor: "npm:^0.49.0"
     plop: "npm:^4.0.1"
@@ -3224,6 +3225,13 @@ __metadata:
   version: 1.4.0
   resolution: "jju@npm:1.4.0"
   checksum: 10c0/f3f444557e4364cfc06b1abf8331bf3778b26c0c8552ca54429bc0092652172fdea26cbffe33e1017b303d5aa506f7ede8571857400efe459cb7439180e2acad
+  languageName: node
+  linkType: hard
+
+"js-base64@npm:^3.7.7":
+  version: 3.7.7
+  resolution: "js-base64@npm:3.7.7"
+  checksum: 10c0/3c905a7e78b601e4751b5e710edd0d6d045ce2d23eb84c9df03515371e1b291edc72808dc91e081cb9855aef6758292a2407006f4608ec3705373dd8baf2f80f
   languageName: node
   linkType: hard
 

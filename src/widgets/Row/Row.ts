@@ -1,3 +1,4 @@
+import { decode, encode } from "js-base64"
 import { BASE_SVG_ATTRIBUTES, BaseSvg, htmlRoot } from "../../_helper"
 import htmlText from "./Row.html?raw"
 import cssText from "./Row.scss?inline"
@@ -32,7 +33,7 @@ export interface RowIconItem {
 export type RowItem = RowTextItem | RowIconItem
 
 const TAG_CustomTableHeader = `g-row`
-const ATTRIBUTES = [] as const
+const ATTRIBUTES = ["items"] as const
 export class Row extends BaseSvg {
   static get observedAttributes() {
     return [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
@@ -40,21 +41,6 @@ export class Row extends BaseSvg {
   loadEvent: CustomEvent<RowLoadedEvent>
   containerRef?: SVGForeignObjectElement
   headerRef: HTMLDivElement
-
-  #items: RowItem[] = [
-    {
-      text: "عملیات",
-    },
-    {
-      text: "ورژن",
-    },
-    {
-      text: "نام",
-    },
-    {
-      text: "کد",
-    },
-  ]
   constructor() {
     super({ template, width: 200, height: 200 })
     this.setAttribute("is", TAG_CustomTableHeader)
@@ -63,15 +49,32 @@ export class Row extends BaseSvg {
     this.loadEvent = new CustomEvent<RowLoadedEvent>("widget-loaded", {
       detail: { loaded: false },
     })
-    this.rander()
+
+    this.initAttribute(
+      "items",
+      "W3sidGV4dCI6Iti52YXZhNuM2KfYqiIsIndpZHRoIjoiMjAwcHgifSx7InRleHQiOiLZiNix2pjZhiJ9LHsidGV4dCI6ItmG2KfZhSJ9LHsidGV4dCI6Itqp2K8ifV0=",
+    )
+    // this.items = [
+    //   {
+    //     text: "عملیات",
+    //   },
+    //   {
+    //     text: "ورژن",
+    //   },
+    //   {
+    //     text: "نام",
+    //   },
+    //   {
+    //     text: "کد",
+    //   },
+    // ]
   }
 
   public get items() {
-    return this.#items
+    return eval(decode(this.getAttribute("items") ?? "[]"))
   }
   public set items(item: RowItem[]) {
-    this.#items = item
-    setTimeout(() => this.rander(), 0)
+    this.setAttribute("items", encode(JSON.stringify(item ?? [])))
   }
 
   mount() {
@@ -84,18 +87,16 @@ export class Row extends BaseSvg {
     oldValue: string,
     newValue: string,
   ) {
-    switch (
-      attributeName
-      // case "value":
-      //   this.valueUpdate(oldValue, newValue)
-      //   break
-    ) {
+    switch (attributeName) {
+      case "items": {
+        this.itemsUpdate(oldValue, newValue)
+      }
     }
   }
 
-  rander() {
+  itemsUpdate(oldValue: string, newValue: string) {
     this.headerRef.replaceChildren()
-    this.headerMaker(this.#items).forEach((item) => {
+    this.headerMaker(this.items).forEach((item) => {
       this.headerRef.append(htmlRoot`${item}`)
     })
   }

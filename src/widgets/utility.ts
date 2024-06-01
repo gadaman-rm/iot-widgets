@@ -1,6 +1,11 @@
 import { Gauge, RefrigeratorContent, RefrigeratorFrame, Row, Slider } from "."
 
-export type IWidgets = Slider | Gauge | RefrigeratorFrame | RefrigeratorContent
+export type IWidgets =
+  | Slider
+  | Gauge
+  | RefrigeratorFrame
+  | RefrigeratorContent
+  | Row
 export type IWidgetsIsNames =
   | "g-slider"
   | "g-gauge"

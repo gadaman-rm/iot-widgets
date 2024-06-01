@@ -1,3 +1,5 @@
+import { decode, encode } from "js-base64"
+import { boolToStr, strToBool } from "../../_helper"
 import htmlText from "./JsonEdit.html?raw"
 import cssText from "./JsonEdit.scss?inline"
 
@@ -13,7 +15,7 @@ export interface JsonEditJsonChangeEvent {
 }
 
 const TAG_JsonEdit = `g-json-edit`
-const ATTRIBUTES = ["id", "rows", "cols"] as const
+const ATTRIBUTES = ["id", "readonly", "code", "rows", "cols"] as const
 export class JsonEdit extends HTMLDivElement {
   initAttribute(name: string, defaultValue: string) {
     if (!this.attributes.getNamedItem(name))
@@ -26,6 +28,7 @@ export class JsonEdit extends HTMLDivElement {
   textRef: HTMLTextAreaElement
   loadEvent: CustomEvent<JsonEditLoadedEvent>
   jsonStrChangeEvent: CustomEvent<JsonEditJsonChangeEvent>
+  #onChange?: (e: { detail: JsonEditJsonChangeEvent }) => void
   constructor() {
     super()
     this.attachShadow({ mode: "open" })
@@ -53,6 +56,12 @@ export class JsonEdit extends HTMLDivElement {
     this.setAttribute("id", id)
   }
 
+  public get readonly() {
+    return strToBool(this.getAttribute("readonly"))
+  }
+  public set readonly(readonly: boolean) {
+    this.setAttribute("readonly", boolToStr(readonly))
+  }
   public get rows() {
     return this.textRef.rows
   }
@@ -68,12 +77,17 @@ export class JsonEdit extends HTMLDivElement {
   }
 
   public get code() {
-    return this.textRef.innerHTML
+    return decode(this.getAttribute("code") ?? "")
   }
   public set code(code: string) {
-    this.textRef.innerHTML = code
-    this.jsonStrChangeEvent.detail.json = this.textRef.innerHTML
+    this.setAttribute("code", encode(code))
+    this.jsonStrChangeEvent.detail.json = code
     this.dispatchEvent(this.jsonStrChangeEvent)
+    if (this.#onChange) this.#onChange({ detail: { json: code } })
+  }
+
+  public set onChange(fn: (e: { detail: JsonEditJsonChangeEvent }) => void) {
+    this.#onChange = fn
   }
 
   init() {
@@ -109,11 +123,25 @@ export class JsonEdit extends HTMLDivElement {
       case "rows":
         this.rowsUpdate(+oldValue, +newValue)
         break
+      case "code": {
+        this.codeUpdate(oldValue, newValue)
+        break
+      }
+      case "readonly":
+        this.readonlyUpdate(strToBool(oldValue), strToBool(newValue))
+        break
     }
   }
 
-  idUpdate(oldId: string, newId: string) {
-    console.log(oldId, newId)
+  idUpdate(oldId: string, newId: string) {}
+
+  readonlyUpdate(oldId: boolean, newId: boolean) {
+    if (newId) this.textRef.setAttribute("readonly", "true")
+    else this.textRef.removeAttribute("readonly")
+  }
+
+  codeUpdate(oldCode: string, newCode: string) {
+    this.textRef.textContent = this.code
   }
 
   colsUpdate(oldRow: number, newRow: number) {

@@ -1,3 +1,13 @@
+:host {
+  --json-edit-width: var(--g-json-edit-width, 300px);
+  --json-edit-height: var(--g-json-edit-height, 200px);
+}
+
 #text {
   outline-style: none;
+}
+
+textarea {
+  width: var(--json-edit-width);
+  height: var(--json-edit-height);
 }
