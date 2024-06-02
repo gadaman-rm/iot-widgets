@@ -170,7 +170,7 @@ export class SvgContainer extends HTMLDivElement {
     return this.editBoxforWidgets.find((item) => item.editBox.id === editBox.id)
   }
 
-  riseToTop() {
+  highest() {
     const selected = this.editBoxforWidgets[0].widget
     if (selected && this.widgets.length > 1) {
       const widgetIndex = this.widgets.findIndex(
@@ -181,7 +181,7 @@ export class SvgContainer extends HTMLDivElement {
     }
   }
 
-  rise() {
+  higher() {
     const selected = this.editBoxforWidgets[0].widget
     if (selected && this.widgets.length > 1) {
       const widgetIndex = this.widgets.findIndex(
@@ -208,7 +208,7 @@ export class SvgContainer extends HTMLDivElement {
     }
   }
 
-  lowerToBottom() {
+  lowest() {
     const selected = this.editBoxforWidgets[0].widget
     if (selected && this.widgets.length > 1) {
       const widgetIndex = this.widgets.findIndex(
@@ -428,7 +428,7 @@ export class SvgContainer extends HTMLDivElement {
           item.widget.y = arr[0].widget.y
           item.widget.x = arr[index - 1].widget.x + arr[index - 1].widget.width
 
-          item.editBox.x = arr[0].widget.x
+          item.editBox.y = arr[0].widget.y
           item.editBox.x = arr[index - 1].widget.x + arr[index - 1].widget.width
         }
       })

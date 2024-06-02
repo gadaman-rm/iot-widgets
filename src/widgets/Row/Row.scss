@@ -22,6 +22,7 @@
     fill: var(--custom-table-header-on-color);
     width: var(--custom-table-header-icon-size);
     height: var(--custom-table-header-icon-size);
+    cursor: pointer;
     &:hover {
       opacity: 0.8;
     }
