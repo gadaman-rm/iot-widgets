@@ -10,6 +10,12 @@ export interface RowLoadedEvent {
   loaded: Boolean
 }
 
+export interface RowMetaItem {
+  type?: "meta"
+  color: string
+  background: string
+}
+
 export interface RowTextItem {
   type?: "text"
   width?: string
@@ -30,7 +36,7 @@ export interface RowIconItem {
   }[]
 }
 
-export type RowItem = RowTextItem | RowIconItem
+export type RowItem = RowMetaItem | RowTextItem | RowIconItem
 
 const TAG_CustomTableHeader = `g-row`
 const ATTRIBUTES = ["items"] as const
@@ -97,27 +103,28 @@ export class Row extends BaseSvg {
   itemsUpdate(oldValue: string, newValue: string) {
     this.headerRef.replaceChildren()
     this.headerMaker(this.items).forEach((item) => {
-      this.headerRef.append(htmlRoot`${item}`)
+      if (item) this.headerRef.append(htmlRoot`${item}`)
     })
   }
 
-  headerMaker(customTableHeaderItems: RowItem[]): string[] {
+  headerMaker(customTableHeaderItems: RowItem[]) {
     return customTableHeaderItems.map((item) => {
       item.type ??= "text"
-      item.horizontalAlign ??= "center"
-      item.verticalAlign ??= "center"
-      item.width ??= "100px"
-      item.gap ??= "0px"
+      if (item.type === "text" || item.type === "icon") {
+        item.horizontalAlign ??= "center"
+        item.verticalAlign ??= "center"
+        item.width ??= "100px"
+        item.gap ??= "0px"
 
-      switch (item.type) {
-        case "text": {
-          return `<div class="item" 
+        switch (item.type) {
+          case "text": {
+            return `<div class="item" 
                   style="width: ${item.width};
                   justify-content: ${item.horizontalAlign}; 
                   align-items: ${item.verticalAlign}">${item.text}</div>`
-        }
-        case "icon": {
-          return `<div class="item item--icon" 
+          }
+          case "icon": {
+            return `<div class="item item--icon" 
                   style="width: ${item.width};
                   justify-content: ${item.horizontalAlign}; 
                   align-items: ${item.verticalAlign};
@@ -128,7 +135,11 @@ ${item.icons
   })
   .join("")}
 </div>`
+          }
         }
+      } else if (item.type === "meta") {
+        this.style.setProperty("--custom-table-header-color", item.background)
+        this.style.setProperty("--custom-table-header-on-color", item.color)
       }
     })
   }

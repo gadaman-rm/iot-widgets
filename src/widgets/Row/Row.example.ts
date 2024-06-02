@@ -11,6 +11,11 @@ document.body.innerHTML = `
 const t1Header = document.querySelector<Row>("#t1-header")!
 t1Header.items = [
   {
+    type: "meta",
+    background: "blue",
+    color: "red",
+  },
+  {
     text: "عملیات",
     width: "200px",
   },
