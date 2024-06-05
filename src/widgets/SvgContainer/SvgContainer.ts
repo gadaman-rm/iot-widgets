@@ -1,5 +1,6 @@
-import { EditBox, IWidgets } from ".."
+import { EditBox, IWidgets, isToWidgets } from ".."
 import { moveToIndex } from "../../_helper"
+import { randomId } from "../../math/helper"
 import { Transform, toTransformBox } from "../../math/matrix"
 import { Point } from "../../math/point"
 import html from "./SvgContainer.html?raw"
@@ -23,6 +24,12 @@ export class SvgContainer extends HTMLDivElement {
   main: SVGGElement
   transform: Transform
   widgets: IWidgets[]
+  clipboard: {
+    type?: "cut" | "copy" | "empty"
+    attrs: NamedNodeMap[]
+  } = {
+    attrs: [],
+  }
   editBoxforWidgets: EditBoxforWidgets[]
   static get observedAttributes() {
     return SVG_CONTAINER_ATTRIBUTES
@@ -168,6 +175,83 @@ export class SvgContainer extends HTMLDivElement {
   }
   findEditBoxById(editBox: EditBox) {
     return this.editBoxforWidgets.find((item) => item.editBox.id === editBox.id)
+  }
+
+  copy() {
+    this.clipboard.type = "copy"
+    // this.clipboard.widgets = this.editBoxforWidgets.map((item) => {
+    //   const newWidget = isToWidgets(item.widget.getAttribute("is")! as any)
+    //   if (newWidget) {
+    //     for (const attr of item.widget.attributes) {
+    //       if (attr.name !== "is") {
+    //         newWidget.setAttribute(attr.name, attr.value)
+    //       }
+    //     }
+    //   }
+    //   return newWidget as any
+    // })
+
+    this.clipboard.attrs = this.editBoxforWidgets.map(
+      (item) => item.widget.attributes,
+    )
+  }
+
+  cut() {
+    this.clipboard.type = "cut"
+    this.clipboard.attrs = this.editBoxforWidgets.map(
+      (item) => item.widget.attributes,
+    )
+
+    this.editBoxforWidgets.forEach((item) => {
+      this.removeEditBox(item.editBox)
+      this.removeWidget(item.widget)
+    })
+  }
+
+  past() {
+    switch (this.clipboard.type) {
+      case "copy": {
+        const copies = this.clipboard.attrs.map((item) => {
+          const newWidget = isToWidgets(item.getNamedItem("is")?.value as any)
+
+          if (newWidget) {
+            for (const attr of item) {
+              if (attr.name !== "is" && attr.name !== "id") {
+                newWidget.setAttribute(attr.name, attr.value)
+              }
+            }
+            newWidget.id = randomId()
+          }
+
+          return newWidget
+        })
+
+        return { type: this.clipboard.type, widgets: copies }
+      }
+      case "cut": {
+        const cuts = this.clipboard.attrs.map((item) => {
+          const newWidget = isToWidgets(item.getNamedItem("is")?.value as any)
+
+          if (newWidget) {
+            for (const attr of item) {
+              if (attr.name !== "is") {
+                newWidget.setAttribute(attr.name, attr.value)
+              }
+            }
+          }
+          return newWidget
+        })
+
+        this.clipboard.type = "empty"
+        this.clipboard.attrs = []
+
+        return { type: this.clipboard.type, widgets: cuts }
+      }
+
+      default: {
+        return { type: "empty", widgets: [] }
+      }
+    }
   }
 
   highest() {
