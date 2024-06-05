@@ -1,6 +1,7 @@
 import "./styles/reset.scss"
 // import "./styles/theme/light-material.scss"
 import "./styles/theme/dark-material.scss"
+import "./styles/adoptor/matrial-design.scss"
 import "./styles/adoptor/g-components.scss"
 import "./components/components"
 import "./widgets"
@@ -11,7 +12,10 @@ import "@material/web/ripple/ripple"
 // import "./components/Editor/Editor.example"
 // import "./components/Tabs/Tab.example"
 // import "./components/MenuJson/MenuJson.example"
-import "./widgets/Row/Row.example"
+// import "./components/Modal/Modal.example"
+
+import "./widgets/FormBuilder/FormBuilder.example"
+// import "./widgets/Row/Row.example"
 
 // test.innerHTML = `
 // <div id="menu" is="g-menu" open>

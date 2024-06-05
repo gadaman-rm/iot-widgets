@@ -1,0 +1,26 @@
+:host {
+  --form-builder-color: var(--g-form-builder-color, #888800);
+}
+
+#body {
+  fill: var(--form-builder-color);
+}
+
+#modal {
+  --g-modal-dialog-width: 85dvw;
+  --g-modal-dialog-height: 85dvh;
+}
+
+#forms {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item {
+  width: 100%;
+}
+
+br {
+  margin: 20px;
+}

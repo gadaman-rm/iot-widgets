@@ -180,9 +180,11 @@ export class BaseSvg extends HTMLDivElement {
         this.ratioUpdate(+oldValue, +newValue)
         break
       case "x":
+        this.xChange(+oldValue, +newValue)
         this.xUpdate(+oldValue, +newValue)
         break
       case "y":
+        this.yChange(+oldValue, +newValue)
         this.yUpdate(+oldValue, +newValue)
         break
       case "width":
@@ -220,6 +222,8 @@ export class BaseSvg extends HTMLDivElement {
   idUpdate(oldId: string, newId: string) {}
   ratioUpdate(oldRatio: number, newRatio: number) {}
 
+  xChange(oldX: number, newX: number): void {}
+  yChange(oldY: number, newY: number): void {}
   widthChange(oldWidth: number, newWidth: number): void {}
   heightChange(oldHeight: number, newHeight: number): void {}
 

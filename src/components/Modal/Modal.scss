@@ -1,3 +1,8 @@
+:host {
+  --modal-dialog-width: var(--g-modal-dialog-width, 400px);
+  --modal-dialog-height: var(--g-modal-dialog-height, 400px);
+}
+
 #root {
   position: absolute;
   inset-inline-start: 50%;
@@ -14,6 +19,11 @@
 }
 
 #dialog {
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  width: var(--modal-dialog-width);
+  height: var(--modal-dialog-height);
   background-color: var(--color-surface-container-high);
   color: var(--color-on-surface);
   position: absolute;
@@ -38,8 +48,8 @@
 
 #close {
   position: absolute;
-  inset-block-start: 0.5rem;
-  inset-inline-end: 0.5rem;
+  inset-block-start: 0.6rem;
+  inset-inline-end: 0.9rem;
   background-color: transparent;
   border: transparent;
   outline-style: none;
@@ -56,4 +66,9 @@
     width: 20px;
     fill: var(--color-primary);
   }
+}
+
+::slotted(*) {
+  margin-block-start: 1.1rem;
+  margin-inline: 0.5rem;
 }

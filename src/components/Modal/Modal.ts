@@ -1,3 +1,4 @@
+import { boolToStr, strToBool } from "../../_helper"
 import htmlText from "./Modal.html?raw"
 import cssText from "./Modal.scss?inline"
 import { MdIconButton } from "@material/web/iconbutton/icon-button"
@@ -55,10 +56,11 @@ export class Modal extends HTMLDivElement {
   }
 
   public get open() {
-    return this.getAttribute("open") === "true"
+    return strToBool(this.getAttribute("open"))
   }
+
   public set open(open: boolean) {
-    this.setAttribute("open", open ? "true" : "false")
+    this.setAttribute("open", boolToStr(open))
   }
 
   connectedCallback() {
@@ -76,7 +78,7 @@ export class Modal extends HTMLDivElement {
         this.idUpdate(oldValue, newValue)
         break
       case "open":
-        this.openUpdate(oldValue === "true", newValue === "true")
+        this.openUpdate(strToBool(oldValue), strToBool(newValue))
     }
   }
   idUpdate(oldId: string, newId: string) {
