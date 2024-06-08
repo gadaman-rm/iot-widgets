@@ -13,6 +13,7 @@ export type IWidgets =
   | RefrigeratorFrame
   | RefrigeratorContent
   | Row
+  | FormBuilder
 export type IWidgetsIsNames =
   | "g-slider"
   | "g-gauge"
