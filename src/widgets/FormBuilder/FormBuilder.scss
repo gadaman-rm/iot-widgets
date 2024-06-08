@@ -17,10 +17,48 @@
   gap: 10px;
 }
 
-.item {
-  width: 100%;
+.tab-panel {
+  overflow: auto;
 }
 
-br {
-  margin: 20px;
+.item {
+  width: 100%;
+  margin-block: 1px;
+}
+
+.checkbox-items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  padding: 0.4rem;
+}
+
+.checkbox-label {
+  padding: 0px;
+  margin-block-start: 0px;
+  margin-block-end: 5px;
+  font-size: large;
+}
+.checkbox-item {
+  margin-inline: 3px;
+}
+
+.radiobox-items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  padding: 0.4rem;
+}
+
+.radiobox-label {
+  padding: 0px;
+  margin-block-start: 0px;
+  margin-block-end: 5px;
+  font-size: large;
+}
+
+.radiobox-item {
+  margin-block-end: 3px;
 }

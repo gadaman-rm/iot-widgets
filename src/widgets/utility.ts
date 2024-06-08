@@ -1,4 +1,11 @@
-import { Gauge, RefrigeratorContent, RefrigeratorFrame, Row, Slider } from "."
+import {
+  FormBuilder,
+  Gauge,
+  RefrigeratorContent,
+  RefrigeratorFrame,
+  Row,
+  Slider,
+} from "."
 
 export type IWidgets =
   | Slider
@@ -12,6 +19,7 @@ export type IWidgetsIsNames =
   | "g-refrigerator-frame"
   | "g-refrigerator-content"
   | "g-row"
+  | "g-form-builder"
 export const isToWidgets = (widgetName: IWidgetsIsNames | undefined | null) => {
   switch (widgetName) {
     case "g-slider":
@@ -24,5 +32,7 @@ export const isToWidgets = (widgetName: IWidgetsIsNames | undefined | null) => {
       return new RefrigeratorContent()
     case "g-row":
       return new Row()
+    case "g-form-builder":
+      return new FormBuilder()
   }
 }

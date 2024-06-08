@@ -1,7 +1,8 @@
 <div id="root">
   <div id="backdrop"></div>
   <dialog id="dialog">
-    <div id="body">
+    <div class="header">
+      <h1><slot name="header"></slot></h1>
       <md-icon-button id="close">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
           <path
@@ -9,7 +10,10 @@
           />
         </svg>
       </md-icon-button>
-      <slot></slot>
     </div>
+    <div id="body">
+      <slot name="body"></slot>
+    </div>
+    <div class="footer"><slot name="footer"></slot></div>
   </dialog>
 </div>
