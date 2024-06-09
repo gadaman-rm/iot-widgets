@@ -376,11 +376,13 @@ ${item.options
   }
 
   widthChange(oldWidth: number, newWidth: number): void {
-    this.shapeRef.setAttribute("width", newWidth.toString())
+    if (this.shapeRef && newWidth !== undefined)
+      this.shapeRef.setAttribute("width", newWidth.toString())
   }
 
   heightChange(oldHeight: number, newHeight: number): void {
-    this.shapeRef.setAttribute("height", newHeight.toString())
+    if (this.shapeRef && newHeight !== undefined)
+      this.shapeRef.setAttribute("height", newHeight.toString())
   }
 
   // @ts-ignore: Unreachable code error
