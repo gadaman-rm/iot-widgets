@@ -21,16 +21,18 @@ import "@material/web/button/filled-tonal-button"
 import "@material/web/button/elevated-button"
 
 import { randomId } from "../../math/helper"
-import { htmlRoot } from "../../_helper"
+import { Modal } from "../../components/components"
+// import { htmlRoot } from "../../_helper"
 
 document.body.innerHTML = `
 <div is="g-svg-container">
-   <div is="g-form-builder" open></div>
+   <div is="g-form-builder"></div>
    <div id="mainModal" is="g-modal"></div>
 </div>
 `
 const elem = document.querySelector<FormBuilder>(`div[is="g-form-builder"]`)!
-const mainModal = document.querySelector<FormBuilder>(`#mainModal`)!
+const mainModal = document.querySelector<Modal>(`#mainModal`)!
+elem.modalRef = mainModal
 
 elem.items = [
   {
@@ -156,33 +158,33 @@ elem.items = [
   },
 ]
 
-elem.addEventListener("open-change", (e) => {
-  mainModal.open = e.detail.open
-})
-
-mainModal.addEventListener("open-change", (e) => {
-  elem.open = e.detail.open
-})
-
-elem.addEventListener("modal-change", (e) => {
-  const mainModalHeader = htmlRoot`<span id="mainModalHeader" slot="header"></span>`
-  const mainModalForms = htmlRoot`<div id="mainModalHeadeForms" slot="body"></div>`
-  const mainModalFooter = htmlRoot`<div id="mainModalHeaderFooter" slot="footer"></div>`
-
-  mainModal.replaceChildren()
-  mainModal.appendChild(mainModalHeader)
-  mainModal.appendChild(mainModalForms)
-  mainModal.appendChild(mainModalFooter)
-
-  e.detail.modalContent.forEach((item) => {
-    if (typeof item === "object") {
-      mainModal.style.setProperty("--modal-dialog-width", item.modalWidth!)
-      mainModal.style.setProperty("--modal-dialog-height", item.modalHeight!)
-
-      mainModalHeader.innerHTML = item.title
-      mainModalFooter.innerHTML = item.footer
-    } else {
-      mainModalForms.appendChild(htmlRoot`${item}`)
-    }
-  })
-})
+// elem.addEventListener("open-change", (e) => {
+//   mainModal.open = e.detail.open
+// })
+//
+// mainModal.addEventListener("open-change", (e) => {
+//   elem.open = e.detail.open
+// })
+//
+// elem.addEventListener("content-change", (e) => {
+//   const mainModalHeader = htmlRoot`<span id="mainModalHeader" slot="header"></span>`
+//   const mainModalForms = htmlRoot`<div id="mainModalHeadeForms" slot="body"></div>`
+//   const mainModalFooter = htmlRoot`<div id="mainModalHeaderFooter" slot="footer"></div>`
+//
+//   mainModal.replaceChildren()
+//   mainModal.appendChild(mainModalHeader)
+//   mainModal.appendChild(mainModalForms)
+//   mainModal.appendChild(mainModalFooter)
+//
+//   e.detail.modalContent.forEach((item) => {
+//     if (typeof item === "object") {
+//       mainModal.style.setProperty("--modal-dialog-width", item.modalWidth!)
+//       mainModal.style.setProperty("--modal-dialog-height", item.modalHeight!)
+//
+//       mainModalHeader.innerHTML = item.title
+//       mainModalFooter.innerHTML = item.footer
+//     } else {
+//       mainModalForms.appendChild(htmlRoot`${item}`)
+//     }
+//   })
+// })

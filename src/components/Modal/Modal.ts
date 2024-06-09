@@ -90,9 +90,7 @@ export class Modal extends HTMLDivElement {
         this.openUpdate(strToBool(oldValue), strToBool(newValue))
     }
   }
-  idUpdate(oldId: string, newId: string) {
-    console.log(oldId, newId)
-  }
+  idUpdate(oldId: string, newId: string) {}
   openUpdate(oldOpen: boolean, newOpen: boolean) {
     if (newOpen) {
       this.dialogRef.setAttribute("open", "true")

@@ -3,10 +3,12 @@ import {
   BASE_SVG_ATTRIBUTES,
   BaseSvg,
   boolToStr,
+  htmlRoot,
   strToBool,
 } from "../../_helper"
 import htmlText from "./FormBuilder.html?raw"
 import cssText from "./FormBuilder.scss?inline"
+import { Modal, ModalOpenEvent } from "../../components/components"
 
 export interface FormBuilderMeta {
   type: "meta"
@@ -122,7 +124,7 @@ export interface FormBuilderOpenEvent {
   open: boolean
 }
 
-export interface FormBuilderModalChangeEvent {
+export interface FormBuilderContentChangeEvent {
   modalContent: (
     | string
     | (Omit<FormBuilderMeta, "footer"> & {
@@ -139,9 +141,10 @@ export class FormBuilder extends BaseSvg {
   }
   loadEvent: CustomEvent<FormBuilderLoadedEvent>
   openChangeEvent: CustomEvent<FormBuilderOpenEvent>
-  modalChangeEvent: CustomEvent<FormBuilderModalChangeEvent>
+  contentChangeEvent: CustomEvent<FormBuilderContentChangeEvent>
   bodyRef: SVGRectElement
   shapeRef: SVGForeignObjectElement
+  #modalRef?: Modal
 
   constructor() {
     super({ template, width: 200, height: 200 })
@@ -151,8 +154,8 @@ export class FormBuilder extends BaseSvg {
     this.loadEvent = new CustomEvent<FormBuilderLoadedEvent>("widget-loaded", {
       detail: { loaded: false },
     })
-    this.modalChangeEvent = new CustomEvent<FormBuilderModalChangeEvent>(
-      "modal-change",
+    this.contentChangeEvent = new CustomEvent<FormBuilderContentChangeEvent>(
+      "content-change",
       {
         detail: { modalContent: [] },
       },
@@ -163,6 +166,24 @@ export class FormBuilder extends BaseSvg {
         detail: { open: false },
       },
     )
+  }
+
+  public set modalRef(modalRef: Modal) {
+    this.#modalRef = modalRef
+    if (this.#modalRef) {
+      this.addEventListener("open-change", this.handleFormOpen)
+      this.#modalRef.addEventListener("open-change", this.handleModalRefOpen)
+    }
+
+    if (this.items) this.renderModalRef()
+  }
+
+  handleFormOpen = (e: { detail: FormBuilderOpenEvent }) => {
+    if (this.#modalRef) this.#modalRef.open = e.detail.open
+  }
+
+  handleModalRefOpen = (e: { detail: ModalOpenEvent }) => {
+    if (this.#modalRef) this.#modalRef.open = e.detail.open
   }
 
   public get open() {
@@ -305,11 +326,45 @@ ${item.options
 
   itemsUpdate(oldValue: string, newValue: string) {
     setTimeout(() => {
-      this.modalChangeEvent.detail.modalContent = this.formComponentMaker(
+      this.renderModalRef()
+      this.contentChangeEvent.detail.modalContent = this.formComponentMaker(
         this.items,
       )
-      this.dispatchEvent(this.modalChangeEvent)
+      this.dispatchEvent(this.contentChangeEvent)
     }, 0)
+  }
+
+  renderModalRef() {
+    if (this.#modalRef) {
+      const mainModalHeader = htmlRoot`<span id="mainModalHeader" slot="header"></span>`
+      const mainModalForms = htmlRoot`<div id="mainModalHeadeForms" slot="body"></div>`
+      const mainModalFooter = htmlRoot`<div id="mainModalHeaderFooter" slot="footer"></div>`
+
+      this.#modalRef.replaceChildren()
+      this.#modalRef.appendChild(mainModalHeader)
+      this.#modalRef.appendChild(mainModalForms)
+      this.#modalRef.appendChild(mainModalFooter)
+
+      this.formComponentMaker(this.items).forEach((item) => {
+        if (this.#modalRef) {
+          if (typeof item === "object") {
+            this.#modalRef.style.setProperty(
+              "--modal-dialog-width",
+              item.modalWidth!,
+            )
+            this.#modalRef.style.setProperty(
+              "--modal-dialog-height",
+              item.modalHeight!,
+            )
+
+            mainModalHeader.innerHTML = item.title
+            mainModalFooter.innerHTML = item.footer
+          } else {
+            mainModalForms.appendChild(htmlRoot`${item}`)
+          }
+        }
+      })
+    }
   }
 
   openUpdate(oldOpen: boolean, newOpen: boolean) {
@@ -318,6 +373,14 @@ ${item.options
         this.openChangeEvent.detail.open = newOpen
         this.dispatchEvent(this.openChangeEvent)
       }, 0)
+  }
+
+  widthChange(oldWidth: number, newWidth: number): void {
+    this.shapeRef.setAttribute("width", newWidth.toString())
+  }
+
+  heightChange(oldHeight: number, newHeight: number): void {
+    this.shapeRef.setAttribute("height", newHeight.toString())
   }
 
   // @ts-ignore: Unreachable code error
@@ -336,7 +399,7 @@ ${item.options
 
 interface CustomElementEventMap extends HTMLElementEventMap {
   "widget-loaded": { detail: FormBuilderLoadedEvent }
-  "modal-change": { detail: FormBuilderModalChangeEvent }
+  "content-change": { detail: FormBuilderContentChangeEvent }
   "open-change": { detail: FormBuilderOpenEvent }
 }
 
