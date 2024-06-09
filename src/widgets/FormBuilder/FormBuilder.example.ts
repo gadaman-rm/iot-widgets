@@ -1,3 +1,4 @@
+import "./FormBuilder.example.scss"
 import { FormBuilder } from "./FormBuilder"
 import "@material/web/textfield/filled-text-field"
 import "@material/web/textfield/outlined-text-field"
@@ -20,26 +21,22 @@ import "@material/web/button/filled-tonal-button"
 import "@material/web/button/elevated-button"
 
 import { randomId } from "../../math/helper"
+import { htmlRoot } from "../../_helper"
 
 document.body.innerHTML = `
-<div is="g-svg-container" hide>
-   <div is="g-form-builder"></div>
+<div is="g-svg-container">
+   <div is="g-form-builder" open></div>
+   <div id="mainModal" is="g-modal"></div>
 </div>
 `
 const elem = document.querySelector<FormBuilder>(`div[is="g-form-builder"]`)!
-elem.addEventListener("widget-loaded", (e) => {
-  console.log(e.detail.loaded)
-})
-
-elem.open = true
+const mainModal = document.querySelector<FormBuilder>(`#mainModal`)!
 
 elem.items = [
   {
     type: "meta",
     title: "Test",
-    shape: `<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"> <path fill="blue" d="M0 1v14h16v-14h-16zM15 14h-14v-10h14v10zM15 3h-1v-1h1v1z"
-      ></path>
-    </svg>`,
+    shape: `<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="yellow" d="M0 1v14h16v-14h-16zM15 14h-14v-10h14v10zM15 3h-1v-1h1v1z"></path></svg>`,
     footer: [
       { type: "button", id: randomId(), label: "Ok" },
       { type: "button", id: randomId(), label: "Cancel", marginInline: "10px" },
@@ -158,3 +155,34 @@ elem.items = [
     ],
   },
 ]
+
+elem.addEventListener("open-change", (e) => {
+  mainModal.open = e.detail.open
+})
+
+mainModal.addEventListener("open-change", (e) => {
+  elem.open = e.detail.open
+})
+
+elem.addEventListener("modal-change", (e) => {
+  const mainModalHeader = htmlRoot`<span id="mainModalHeader" slot="header"></span>`
+  const mainModalForms = htmlRoot`<div id="mainModalHeadeForms" slot="body"></div>`
+  const mainModalFooter = htmlRoot`<div id="mainModalHeaderFooter" slot="footer"></div>`
+
+  mainModal.replaceChildren()
+  mainModal.appendChild(mainModalHeader)
+  mainModal.appendChild(mainModalForms)
+  mainModal.appendChild(mainModalFooter)
+
+  e.detail.modalContent.forEach((item) => {
+    if (typeof item === "object") {
+      mainModal.style.setProperty("--modal-dialog-width", item.modalWidth!)
+      mainModal.style.setProperty("--modal-dialog-height", item.modalHeight!)
+
+      mainModalHeader.innerHTML = item.title
+      mainModalFooter.innerHTML = item.footer
+    } else {
+      mainModalForms.appendChild(htmlRoot`${item}`)
+    }
+  })
+})

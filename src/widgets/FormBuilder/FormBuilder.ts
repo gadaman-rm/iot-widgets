@@ -3,17 +3,17 @@ import {
   BASE_SVG_ATTRIBUTES,
   BaseSvg,
   boolToStr,
-  htmlRoot,
   strToBool,
 } from "../../_helper"
 import htmlText from "./FormBuilder.html?raw"
 import cssText from "./FormBuilder.scss?inline"
-import { Modal } from "../../components/components"
 
 export interface FormBuilderMeta {
   type: "meta"
   title: string
   shape?: string
+  modalWidth?: string
+  modalHeight?: string
   footer?: FormBuilderItem[]
 }
 
@@ -118,32 +118,51 @@ export interface FormBuilderLoadedEvent {
   loaded: Boolean
 }
 
+export interface FormBuilderOpenEvent {
+  open: boolean
+}
+
+export interface FormBuilderModalChangeEvent {
+  modalContent: (
+    | string
+    | (Omit<FormBuilderMeta, "footer"> & {
+        footer: string
+      })
+  )[]
+}
+
 const TAG_FormBuilder = `g-form-builder`
-const ATTRIBUTES = ["open", "items"] as const
+const ATTRIBUTES = ["items", "open"] as const
 export class FormBuilder extends BaseSvg {
   static get observedAttributes() {
     return [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
   }
   loadEvent: CustomEvent<FormBuilderLoadedEvent>
+  openChangeEvent: CustomEvent<FormBuilderOpenEvent>
+  modalChangeEvent: CustomEvent<FormBuilderModalChangeEvent>
   bodyRef: SVGRectElement
-  formsRef: HTMLDivElement
   shapeRef: SVGForeignObjectElement
-  headerRef: HTMLDivElement
-  footerRef: HTMLDivElement
-  modalRef: Modal
 
   constructor() {
     super({ template, width: 200, height: 200 })
     this.setAttribute("is", TAG_FormBuilder)
     this.bodyRef = this.shadowRoot!.querySelector("#body")!
-    this.headerRef = this.shadowRoot!.querySelector("#header")!
-    this.footerRef = this.shadowRoot!.querySelector("#footer")!
     this.shapeRef = this.shadowRoot!.querySelector("#shape")!
-    this.modalRef = this.shadowRoot!.querySelector("#modal")!
     this.loadEvent = new CustomEvent<FormBuilderLoadedEvent>("widget-loaded", {
       detail: { loaded: false },
     })
-    this.formsRef = this.shadowRoot!.querySelector("#forms")!
+    this.modalChangeEvent = new CustomEvent<FormBuilderModalChangeEvent>(
+      "modal-change",
+      {
+        detail: { modalContent: [] },
+      },
+    )
+    this.openChangeEvent = new CustomEvent<FormBuilderOpenEvent>(
+      "open-change",
+      {
+        detail: { open: false },
+      },
+    )
   }
 
   public get open() {
@@ -160,24 +179,31 @@ export class FormBuilder extends BaseSvg {
     this.setAttribute("items", encode(JSON.stringify(item ?? [])))
   }
 
-  formComponentMaker(menuJsonItems: FormBuilderItem[]): (string | undefined)[] {
+  formComponentMaker(menuJsonItems: FormBuilderItem[]): (
+    | string
+    | (Omit<FormBuilderMeta, "footer"> & {
+        footer: string
+      })
+  )[] {
     return menuJsonItems.map((item) => {
       switch (item.type) {
         case "meta": {
-          this.headerRef.innerHTML = item.title
-          item.footer ??= []
-          this.footerRef.innerHTML = this.formComponentMaker(item.footer).join(
-            "",
-          )
-          this.shapeRef.innerHTML = item.shape ?? ""
-          break
+          item.modalWidth ??= "85dvw"
+          item.modalHeight ??= "85dvh"
+          item.shape ??= ""
+          const { footer, ...rest } = item
+          this.shapeRef.innerHTML = rest.shape!
+          return {
+            ...rest,
+            footer: this.formComponentMaker(footer ?? []).join(""),
+          }
         }
         case "textfeild": {
           item.htmlType ??= "text"
           item.tag ??= "md-filled-text-field"
           item.value ??= ""
           item.label ??= "label"
-          return `<${item.tag} id="${item.id}" class="item" value="${item.value}"
+          return `<${item.tag} id="${item.id}" class="formBuilderItem" value="${item.value}"
                     ${item.prefixText ? `prefix-text="${item.prefixText}"` : ""}  
                     ${item.prefixText ? `suffix-text="${item.suffixText}"` : ""}  
                     ${item.step ? `step="${item.step}"` : ""}  
@@ -194,7 +220,7 @@ export class FormBuilder extends BaseSvg {
           item.tag ??= "md-filled-select"
           item.label ??= "label"
           item.options ??= []
-          return `<${item.tag} id="${item.id}" class="item" label="${item.label}" 
+          return `<${item.tag} id="${item.id}" class="formBuilderItem" label="${item.label}" 
                     ${item.required ? "required" : ""}>
                   ${item.options
                     .map((option) => {
@@ -206,11 +232,11 @@ export class FormBuilder extends BaseSvg {
         case "checkbox": {
           item.label ??= "label"
           item.options ??= []
-          return `<div class="item">
-<p class="checkbox-label">${item.label}</p>
-<div class="checkbox-items">${item.options
+          return `<div class="formBuilderItem">
+<p class="formBuilderCheckboxLabel" >${item.label}</p>
+<div class="formBuilderCheckboxItems" >${item.options
             .map((option) => {
-              return `<div class="checkbox-item"><md-checkbox id="${option.id}" ${option.checked ? "checked" : ""}></md-checkbox>
+              return `<div class="formBuilderCheckboxItem" ><md-checkbox id="${option.id}" ${option.checked ? "checked" : ""}></md-checkbox>
             <label for="${option.id}">${option.vlaue}</label></div>`
             })
             .join("")}</div></div>`
@@ -218,11 +244,11 @@ export class FormBuilder extends BaseSvg {
         case "radiobox": {
           item.label ??= "label"
           item.options ??= []
-          return `<div class="item">
-<p class="radiobox-label">${item.label}</p>
-<div class="radiobox-items">${item.options
+          return `<div class="formBuilderItem">
+<p class="formBuilderRadioBoxLabel">${item.label}</p>
+<div class="formBuilderRadioBoxItems">${item.options
             .map((option) => {
-              return `<div class="radiobox-item"><md-radio id="${option.id}" name="${option.group}" value="${option.vlaue}" ${option.checked ? "checked" : ""}></md-radio>
+              return `<div class="formBuilderRadioBoxItem"><md-radio id="${option.id}" name="${option.group}" value="${option.vlaue}" ${option.checked ? "checked" : ""}></md-radio>
             <label for="${option.id}">${option.vlaue}</label></div>`
             })
             .join("")}</div></div>`
@@ -235,7 +261,7 @@ ${item.options
   .map((option) => {
     option.panel ??= []
     return `<md-secondary-tab id="${option.id}" ${option.selected ? "selected" : ""} aria-label="${option.key}" slot="tab">${option.vlaue}</md-secondary-tab>
-<div class="tab-panel" style="height: ${item.panelHeight}" aria-label="${option.key}" slot="panel">${this.formComponentMaker(option.panel).join("")}</div>`
+<div class="formBuilderTabPanel" style="height: ${item.panelHeight}" aria-label="${option.key}" slot="panel">${this.formComponentMaker(option.panel).join("")}</div>`
   })
   .join("")}
       </div>`
@@ -267,24 +293,31 @@ ${item.options
     newValue: string,
   ) {
     switch (attributeName) {
+      case "items": {
+        this.itemsUpdate(oldValue, newValue)
+        break
+      }
       case "open":
         this.openUpdate(strToBool(oldValue), strToBool(newValue))
         break
-      case "items": {
-        this.itemsUpdate(oldValue, newValue)
-      }
     }
   }
 
-  openUpdate(_oldOpen: boolean, newOpen: boolean) {
-    this.modalRef.open = newOpen
+  itemsUpdate(oldValue: string, newValue: string) {
+    setTimeout(() => {
+      this.modalChangeEvent.detail.modalContent = this.formComponentMaker(
+        this.items,
+      )
+      this.dispatchEvent(this.modalChangeEvent)
+    }, 0)
   }
 
-  itemsUpdate(oldValue: string, newValue: string) {
-    this.formsRef.replaceChildren()
-    this.formComponentMaker(this.items).forEach((item) => {
-      if (item) this.formsRef.append(htmlRoot`${item}`)
-    })
+  openUpdate(oldOpen: boolean, newOpen: boolean) {
+    if (oldOpen !== newOpen)
+      setTimeout(() => {
+        this.openChangeEvent.detail.open = newOpen
+        this.dispatchEvent(this.openChangeEvent)
+      }, 0)
   }
 
   // @ts-ignore: Unreachable code error
@@ -303,6 +336,8 @@ ${item.options
 
 interface CustomElementEventMap extends HTMLElementEventMap {
   "widget-loaded": { detail: FormBuilderLoadedEvent }
+  "modal-change": { detail: FormBuilderModalChangeEvent }
+  "open-change": { detail: FormBuilderOpenEvent }
 }
 
 customElements.define(TAG_FormBuilder, FormBuilder, { extends: "div" })

@@ -10,6 +10,10 @@ export interface ModalLoadedEvent {
   loaded: Boolean
 }
 
+export interface ModalOpenEvent {
+  open: boolean
+}
+
 const TAG_NAME = `g-modal`
 const ATTRIBUTES = ["id", "open"] as const
 export class Modal extends HTMLDivElement {
@@ -25,6 +29,7 @@ export class Modal extends HTMLDivElement {
   backdropRef: HTMLDivElement
   closeRef: MdIconButton
   loadEvent: CustomEvent<ModalLoadedEvent>
+  openChangeEvent: CustomEvent<ModalOpenEvent>
   constructor() {
     super()
     this.attachShadow({ mode: "open" })
@@ -36,6 +41,10 @@ export class Modal extends HTMLDivElement {
     this.closeRef = this.shadowRoot!.querySelector("#close")!
     this.loadEvent = new CustomEvent<ModalLoadedEvent>("component-loaded", {
       detail: { loaded: false },
+    })
+
+    this.openChangeEvent = new CustomEvent<ModalOpenEvent>("open-change", {
+      detail: { open: false },
     })
 
     this.initAttribute("open", "false")
@@ -92,6 +101,11 @@ export class Modal extends HTMLDivElement {
       this.dialogRef.removeAttribute("open")
       this.backdropRef.style.display = "none"
     }
+    if (oldOpen !== newOpen)
+      setTimeout(() => {
+        this.openChangeEvent.detail.open = newOpen
+        this.dispatchEvent(this.openChangeEvent)
+      }, 0)
   }
 
   // @ts-ignore: Unreachable code error
@@ -110,6 +124,7 @@ export class Modal extends HTMLDivElement {
 
 interface CustomElementEventMap extends HTMLElementEventMap {
   "component-loaded": { detail: ModalLoadedEvent }
+  "open-change": { detail: ModalOpenEvent }
 }
 
 customElements.define(TAG_NAME, Modal, { extends: "div" })

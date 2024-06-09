@@ -1,4 +1,4 @@
-// import { Modal } from "./Modal"
+import { Modal } from "./Modal"
 import "@material/web/dialog/dialog"
 import "@material/web/textfield/filled-text-field"
 import "@material/web/iconbutton/filled-icon-button"
@@ -6,10 +6,13 @@ import "@material/web/button/text-button"
 
 document.body.innerHTML = `
 <div is="g-modal" open>
-  <p>text</p>
+  <p slot="header">Title</p>
+  <p slot="body">body</p>
+  <p slot="footer">footer</p>
 </div>
 `
-// const elem = document.querySelector<Modal>(`div[is="g-modal"]`)!
-// elem.addEventListener("widget-loaded", (e) => {
-//   console.log(e.detail.loaded)
-// })
+const elem = document.querySelector<Modal>(`div[is="g-modal"]`)!
+
+elem.addEventListener("open-change", (e) => {
+  console.log(e.detail.open)
+})
