@@ -378,7 +378,7 @@ ${item.options
   openUpdate(oldOpen: boolean, newOpen: boolean) {
     if (oldOpen !== newOpen)
       setTimeout(() => {
-        this.renderModalRef()
+        if (newOpen) this.renderModalRef()
         this.openChangeEvent.detail.open = newOpen
         this.dispatchEvent(this.openChangeEvent)
         if (this.#onOpen) this.#onOpen({ detail: { open: newOpen } })

@@ -265,113 +265,109 @@ export class MenuJson extends HTMLDivElement {
     this.loadEvent.detail.loaded = true
     this.dispatchEvent(this.loadEvent)
     window.addEventListener("resize", this.handleWindowResize)
-
-    window.addEventListener("contextmenu", (e) => {
-      e.preventDefault()
-      const x = e.x
-      const y = e.y
-
-      const winWidth = window.innerWidth
-      const winHeight = window.innerHeight
-      const cmWidth = this.rootRef.offsetWidth
-      const cmHeight = this.rootRef.offsetHeight
-
-      this.x =
-        x + cmWidth + 5 > winWidth - this.rightOffset
-          ? Math.abs(cmWidth - x)
-          : x
-      this.y =
-        y + cmHeight + 5 > winHeight - this.buttomOffset
-          ? Math.abs(cmHeight - y)
-          : y
-      this.open = true
-
-      this.shadowRoot!.querySelectorAll<HTMLUListElement>(
-        ".content > .menu > .item-sub > .menu",
-      ).forEach((item) => {
-        const subMenu = item?.querySelector<HTMLUListElement>(
-          ".item-sub .menu .item-sub .menu",
-        )
-
-        const itemPosition: {
-          horizontal: "left" | "right"
-          vertical: "top" | "buttom"
-        } = {
-          horizontal: "right",
-          vertical: "buttom",
-        }
-        if (item) {
-          const menuWidth = item.offsetWidth
-          const menuHeight = item.offsetHeight
-
-          if (x + cmWidth + menuWidth > winWidth - this.rightOffset) {
-            item.style.insetInlineStart = "calc(0px - var(--menu-sub-width))"
-            itemPosition.horizontal = "left"
-          } else {
-            item.style.insetInlineStart = "var(--menu-width)"
-            itemPosition.horizontal = "right"
-          }
-
-          if (y + cmHeight + menuHeight > winHeight - this.buttomOffset) {
-            item.style.insetBlockStart = "auto"
-            item.style.insetBlockEnd = "0px"
-            itemPosition.vertical = "top"
-          } else {
-            item.style.insetBlockStart = "0px"
-            item.style.insetBlockEnd = "auto"
-            itemPosition.vertical = "buttom"
-          }
-        }
-
-        if (item && subMenu) {
-          const menuWidth = item.offsetWidth
-          const menuHeight = item.offsetHeight
-          const subWidth = subMenu.offsetWidth
-          const subHeight = subMenu.offsetHeight
-
-          if (itemPosition.horizontal === "left") {
-            if (x - this.leftOffset - 2 * subWidth > subWidth)
-              subMenu.style.insetInlineStart =
-                "calc(0px - var(--menu-sub-width))"
-            else subMenu.style.insetInlineStart = "var(--menu-sub-width)"
-          } else {
-            if (
-              x + cmWidth + menuWidth + subWidth >
-              winWidth - this.rightOffset
-            ) {
-              subMenu.style.insetInlineStart =
-                "calc(0px - var(--menu-sub-width))"
-            } else {
-              subMenu.style.insetInlineStart = "var(--menu-sub-width)"
-            }
-          }
-
-          if (itemPosition.vertical === "top") {
-            if (y - this.topOffset - 2 * subHeight > subHeight) {
-              subMenu.style.insetBlockStart = "auto"
-              subMenu.style.insetBlockEnd = "0px"
-            } else {
-              subMenu.style.insetBlockStart = "0px"
-              subMenu.style.insetBlockEnd = "auto"
-            }
-          } else {
-            if (
-              y + cmHeight + menuHeight + subHeight >
-              winHeight - this.buttomOffset
-            ) {
-              subMenu.style.insetBlockStart = "auto"
-              subMenu.style.insetBlockEnd = "0px"
-            } else {
-              subMenu.style.insetBlockStart = "0px"
-              subMenu.style.insetBlockEnd = "auto"
-            }
-          }
-        }
-      })
-    })
   }
   disconnectedCallback() {
     window.removeEventListener("resize", this.handleWindowResize)
+  }
+
+  handleContextMenu = (e: MouseEvent) => {
+    e.preventDefault()
+    const x = e.x
+    const y = e.y
+
+    const winWidth = window.innerWidth
+    const winHeight = window.innerHeight
+    const cmWidth = this.rootRef.offsetWidth
+    const cmHeight = this.rootRef.offsetHeight
+
+    this.x =
+      x + cmWidth + 5 > winWidth - this.rightOffset ? Math.abs(cmWidth - x) : x
+    this.y =
+      y + cmHeight + 5 > winHeight - this.buttomOffset
+        ? Math.abs(cmHeight - y)
+        : y
+    this.open = true
+
+    this.shadowRoot!.querySelectorAll<HTMLUListElement>(
+      ".content > .menu > .item-sub > .menu",
+    ).forEach((item) => {
+      const subMenu = item?.querySelector<HTMLUListElement>(
+        ".item-sub .menu .item-sub .menu",
+      )
+
+      const itemPosition: {
+        horizontal: "left" | "right"
+        vertical: "top" | "buttom"
+      } = {
+        horizontal: "right",
+        vertical: "buttom",
+      }
+      if (item) {
+        const menuWidth = item.offsetWidth
+        const menuHeight = item.offsetHeight
+
+        if (x + cmWidth + menuWidth > winWidth - this.rightOffset) {
+          item.style.insetInlineStart = "calc(0px - var(--menu-sub-width))"
+          itemPosition.horizontal = "left"
+        } else {
+          item.style.insetInlineStart = "var(--menu-width)"
+          itemPosition.horizontal = "right"
+        }
+
+        if (y + cmHeight + menuHeight > winHeight - this.buttomOffset) {
+          item.style.insetBlockStart = "auto"
+          item.style.insetBlockEnd = "0px"
+          itemPosition.vertical = "top"
+        } else {
+          item.style.insetBlockStart = "0px"
+          item.style.insetBlockEnd = "auto"
+          itemPosition.vertical = "buttom"
+        }
+      }
+
+      if (item && subMenu) {
+        const menuWidth = item.offsetWidth
+        const menuHeight = item.offsetHeight
+        const subWidth = subMenu.offsetWidth
+        const subHeight = subMenu.offsetHeight
+
+        if (itemPosition.horizontal === "left") {
+          if (x - this.leftOffset - 2 * subWidth > subWidth)
+            subMenu.style.insetInlineStart = "calc(0px - var(--menu-sub-width))"
+          else subMenu.style.insetInlineStart = "var(--menu-sub-width)"
+        } else {
+          if (
+            x + cmWidth + menuWidth + subWidth >
+            winWidth - this.rightOffset
+          ) {
+            subMenu.style.insetInlineStart = "calc(0px - var(--menu-sub-width))"
+          } else {
+            subMenu.style.insetInlineStart = "var(--menu-sub-width)"
+          }
+        }
+
+        if (itemPosition.vertical === "top") {
+          if (y - this.topOffset - 2 * subHeight > subHeight) {
+            subMenu.style.insetBlockStart = "auto"
+            subMenu.style.insetBlockEnd = "0px"
+          } else {
+            subMenu.style.insetBlockStart = "0px"
+            subMenu.style.insetBlockEnd = "auto"
+          }
+        } else {
+          if (
+            y + cmHeight + menuHeight + subHeight >
+            winHeight - this.buttomOffset
+          ) {
+            subMenu.style.insetBlockStart = "auto"
+            subMenu.style.insetBlockEnd = "0px"
+          } else {
+            subMenu.style.insetBlockStart = "0px"
+            subMenu.style.insetBlockEnd = "auto"
+          }
+        }
+      }
+    })
   }
   attributeChangedCallback(
     attrName: (typeof ATTRIBUTES)[number],

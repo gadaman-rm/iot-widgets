@@ -38,6 +38,8 @@ elem.items = [
   {
     type: "meta",
     title: "Test",
+    modalHeight: "300px",
+    modalWidth: "300px",
     shape: `<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="yellow" d="M0 1v14h16v-14h-16zM15 14h-14v-10h14v10zM15 3h-1v-1h1v1z"></path></svg>`,
     footer: [
       { type: "button", id: randomId(), label: "Ok" },

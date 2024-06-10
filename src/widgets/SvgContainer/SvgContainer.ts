@@ -114,6 +114,11 @@ export class SvgContainer extends HTMLDivElement {
         break
     }
   }
+  connectedCallback() {
+    this.addEventListener("contextmenu", (e) => {
+      console.log("zero---")
+    })
+  }
 
   addWidget(widget: IWidgets) {
     this.firstChild!.appendChild(widget)
@@ -586,6 +591,7 @@ export class SvgContainer extends HTMLDivElement {
       [this.widgets[indexA]],
     ]
   }
+
   //********************************* Events *********************************
   // @ts-ignore: Unreachable code error
   addEventListener<K extends keyof CustomElementEventMap>(

@@ -105,6 +105,7 @@ elem.items = [
   },
 ]
 
+window.addEventListener("contextmenu", elem.handleContextMenu)
 elem.addEventListener("menu-select", (e) => {
   console.log(e.detail.id)
 })

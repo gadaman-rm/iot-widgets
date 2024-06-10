@@ -11,11 +11,11 @@ import "@material/web/ripple/ripple"
 // import "./components/JsonEdit/JsonEdit.example"
 // import "./components/Editor/Editor.example"
 // import "./components/Tabs/Tab.example"
-// import "./components/MenuJson/MenuJson.example"
+import "./components/MenuJson/MenuJson.example"
 // import "./components/Modal/Modal.example"
 // import "./components/MuiTab/MuiTab.example"
 
-import "./widgets/FormBuilder/FormBuilder.example"
+// import "./widgets/FormBuilder/FormBuilder.example"
 // import "./widgets/Row/Row.example"
 
 // test.innerHTML = `
