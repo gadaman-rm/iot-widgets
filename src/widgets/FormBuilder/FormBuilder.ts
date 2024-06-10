@@ -341,6 +341,9 @@ ${item.options
 
   renderModalRef() {
     if (this.#modalRef) {
+      this.#modalRef.onOpen = (e) => {
+        this.open = e.detail.open
+      }
       const mainModalHeader = htmlRoot`<span id="mainModalHeader" slot="header"></span>`
       const mainModalForms = htmlRoot`<div id="mainModalHeadeForms" slot="body"></div>`
       const mainModalFooter = htmlRoot`<div id="mainModalHeaderFooter" slot="footer"></div>`
