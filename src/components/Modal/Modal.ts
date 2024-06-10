@@ -30,6 +30,7 @@ export class Modal extends HTMLDivElement {
   closeRef: MdIconButton
   loadEvent: CustomEvent<ModalLoadedEvent>
   openChangeEvent: CustomEvent<ModalOpenEvent>
+  #onOpen?: (e: { detail: ModalOpenEvent }) => void
   constructor() {
     super()
     this.attachShadow({ mode: "open" })
@@ -55,6 +56,10 @@ export class Modal extends HTMLDivElement {
     this.backdropRef.addEventListener("click", () => {
       this.open = false
     })
+  }
+
+  public set onOpen(fn: (e: { detail: ModalOpenEvent }) => void) {
+    this.#onOpen = fn
   }
 
   public get id() {
@@ -103,6 +108,7 @@ export class Modal extends HTMLDivElement {
       setTimeout(() => {
         this.openChangeEvent.detail.open = newOpen
         this.dispatchEvent(this.openChangeEvent)
+        if (this.#onOpen) this.#onOpen({ detail: { open: newOpen } })
       }, 0)
   }
 

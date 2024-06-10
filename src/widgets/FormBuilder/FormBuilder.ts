@@ -145,6 +145,7 @@ export class FormBuilder extends BaseSvg {
   bodyRef: SVGRectElement
   shapeRef: SVGForeignObjectElement
   #modalRef?: Modal
+  #onOpen?: (e: { detail: FormBuilderOpenEvent }) => void
 
   constructor() {
     super({ template, width: 200, height: 200 })
@@ -166,6 +167,10 @@ export class FormBuilder extends BaseSvg {
         detail: { open: false },
       },
     )
+  }
+
+  public set onOpen(fn: (e: { detail: FormBuilderOpenEvent }) => void) {
+    this.#onOpen = fn
   }
 
   public set modalRef(modalRef: Modal) {
@@ -372,6 +377,7 @@ ${item.options
       setTimeout(() => {
         this.openChangeEvent.detail.open = newOpen
         this.dispatchEvent(this.openChangeEvent)
+        if (this.#onOpen) this.#onOpen({ detail: { open: newOpen } })
       }, 0)
   }
 

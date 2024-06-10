@@ -26,7 +26,7 @@ import { Modal } from "../../components/components"
 
 document.body.innerHTML = `
 <div is="g-svg-container">
-   <div is="g-form-builder"></div>
+   <div is="g-form-builder" open></div>
    <div id="mainModal" is="g-modal"></div>
 </div>
 `
