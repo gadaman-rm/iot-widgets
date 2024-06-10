@@ -173,7 +173,7 @@ export class FormBuilder extends BaseSvg {
     this.#onOpen = fn
   }
 
-  public set modalRef(modalRef: Modal) {
+  public set modalRef(modalRef: Modal | undefined) {
     this.#modalRef = modalRef
     if (this.#modalRef) {
       this.addEventListener("open-change", this.handleFormOpen)
@@ -378,6 +378,7 @@ ${item.options
   openUpdate(oldOpen: boolean, newOpen: boolean) {
     if (oldOpen !== newOpen)
       setTimeout(() => {
+        this.renderModalRef()
         this.openChangeEvent.detail.open = newOpen
         this.dispatchEvent(this.openChangeEvent)
         if (this.#onOpen) this.#onOpen({ detail: { open: newOpen } })
