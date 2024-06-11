@@ -30,6 +30,42 @@ export default function (
         pattern: /$/,
         template: `export * from "./{{name}}/{{name}}"\n`,
       },
+      {
+        type: "modify",
+        path: "src/widgets/utility/IWidgetsIsNames.ts",
+        pattern: /$/,
+        template: `  | "{{tag-name}}"\n`,
+      },
+      {
+        type: "modify",
+        path: "src/widgets/utility/IWidgets.ts",
+        pattern: /} from ".."/,
+        template: `  {{name}},\n} from ".."`,
+      },
+      {
+        type: "modify",
+        path: "src/widgets/utility/IWidgets.ts",
+        pattern: /$/,
+        template: `  | {{name}}\n`,
+      },
+      {
+        type: "modify",
+        path: "src/widgets/utility/isToWidgets.ts",
+        pattern: /} from ".."/,
+        template: `  {{name}},\n} from ".."`,
+      },
+      {
+        type: "modify",
+        path: "src/widgets/utility/isToWidgets.ts",
+        pattern: /  }/,
+        template: `    case "{{tag-name}}":\n      return new {{name}}()\n  }`,
+      },
+      {
+        type: "modify",
+        path: "src/main.ts",
+        pattern: /$/,
+        template: `import "./widgets/{{name}}/{{name}}.example"\n`,
+      },
     ],
   })
 
@@ -70,6 +106,12 @@ export default function (
         path: "src/components/components.ts",
         pattern: /$/,
         template: `export * from "./{{name}}/{{name}}"\n`,
+      },
+      {
+        type: "modify",
+        path: "src/main.ts",
+        pattern: /$/,
+        template: `import "./components/{{name}}/{{name}}.example"\n`,
       },
     ],
   })

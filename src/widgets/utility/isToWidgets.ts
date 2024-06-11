@@ -1,3 +1,4 @@
+import { IWidgetsIsNames } from "./IWidgetsIsNames"
 import {
   FormBuilder,
   Gauge,
@@ -5,22 +6,8 @@ import {
   RefrigeratorFrame,
   Row,
   Slider,
-} from "."
+} from ".."
 
-export type IWidgets =
-  | Slider
-  | Gauge
-  | RefrigeratorFrame
-  | RefrigeratorContent
-  | Row
-  | FormBuilder
-export type IWidgetsIsNames =
-  | "g-slider"
-  | "g-gauge"
-  | "g-refrigerator-frame"
-  | "g-refrigerator-content"
-  | "g-row"
-  | "g-form-builder"
 export const isToWidgets = (widgetName: IWidgetsIsNames | undefined | null) => {
   switch (widgetName) {
     case "g-slider":
