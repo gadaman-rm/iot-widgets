@@ -27,8 +27,10 @@ export class RefrigeratorContent extends BaseSvg {
   }
 
   mount() {
-    this.loadEvent.detail.loaded = true
-    this.dispatchEvent(this.loadEvent)
+    setTimeout(() => {
+      this.loadEvent.detail.loaded = true
+      this.dispatchEvent(this.loadEvent)
+    }, 0)
   }
   unmount() {}
   attributeUpdate(

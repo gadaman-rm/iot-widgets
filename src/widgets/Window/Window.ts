@@ -41,9 +41,10 @@ export class Window extends HTMLDivElement {
 
   connectedCallback() {
     console.log(getCssVar("--window-width", this))
-
-    this.widgetLoadEvent.detail.loaded = true
-    this.dispatchEvent(this.widgetLoadEvent)
+    setTimeout(() => {
+      this.widgetLoadEvent.detail.loaded = true
+      this.dispatchEvent(this.widgetLoadEvent)
+    }, 0)
   }
   disconnectedCallback() {}
   attributeChangedCallback(

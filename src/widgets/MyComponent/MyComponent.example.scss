@@ -1,0 +1,7 @@
+div[is="my-component"] {
+  &::part(date) {
+    color: green;
+    font-size: 55px;
+    font-weight: bold;
+  }
+}

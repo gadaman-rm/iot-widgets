@@ -13,20 +13,27 @@ const ATTRIBUTES = ["value"] as const
 export class Gauge extends BaseSvg {
   static observedAttributes = [...BASE_SVG_ATTRIBUTES, ...ATTRIBUTES]
   rootRef: SVGElement
+  gaugeHand: SVGPathElement
+  gaugeLittleHand: SVGPathElement
   loadEvent: CustomEvent<GaugeFrameLoadedEvent>
   constructor() {
     super({ template, width: 212.42, height: 158.119 })
     this.setAttribute("is", TAG_NAME)
     this.setAttribute("ratio", "0.744")
+    this.initAttribute("value", "0")
     this.rootRef = this.shadowRoot!.querySelector("#root")!
+    this.gaugeHand = this.shadowRoot!.querySelector(".gaugeHand")!
+    this.gaugeLittleHand = this.shadowRoot!.querySelector(".gaugeLittleHand")!
     this.loadEvent = new CustomEvent<GaugeFrameLoadedEvent>("widget-loaded", {
       detail: { loaded: false },
     })
   }
 
   mount() {
-    this.loadEvent.detail.loaded = true
-    this.dispatchEvent(this.loadEvent)
+    setTimeout(() => {
+      this.loadEvent.detail.loaded = true
+      this.dispatchEvent(this.loadEvent)
+    }, 0)
   }
   unmount() {}
   attributeUpdate(
@@ -36,12 +43,15 @@ export class Gauge extends BaseSvg {
   ) {
     switch (attributeName) {
       case "value":
-        this.valueUpdate(oldValue, newValue)
+        this.valueUpdate(+oldValue, +newValue)
         break
     }
   }
 
-  valueUpdate(oldValue: string, newValue: string) {}
+  valueUpdate(oldValue: number, newValue: number) {
+    this.gaugeHand.setAttribute("transform", `rotate(${newValue})`)
+    this.gaugeLittleHand.setAttribute("transform", `rotate(${newValue})`)
+  }
 
   // @ts-ignore: Unreachable code error
   addEventListener<K extends keyof CustomElementEventMap>(
